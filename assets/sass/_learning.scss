@@ -1,0 +1,169 @@
+.learning-contacts{
+    .partners-distributors__item{
+        min-height: 368px;
+    }
+    .partners-distributors__item-link{
+        &:last-child{
+            display: flex !important;
+        }
+    }
+    &__row{
+        display: flex;
+        align-items: stretch;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 32px 0;
+        @include lg {
+            gap: 16px 0;
+        }
+    }
+    &__col{
+        width: calc(50% - 16px);
+        @include md {
+            width: 100%;
+        }
+    }
+}
+.learning-info{
+    &__title{
+        margin-bottom: 56px;
+        @include lg-u {
+            text-align: center;
+        }
+        @include lg {
+            margin-bottom: 24px;
+        }
+        span{
+            color: $violet;
+        }
+    }
+    &__slider{
+        position: relative;
+        .swiper-wrapper{
+            @include lg-u {
+                transform: none !important;
+                display: block !important;
+            }
+        }
+    }
+    &__slide{
+        @include lg-u {
+            // max-width: 994px;
+            margin: 0 auto !important;
+            padding: 28px 102px;
+            position: relative;
+            overflow: hidden;
+            @include xl {
+                padding-left: 0;
+                padding-right: 0;
+            }
+            &:last-child{
+                margin-bottom: 0;
+            }
+            &:nth-child(odd){
+                .learning-info__item{
+                    flex-direction: row-reverse;
+                }
+            }
+            &:first-child{
+                &::after{
+                    top: 50%;
+                }
+            }
+            &:last-child{
+                &::after{
+                    bottom: 50%;
+                }
+            }
+            &::before{
+                content: '';
+                position: absolute;
+                left: calc(50% - 6px);
+                top: calc(50% - 6px);
+                width: 12px;
+                height: 12px;
+                border-radius: 50%;
+                background-color: $violet;
+            }
+            &::after{
+                content: '';
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: calc(50% - 1px);
+                width: 2px;
+                background-color: $violet;
+            }
+        }
+        @include lg {
+            padding-top: 28px;
+            width: 45%;
+            position: relative;
+            &:last-child{
+                &::after{
+                    right: 0;
+                }
+            }
+            &::before{
+                content: '';
+                position: absolute;
+                left: calc(50% - 6px);
+                top: -5px;
+                width: 12px;
+                height: 12px;
+                border-radius: 50%;
+                background-color: $violet;
+            }
+            &::after{
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: -24px;
+                height: 2px;
+                background-color: $violet;
+            }
+        }
+        @include md {
+            width: 87%;
+        }
+    }
+    &__item{
+        @include lg-u {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+    }
+    &__item-img, &__item-content{
+        @include lg-u {
+            width: calc(50% - 60px);
+            // max-width: 378px;
+        }
+    }
+    &__item-img{
+        img{
+            width: 100%;
+            border-radius: 24px;
+        }
+    }
+    &__item-content{
+        @include lg {
+            padding-top: 24px;
+        }
+    }
+    &__item-sub{
+        color: $violet;
+        font-size: 24px;
+        line-height: 26px;
+        font-weight: 500;
+        letter-spacing: ls(24, 3);
+    }
+    &__item-desc{
+        margin-top: 16px;
+        color: #665F6D;
+        &:first-child{
+            margin-top: 0;
+        }
+    }
+}

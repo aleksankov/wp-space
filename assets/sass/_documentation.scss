@@ -1,0 +1,68 @@
+.documentation{
+    padding-top: 32px;
+    @include lg {
+        padding-top: 24px;
+    }
+    &__title{
+        margin-bottom: 56px;
+        @include lg {
+            font-size: 32px;
+            line-height: 34px;
+            letter-spacing: ls(32, 3);
+            margin-bottom: 32px;
+        }
+    }
+    &__row{
+        justify-content: center;
+        margin-bottom: -32px;
+    }
+    &__col{
+        width: 33.33333333%;
+        margin-bottom: 32px;
+        @include lg {
+            width: 50%;
+        }
+        @include md {
+            width: 100%;
+        }
+    }
+    &__item{
+        @include hover {
+            &:hover{
+                .documentation__item-header{
+                    img{
+                        transform: scale(1.35);
+                    }
+                }
+            }
+        }
+    }
+    &__item-header{
+        position: relative;
+        font-size: 32px;
+        line-height: 34px;
+        letter-spacing: ls(32, 3);
+        font-weight: 500;
+        color: $white;
+        border-radius: 16px;
+        overflow: hidden;
+        img{
+            width: 100%;
+            @include hover {
+                transition: transform .25s;
+            }
+        }
+        span{
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            padding: 32px;
+        }
+    }
+    &__files{
+        margin-top: 16px;
+        border-top: 1px solid #F1F0F2;
+        padding-top: 16px;
+    }
+}

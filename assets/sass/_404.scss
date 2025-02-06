@@ -1,0 +1,32 @@
+.not-found{
+    padding-top: 120px;
+    @include lg {
+        padding-top: 72px;
+    }
+    &__wrap{
+        max-width: 554px;
+        margin: 0 auto;
+        text-align: center;
+        @include sm {
+            max-width: 100%;
+        }
+    }
+    &__img{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 32px;
+        &:last-child{
+            margin-bottom: 0;
+        }
+    }
+    &__desc{
+        margin-top: 16px;
+        color: #665F6D;
+    }
+    &__btn{
+        margin-top: 32px;
+        display: flex;
+        justify-content: center;
+    }
+}

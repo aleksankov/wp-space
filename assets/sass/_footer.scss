@@ -1,0 +1,189 @@
+.footer{
+    background-color: $black;
+    color: $white;
+    padding: 40px 0 24px;
+    border-radius: 32px 32px 0 0;
+    @include lg {
+        padding: 16px 0 32px;
+    }
+    &__row{
+        align-items: flex-start;
+        @include lg {
+            margin: 0;
+        }
+    }
+    &__product{
+        width: calc(100% / 12 * 4);
+    }
+    &__about{
+        width: calc(100% / 12 * 2);
+    }
+    &__other{
+        width: calc(100% / 12 * 2);
+    }
+    &__contacts{
+        width: calc(100% / 12 * 4);
+    }
+    &__col{
+        @include lg {
+            width: 100%;
+            margin: 0 0 8px;
+            padding: 0 0 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, .06);
+            &:last-child{
+                margin-bottom: 0;
+            }
+        }
+    }
+    &__nav{
+        & > ul{
+            & > li{
+                margin-bottom: 12px;
+                &:last-child{
+                    margin-bottom: 0;
+                }
+                & > span, & > a{
+                    font-weight: 600;
+                    @include lg {
+                        display: block;
+                        padding: 16px 0;
+                    }
+                }
+                & > ul{
+                    padding-top: 12px;
+                    padding-left: 8px;
+                    @include lg {
+                        padding: 0;
+                    }
+                    & > li{
+                        @include lg-u {
+                            font-size: 14px;
+                            line-height: 20px;
+                            letter-spacing: ls(14, 3);
+                            margin-bottom: 12px;
+                            &:last-child{
+                                margin-bottom: 0;
+                            }
+                        }
+                        @include lg {
+                            margin-bottom: 0;
+                        }
+                        a{
+                            @include lg {
+                                display: block;
+                                padding: 16px;
+                                padding-right: 0;
+                            }
+                        }
+                    }
+                }
+                a{
+                    @include hover {
+                        transition: color .25s;
+                        &:hover{
+                            color: #B293DF;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    &__contacts-sub{
+        font-weight: 600;
+        @include lg-u {
+            margin-bottom: 12px;
+            &:last-child{
+                margin-bottom: 0;
+            }
+        }
+        @include lg {
+            padding: 16px 0;
+        }
+    }
+    &__contacts-info{
+        font-size: 14px;
+        line-height: 20px;
+        letter-spacing: ls(14, 3);
+        opacity: .64;
+        p{
+            margin-bottom: 16px;
+            &:last-child{
+                margin-bottom: 0;
+            }
+        }
+    }
+    &__bottom{
+        @include lg-u {
+            margin-top: 32px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+        }
+        @include lg {
+            margin-top: 8px;
+        }
+    }
+    &__soc-label{
+        font-weight: 600;
+        @include lg-u {
+            margin-bottom: 12px;
+            &:last-child{
+                margin-bottom: 0;
+            }
+        }
+        @include lg {
+            padding: 16px 0;
+        }
+    }
+    &__soc-row{
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        @include lg {
+            gap: 12px;
+        }
+    }
+    &__soc-item{
+        @include hover {
+            &:hover{
+                svg{
+                    & > [fill="#5D5564"]{
+                        fill: $violet;
+                    }
+                }
+            }
+        }
+        svg{
+            @include lg {
+                width: auto;
+                height: 20px;
+            }
+            & > [fill="#5D5564"]{
+                @include hover {
+                    transition: fill .25s;
+                }
+            }
+        }
+    }
+    &__partners{
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        @include lg {
+            margin-top: 16px;
+            border-top: 1px solid rgba(255, 255, 255, .06);
+            padding-top: 16px;
+            justify-content: center;
+        }
+    }
+    &__copy{
+        margin-top: 24px;
+        border-top: 1px solid rgba(255, 255, 255, .06);
+        padding-top: 24px;
+        text-align: center;
+        color: rgba(255, 255, 255, .64);
+        font-size: 14px;
+        line-height: 20px;
+        letter-spacing: ls(14, 3);
+    }
+}

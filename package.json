@@ -1,0 +1,26 @@
+{
+  "name": "gulp",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "gulp": "^4.0.2"
+  },
+  "devDependencies": {
+    "gulp-autoprefixer": "^9.0.0",
+    "gulp-group-css-media-queries": "^1.2.2",
+    "gulp-sass": "^5.1.0",
+    "gulp-watch": "^5.0.1",
+    "sass": "^1.69.5"
+  },
+  "browserslist": [
+    "last 2 version",
+    "> 1%"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
