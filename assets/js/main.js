@@ -534,6 +534,48 @@ $(document).ready(function() {
         matrixFilter.removeClass('active');
     })
 
+    $(document).on('change', 'select.js-matrix-filter-select', function(){
+        const form = $(this).closest('.js-matrix-filter');
+
+        var type = form.find('select[name="type"]').val();
+        var product = form.find('select[name="product"]').val();
+        var version = form.find('select[name="version"]').val();
+        var vendor = form.find('select[name="vendor"]').val();
+
+        var queryParams = [];
+
+        if($(this).attr('name') == 'product'){
+            if (product && product !== '0') {
+                queryParams.push('product=' + encodeURIComponent(product));
+            }
+        }else if($(this).attr('name') == 'version'){
+            if (product && product !== '0') {
+                queryParams.push('product=' + encodeURIComponent(product));
+            }
+            if (version && version !== '0') {
+                queryParams.push('version=' + encodeURIComponent(version));
+            }
+        }else{
+            if (type && type !== '0') {
+                queryParams.push('type=' + encodeURIComponent(type));
+            }
+            if (product && product !== '0') {
+                queryParams.push('product=' + encodeURIComponent(product));
+            }
+            if (version && version !== '0') {
+                queryParams.push('version=' + encodeURIComponent(version));
+            }
+            if (vendor && vendor !== '0') {
+                queryParams.push('vendor=' + encodeURIComponent(vendor));
+            }
+        }
+
+        var queryString = queryParams.join('&');
+        var newUrl = window.location.pathname + (queryString ? '?' + queryString : '');
+
+        window.location.href = newUrl;
+    })
+
     //team tabs
     $(document).on('click', '.js-team-tab', function(){
         if( !$(this).hasClass('active') ){
