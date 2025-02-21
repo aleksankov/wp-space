@@ -159,8 +159,8 @@
         <?php if( $connect_matrix_title ): ?>
             <h2 class="matrix__title" data-aos="fade-up"><?= $connect_matrix_title; ?></h2>
         <?php endif; ?>
-        <div class="matrix__wrap ajax-wrap">
-            <div class="matrix__filters js-matrix-filter" data-aos="fade-up">
+        <div class="matrix__wrap js-matrix-wrap ajax-wrap">
+            <div class="matrix__filters js-matrix-filter">
                 <div class="matrix__filters-row">
                     <?php if( $filter_types ): ?>
                         <div class="matrix__filter-col">

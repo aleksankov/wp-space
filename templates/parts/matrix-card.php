@@ -11,7 +11,7 @@
         $card_logo_url = get_template_directory_uri() . '/assets/img/def-logo.svg';
     }
 ?>
-<div class="matrix__col col-lg" data-aos="fade-up">
+<div class="matrix__col col-lg">
     <a class="matrix-card" href="#matrix-popup-<?= $card_id; ?>" data-fancybox="" data-touch="false">
         <div class="matrix-card__img">
             <img src="<?= $card_logo_url; ?>" alt="<?= $card_vendor; ?>">

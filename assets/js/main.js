@@ -573,7 +573,23 @@ $(document).ready(function() {
         var queryString = queryParams.join('&');
         var newUrl = window.location.pathname + (queryString ? '?' + queryString : '');
 
-        window.location.href = newUrl;
+        $.ajax({
+            url: newUrl,
+            type: 'GET',
+            beforeSend: function(){
+                $('.js-matrix-wrap').addClass('loading');
+            },
+            success: function(response) {
+                $('.js-matrix-wrap').removeClass('loading');
+                $('.js-matrix-wrap').html($(response).find('.js-matrix-wrap').html());
+
+                $('.js-select').styler({
+                    onSelectOpened: function() {
+                        updateScrollbars();
+                    }
+                });
+            }
+        });
     })
 
     //team tabs
