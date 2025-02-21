@@ -533,88 +533,36 @@ $(document).ready(function() {
         $('.js-matrix-filter').removeClass('active');
     })
 
-    if(window.matchMedia('(min-width: 992px)').matches){
-        $(document).on('change', 'select.js-matrix-filter-select', function(){
-            const form = $(this).closest('.js-matrix-filter');
+    if (window.matchMedia('(min-width: 992px)').matches) {
+        $(document).on('change', 'select.js-matrix-filter-select', function () {
+            handleFilterChange($(this).closest('.js-matrix-filter'), $(this).attr('name'));
+        });
+    } else {
+        $(document).on('click', '.js-matrix-filter-apply', function () {
+            handleFilterChange($(this).closest('.js-matrix-filter'));
+        });
+    }
     
-            var type = form.find('select[name="type"]').val();
-            var product = form.find('select[name="product"]').val();
-            var version = form.find('select[name="version"]').val();
-            var vendor = form.find('select[name="vendor"]').val();
+    function handleFilterChange(form, changedField = null) {
+        const type = form.find('select[name="type"]').val();
+        const product = form.find('select[name="product"]').val();
+        const version = form.find('select[name="version"]').val();
+        const vendor = form.find('select[name="vendor"]').val();
     
-            var queryParams = [];
+        const queryParams = [];
     
-            if($(this).attr('name') == 'product'){
-                if (product && product !== '0') {
-                    queryParams.push('product=' + encodeURIComponent(product));
-                }
-            }else if($(this).attr('name') == 'version'){
-                if (product && product !== '0') {
-                    queryParams.push('product=' + encodeURIComponent(product));
-                }
-                if (version && version !== '0') {
-                    queryParams.push('version=' + encodeURIComponent(version));
-                }
-            }else{
-                if (type && type !== '0') {
-                    queryParams.push('type=' + encodeURIComponent(type));
-                }
-                if (product && product !== '0') {
-                    queryParams.push('product=' + encodeURIComponent(product));
-                }
-                if (version && version !== '0') {
-                    queryParams.push('version=' + encodeURIComponent(version));
-                }
-                if (vendor && vendor !== '0') {
-                    queryParams.push('vendor=' + encodeURIComponent(vendor));
-                }
+        if (changedField === 'product') {
+            if (product && product !== '0') {
+                queryParams.push('product=' + encodeURIComponent(product));
             }
-    
-            var queryString = queryParams.join('&');
-            var newUrl = window.location.pathname + (queryString ? '?' + queryString : '');
-    
-            $.ajax({
-                url: newUrl,
-                type: 'GET',
-                beforeSend: function(){
-                    $('.js-matrix-wrap').addClass('loading');
-                },
-                success: function(response) {
-                    $('.js-matrix-wrap').removeClass('loading');
-                    $('.js-matrix-wrap').html($(response).find('.js-matrix-wrap').html());
-    
-                    $('.js-select').styler({
-                        onSelectOpened: function() {
-                            updateScrollbars();
-                        }
-                    });
-    
-                    $('.js-matrix-wrap .js-select-scroll ul').each(function(){
-                        $(this).addClass('main-scrollbar js-scrollbar');
-                    })
-    
-                    $('.js-matrix-wrap .js-scrollbar').each(function(){
-                        var ps = new PerfectScrollbar(this, {
-                            wheelSpeed: 0.2,
-                            wheelPropagation: false,
-                            suppressScrollX: false,
-                        });
-                        scrollbars.push(ps);
-                    });
-                }
-            });
-        })
-    }else{
-        $(document).on('click', '.js-matrix-filter-apply', function(){
-            const form = $(this).closest('.js-matrix-filter');
-    
-            var type = form.find('select[name="type"]').val();
-            var product = form.find('select[name="product"]').val();
-            var version = form.find('select[name="version"]').val();
-            var vendor = form.find('select[name="vendor"]').val();
-    
-            var queryParams = [];
-    
+        } else if (changedField === 'version') {
+            if (product && product !== '0') {
+                queryParams.push('product=' + encodeURIComponent(product));
+            }
+            if (version && version !== '0') {
+                queryParams.push('version=' + encodeURIComponent(version));
+            }
+        } else {
             if (type && type !== '0') {
                 queryParams.push('type=' + encodeURIComponent(type));
             }
@@ -627,41 +575,46 @@ $(document).ready(function() {
             if (vendor && vendor !== '0') {
                 queryParams.push('vendor=' + encodeURIComponent(vendor));
             }
+        }
     
-            var queryString = queryParams.join('&');
-            var newUrl = window.location.pathname + (queryString ? '?' + queryString : '');
+        const queryString = queryParams.join('&');
+        const newUrl = window.location.pathname + (queryString ? '?' + queryString : '');
     
-            $.ajax({
-                url: newUrl,
-                type: 'GET',
-                beforeSend: function(){
-                    $('.js-matrix-wrap').addClass('loading');
-                },
-                success: function(response) {
-                    $('.js-matrix-wrap').removeClass('loading');
-                    $('.js-matrix-wrap').html($(response).find('.js-matrix-wrap').html());
+        updateUrlAndFetchData(newUrl);
+    }
     
-                    $('.js-select').styler({
-                        onSelectOpened: function() {
-                            updateScrollbars();
-                        }
+    function updateUrlAndFetchData(url) {
+        history.pushState(null, '', url);
+        $.ajax({
+            url: url,
+            type: 'GET',
+            beforeSend: function () {
+                $('.js-matrix-wrap').addClass('loading');
+            },
+            success: function (response) {
+                $('.js-matrix-wrap').removeClass('loading');
+                $('.js-matrix-wrap').html($(response).find('.js-matrix-wrap').html());
+    
+                $('.js-select').styler({
+                    onSelectOpened: function () {
+                        updateScrollbars();
+                    }
+                });
+    
+                $('.js-matrix-wrap .js-select-scroll ul').each(function () {
+                    $(this).addClass('main-scrollbar js-scrollbar');
+                });
+    
+                $('.js-matrix-wrap .js-scrollbar').each(function () {
+                    const ps = new PerfectScrollbar(this, {
+                        wheelSpeed: 0.2,
+                        wheelPropagation: false,
+                        suppressScrollX: false,
                     });
-    
-                    $('.js-matrix-wrap .js-select-scroll ul').each(function(){
-                        $(this).addClass('main-scrollbar js-scrollbar');
-                    })
-    
-                    $('.js-matrix-wrap .js-scrollbar').each(function(){
-                        var ps = new PerfectScrollbar(this, {
-                            wheelSpeed: 0.2,
-                            wheelPropagation: false,
-                            suppressScrollX: false,
-                        });
-                        scrollbars.push(ps);
-                    });
-                }
-            });
-        })
+                    scrollbars.push(ps);
+                });
+            }
+        });
     }
 
     //team tabs

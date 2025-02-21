@@ -155,8 +155,18 @@
 
 <?php
     $career_vacancies_title = get_field('career_vacancies_title');
+    $career_vacancies_items = get_field('career_vacancies_items');
 
-    if( true ):
+    $vacancies_args = array(
+        'post_type' => 'vacancies',
+        'post_status' => 'publish',
+        'posts_per_page' => -1
+    );
+
+    $vacancies_query = new WP_Query( $vacancies_args );
+    $vacancies_post_found = $vacancies_query->found_posts;
+
+    if( $career_vacancies_items ):
 ?>
     <section class="career-vacancies section">
         <div class="container">
@@ -164,42 +174,33 @@
                 <h2 class="career-vacancies__title h3" data-aos="fade-up"><?= $career_vacancies_title; ?></h2>
             <?php endif; ?>
             <div class="career-vacancies__row row-lg">
-                <div class="career-vacancies__col col-lg" data-aos="fade-up">
-                    <a class="vacancy-card" href="vacancy.html">
-                        <div class="vacancy-card__sub">BI разработчик</div>
-                        <div class="vacancy-card__location">Москва</div>
-                    </a>
-                </div>
-                <div class="career-vacancies__col col-lg" data-aos="fade-up" data-aos-delay="200">
-                    <a class="vacancy-card" href="vacancy.html">
-                        <div class="vacancy-card__sub">DWH разрабочтик</div>
-                        <div class="vacancy-card__location">Санкт-Петербург</div>
-                    </a>
-                </div>
-                <div class="career-vacancies__col col-lg" data-aos="fade-up" data-aos-delay="400">
-                    <a class="vacancy-card" href="vacancy.html">
-                        <div class="vacancy-card__sub">Data/BI analyst</div>
-                        <div class="vacancy-card__location">Новосибирск</div>
-                    </a>
-                </div>
-                <div class="career-vacancies__col col-lg" data-aos="fade-up">
-                    <a class="vacancy-card" href="vacancy.html">
-                        <div class="vacancy-card__sub">E-com data analyst</div>
-                        <div class="vacancy-card__location">Санкт-Петербург</div>
-                    </a>
-                </div>
-                <div class="career-vacancies__col col-lg" data-aos="fade-up" data-aos-delay="200">
-                    <a class="vacancy-card" href="vacancy.html">
-                        <div class="vacancy-card__sub">Fullstack Vue.js\PHP разработчик</div>
-                        <div class="vacancy-card__location">Москва</div>
-                    </a>
-                </div>
+                <?php foreach( $career_vacancies_items as $career_vacancies_item ): ?>
+                    <?php
+                        $cities = get_the_terms( $career_vacancies_item, 'vacancies_city' );
+
+                        $cities_html = false;
+                        if( $cities ){
+                            foreach( $cities as $city ){
+                                $cities_arr[] = $city->name;
+                            }
+                            $cities_html = implode(', ', $cities_arr);
+                        }
+                    ?>
+                    <div class="career-vacancies__col col-lg" data-aos="fade-up">
+                        <a class="vacancy-card" href="<?= get_the_permalink( $career_vacancies_item ); ?>">
+                            <div class="vacancy-card__sub"><?= get_the_title( $career_vacancies_item ); ?></div>
+                            <?php if( $cities_html ): ?>
+                                <div class="vacancy-card__location"><?= $cities_html; ?></div>
+                            <?php endif; ?>
+                        </a>
+                    </div>
+                <?php endforeach; ?>
                 <div class="career-vacancies__col col-lg" data-aos="fade-up" data-aos-delay="400">
                     <a class="career-vacancies__more" href="<?= get_home_url(); ?>/vacancies/">
                         <div class="career-vacancies__more-bg">
                             <img src="<?= get_template_directory_uri(); ?>/assets/img/career-vacancies-more-bg.svg" alt="#">
                         </div>
-                        <div class="career-vacancies__more-sub">Все вакансии <br>18</div>
+                        <div class="career-vacancies__more-sub">Все вакансии <br><?= $vacancies_post_found; ?></div>
                         <div class="career-vacancies__more-icon">
                             <img src="<?= get_template_directory_uri(); ?>/assets/img/career-vacancies-more-icon.svg" alt="Arrow">
                         </div>
