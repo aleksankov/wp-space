@@ -101,14 +101,6 @@
         'posts_per_page' => -1
     );
 
-    if( $selected_type ){
-        $args['meta_query'][] = array(
-            'key' => 'matrix_type',
-            'value' => $selected_type,
-            'compare' => '='
-        );
-    }
-
     if( $selected_product ){
         $args['meta_query'][] = array(
             'key' => 'matrix_product',
@@ -125,6 +117,94 @@
         );
     }
 
+    $query = new WP_Query( $args );
+
+    if( $selected_type && !$selected_vendor ){
+        while( $query->have_posts() ){
+            $query->the_post();
+    
+            $filter_type = get_field('matrix_type');
+            
+            if( $filter_type ){
+                $filter_types[] = $filter_type;
+            }
+        }
+        wp_reset_postdata();
+
+        $args['meta_query'][] = array(
+            'key' => 'matrix_type',
+            'value' => $selected_type,
+            'compare' => '='
+        );
+
+        $query = new WP_Query( $args );
+
+        while( $query->have_posts() ){
+            $query->the_post();
+    
+            $filter_vendor = get_field('matrix_vendor');
+            
+            if( $filter_vendor ){
+                $filter_vendors[] = $filter_vendor;
+            }
+        }
+        wp_reset_postdata();
+    }elseif( $selected_vendor && !$selected_type ){
+        while( $query->have_posts() ){
+            $query->the_post();
+    
+            $filter_vendor = get_field('matrix_vendor');
+            
+            if( $filter_vendor ){
+                $filter_vendors[] = $filter_vendor;
+            }
+        }
+        wp_reset_postdata();
+        
+        $args['meta_query'][] = array(
+            'key' => 'matrix_vendor',
+            'value' => $selected_vendor,
+            'compare' => '='
+        );
+
+        $query = new WP_Query( $args );
+
+        while( $query->have_posts() ){
+            $query->the_post();
+    
+            $filter_type = get_field('matrix_type');
+            
+            if( $filter_type ){
+                $filter_types[] = $filter_type;
+            }
+        }
+        wp_reset_postdata();
+    }else{
+        while( $query->have_posts() ){
+            $query->the_post();
+    
+            $filter_type = get_field('matrix_type');
+            $filter_vendor = get_field('matrix_vendor');
+    
+            if( $filter_type ){
+                $filter_types[] = $filter_type;
+            }
+            
+            if( $filter_vendor ){
+                $filter_vendors[] = $filter_vendor;
+            }
+        }
+        wp_reset_postdata();
+    }
+
+    if( $selected_type ){
+        $args['meta_query'][] = array(
+            'key' => 'matrix_type',
+            'value' => $selected_type,
+            'compare' => '='
+        );
+    }
+
     if( $selected_vendor ){
         $args['meta_query'][] = array(
             'key' => 'matrix_vendor',
@@ -134,22 +214,6 @@
     }
 
     $query = new WP_Query( $args );
-
-    while( $query->have_posts() ){
-        $query->the_post();
-
-        $filter_type = get_field('matrix_type');
-        $filter_vendor = get_field('matrix_vendor');
-
-        if( $filter_type ){
-            $filter_types[] = $filter_type;
-        }
-        
-        if( $filter_vendor ){
-            $filter_vendors[] = $filter_vendor;
-        }
-    }
-    wp_reset_postdata();
 
     $filter_types = array_unique($filter_types);
     $filter_vendors = array_unique($filter_vendors);
@@ -165,9 +229,9 @@
                     <?php if( $filter_types ): ?>
                         <div class="matrix__filter-col">
                             <div class="matrix__filter-item">
-                                <div class="filter-select">
+                                <div class="filter-select filter-select--full">
                                     <select class="js-select js-select-scroll js-matrix-filter-select" name="type">
-                                        <option value="0">&nbsp;</option>
+                                        <option value="0">Все направления</option>
                                         <?php foreach( $filter_types as $filter_type ): ?>
                                             <option value="<?= $filter_type; ?>"<?= $selected_type === $filter_type ? ' selected' : ''; ?>><?= $filter_type; ?></option>
                                         <?php endforeach; ?>
@@ -206,9 +270,9 @@
                     <?php if( $filter_vendors ): ?>
                         <div class="matrix__filter-col">
                             <div class="matrix__filter-item">
-                                <div class="filter-select">
+                                <div class="filter-select filter-select--full">
                                     <select class="js-select js-select-scroll js-matrix-filter-select" name="vendor">
-                                        <option value="0">&nbsp;</option>
+                                        <option value="0">Все вендоры</option>
                                         <?php foreach( $filter_vendors as $filter_vendor ): ?>
                                             <option value="<?= $filter_vendor; ?>"<?= $selected_vendor === $filter_vendor ? ' selected' : ''; ?>><?= $filter_vendor; ?></option>
                                         <?php endforeach; ?>
@@ -231,6 +295,7 @@
             </div>
             <?php
                 if( $query->have_posts() ):
+                    $unique_cards = [];
             ?>
                 <div class="matrix__content">
                     <div class="matrix__row row-lg">
@@ -238,11 +303,22 @@
                             while( $query->have_posts() ){
                                 $query->the_post();
 
-                                get_template_part( 'templates/parts/matrix-card' );
+                                $matrix_solution = get_field('matrix_solution');
+                                $matrix_product_version = get_field('matrix_product_version');
+
+                                $unique_key = $matrix_solution . '|' . $matrix_product_version;
+
+                                if( !array_key_exists( $unique_key, $unique_cards ) ){
+                                    $unique_cards[$unique_key] = get_the_ID();
+
+                                    get_template_part( 'templates/parts/matrix-card' );
+                                }
                             }
                         ?>
                     </div>
                 </div>
+            <?php else: ?>
+                <div class="matrix__content">По данному запросу ничего не найдено...</div>
             <?php endif; ?>
         </div>
     </div>

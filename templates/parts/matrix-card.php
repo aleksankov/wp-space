@@ -4,11 +4,42 @@
     $card_solution = get_field('matrix_solution');
     $card_type = get_field('matrix_type');
     $card_vendor = get_field('matrix_vendor');
+    $card_product_version = get_field('matrix_product_version');
 
     if( $card_logo ){
         $card_logo_url = wp_get_upload_dir()['baseurl'] . '/vendors_logo/' . $card_logo;
     }else{
         $card_logo_url = get_template_directory_uri() . '/assets/img/def-logo.svg';
+    }
+
+    $models_arr = [];
+    $models_args = array(
+        'post_type' => 'matrix',
+        'post_status' => 'publish',
+        'posts_per_page' => -1,
+        'meta_query' => [[
+            'key' => 'matrix_solution',
+            'value' => $card_solution,
+            'compare' => '='
+        ],
+        [
+            'key' => 'matrix_product_version',
+            'value' => $card_product_version,
+            'compare' => '='
+        ]]
+    );
+
+    $models_query = new WP_Query( $models_args );
+
+    if( $models_query->have_posts() ){
+        while( $models_query->have_posts() ){
+            $models_query->the_post();
+
+            if( $matrix_solution_version = get_field('matrix_solution_version') ){
+                $models_arr[] = $card_solution . ' ' . $matrix_solution_version;
+            }
+        }
+        $models_arr = array_unique($models_arr);
     }
 ?>
 <div class="matrix__col col-lg">
@@ -66,12 +97,15 @@
                         <span class="js-select-toggle">Версия</span>
                     </div>
                 </div>
+            <?php endif; ?>
+            <?php if( $models_arr ): ?>
                 <div class="matrix-popup__models">
                     <div class="matrix-popup__models-sub">Список моделей оборудования</div>
                     <div class="matrix-popup__models-list">
                         <ul>
-                            <li>Модель 1</li>
-                            <li>Модель 2</li>
+                            <?php foreach( $models_arr as $models_item ): ?>
+                                <li><?= $models_item; ?></li>
+                            <?php endforeach; ?>
                         </ul>
                     </div>
                 </div>
