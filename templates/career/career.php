@@ -178,7 +178,7 @@
                     <?php
                         $cities = get_the_terms( $career_vacancies_item, 'vacancies_city' );
 
-                        $cities_html = false;
+                        $cities_html = '';
                         if( $cities ){
                             foreach( $cities as $city ){
                                 $cities_arr[] = $city->name;
