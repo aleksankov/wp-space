@@ -3,7 +3,8 @@
 
     $cities = get_the_terms( $card_id, 'vacancies_city' );
 
-    $cities_html = '';
+    $cities_arr = [];
+    $cities_html = false;
     if( $cities ){
         foreach( $cities as $city ){
             $cities_arr[] = $city->name;
