@@ -1000,9 +1000,6 @@ h6, .h6{
                 flex-direction: column;
                 gap: 10px;
                 color: $black;
-                &:not(.main-scrollbar){
-                    max-height: none !important;
-                }
                 li{
                     flex-shrink: 0;
                     padding: 0 15px;

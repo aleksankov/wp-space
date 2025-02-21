@@ -34,6 +34,66 @@
 
 <?php
     $connect_matrix_title = get_field('connect_matrix_title');
+
+    $filter_products = [];
+    $filter_types = [];
+    $filter_vendors = [];
+
+    $args = array(
+        'post_type' => 'matrix',
+        'post_status' => 'publish',
+        'posts_per_page' => -1
+    );
+    $query = new WP_Query( $args );
+
+    while( $query->have_posts() ){
+        $query->the_post();
+
+        $filter_type = get_field('matrix_type');
+        $filter_vendor = get_field('matrix_vendor');
+        
+        $filter_product = get_field('matrix_product');
+        $filter_product_version = get_field('matrix_product_version');
+        
+        if( $filter_product && $filter_product_version ){
+            $filter_products[$filter_product][] = $filter_product_version;
+
+            $filter_products[$filter_product] = array_unique($filter_products[$filter_product]);
+        }
+
+        if( $filter_type ){
+            $filter_types[] = $filter_type;
+        }
+        
+        if( $filter_vendor ){
+            $filter_vendors[] = $filter_vendor;
+        }
+    }
+    wp_reset_postdata();
+
+    $filter_types = array_unique($filter_types);
+    $filter_vendors = array_unique($filter_vendors);
+
+    $filter_products_arr = array();
+
+    if( $filter_products ){
+        foreach( $filter_products as $key => &$versions ){
+            usort($versions, function ($a, $b) {
+                $versionA = extractVersion($a);
+                $versionB = extractVersion($b);
+                return version_compare($versionB, $versionA);
+            });
+        }
+        unset($versions);
+
+        $desiredOrder = array('SpaceVM', 'Space VDI', 'Space Client');
+
+        foreach( $desiredOrder as $key ){
+            if( isset($filter_products[$key]) ){
+                $filter_products_arr[$key] = $filter_products[$key];
+            }
+        }
+    }
 ?>
 <section class="matrix section">
     <div class="container">
@@ -43,58 +103,66 @@
         <div class="matrix__wrap ajax-wrap">
             <div class="matrix__filters js-matrix-filter" data-aos="fade-up">
                 <div class="matrix__filters-row">
-                    <div class="matrix__filter-col">
-                        <div class="matrix__filter-item">
-                            <div class="filter-select">
-                                <select class="js-select">
-                                    <option value="0">&nbsp;</option>
-                                    <option value="1">Направление 1</option>
-                                    <option value="2">Направление 2</option>
-                                    <option value="3">Направление 3</option>
-                                </select>
-                                <span class="js-select-toggle">Направления</span>
+                    <?php if( $filter_types ): ?>
+                        <div class="matrix__filter-col">
+                            <div class="matrix__filter-item">
+                                <div class="filter-select">
+                                    <select class="js-select js-select-scroll">
+                                        <option value="0">&nbsp;</option>
+                                        <?php foreach( $filter_types as $filter_type ): ?>
+                                            <option value="<?= $filter_type; ?>"><?= $filter_type; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <span class="js-select-toggle">Направления</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="matrix__filter-col">
-                        <div class="matrix__filter-item">
-                            <div class="filter-select">
-                                <select class="js-select">
-                                    <option value="0">&nbsp;</option>
-                                    <option value="1">SpaceVM</option>
-                                    <option value="2">Space VDI</option>
-                                    <option value="3">Space Client</option>
-                                </select>
-                                <span class="js-select-toggle">Совместимость</span>
+                    <?php endif; ?>
+                    <?php if( $filter_products_arr ): ?>
+                        <div class="matrix__filter-col">
+                            <div class="matrix__filter-item">
+                                <div class="filter-select">
+                                    <select class="js-select js-select-scroll">
+                                        <option value="0">&nbsp;</option>
+                                        <?php $counter = 1; foreach( $filter_products_arr as $key => $filter_products_item ): ?>
+                                            <option value="<?= $key; ?>"<?= $counter === 1 ? ' selected' : ''; ?>><?= $key; ?></option>
+                                        <?php $counter++; endforeach; ?>
+                                    </select>
+                                    <span class="js-select-toggle">Совместимость</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="matrix__filter-col">
-                        <div class="matrix__filter-item">
-                            <div class="filter-select">
-                                <select class="js-select">
-                                    <option value="0">&nbsp;</option>
-                                    <option value="1">SPACE VM 6.5.1</option>
-                                    <option value="2">SPACE VM 6.5.2</option>
-                                    <option value="3">SPACE VM 6.5.3</option>
-                                </select>
-                                <span class="js-select-toggle">Версии</span>
+                        <div class="matrix__filter-col">
+                            <div class="matrix__filter-item">
+                                <div class="filter-select">
+                                    <select class="js-select js-select-scroll">
+                                        <option value="0">&nbsp;</option>
+                                        <?php $counter = 1; foreach( $filter_products_arr as $filter_products_item ): ?>
+                                            <?php foreach( $filter_products_item as $key => $filter_products_item_val ): ?>
+                                                <option value="<?= $filter_products_item_val; ?>"<?= $counter === 1 && $key === 0 ? ' selected' : ''; ?>><?= $filter_products_item_val; ?></option>
+                                            <?php endforeach; ?>
+                                        <?php $counter++; endforeach; ?>
+                                    </select>
+                                    <span class="js-select-toggle">Версии</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="matrix__filter-col">
-                        <div class="matrix__filter-item">
-                            <div class="filter-select">
-                                <select class="js-select">
-                                    <option value="0">&nbsp;</option>
-                                    <option value="1">Вендор 1</option>
-                                    <option value="2">Вендор 2</option>
-                                    <option value="3">Вендор 3</option>
-                                </select>
-                                <span class="js-select-toggle">Вендор</span>
+                    <?php endif; ?>
+                    <?php if( $filter_vendors ): ?>
+                        <div class="matrix__filter-col">
+                            <div class="matrix__filter-item">
+                                <div class="filter-select">
+                                    <select class="js-select js-select-scroll">
+                                        <option value="0">&nbsp;</option>
+                                        <?php foreach( $filter_vendors as $filter_vendor ): ?>
+                                            <option value="<?= $filter_vendor; ?>"><?= $filter_vendor; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <span class="js-select-toggle">Вендор</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    <?php endif; ?>
                 </div>
                 <div class="matrix__filters-apply">
                     <button class="btn js-matrix-filter-apply" type="button">Применить</button>
@@ -106,238 +174,30 @@
                     <span>Фильтры</span>
                 </button>
             </div>
-            <div class="matrix__content">
-                <div class="matrix__row row-lg">
-                    <div class="matrix__col col-lg" data-aos="fade-up">
-                        <a class="matrix-card" href="#matrix-popup" data-fancybox="" data-touch="false">
-                            <div class="matrix-card__img">
-                                <img src="<?= get_template_directory_uri(); ?>/assets/img/matrix-card-img.jpg" alt="#">
-                            </div>
-                            <div class="matrix-card__info">
-                                <div class="matrix-card__sub">Сервер Delta Tioga Pass</div>
-                                <div class="matrix-card__desc">Серверные решения</div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="matrix__col col-lg" data-aos="fade-up">
-                        <a class="matrix-card" href="#matrix-popup" data-fancybox="" data-touch="false">
-                            <div class="matrix-card__img">
-                                <img src="<?= get_template_directory_uri(); ?>/assets/img/matrix-card-img.jpg" alt="#">
-                            </div>
-                            <div class="matrix-card__info">
-                                <div class="matrix-card__sub">Сервер Delta Tioga Pass</div>
-                                <div class="matrix-card__desc">Серверные решения</div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="matrix__col col-lg" data-aos="fade-up">
-                        <a class="matrix-card" href="#matrix-popup" data-fancybox="" data-touch="false">
-                            <div class="matrix-card__img">
-                                <img src="<?= get_template_directory_uri(); ?>/assets/img/matrix-card-img.jpg" alt="#">
-                            </div>
-                            <div class="matrix-card__info">
-                                <div class="matrix-card__sub">Сервер Delta Tioga Pass</div>
-                                <div class="matrix-card__desc">Серверные решения</div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="matrix__col col-lg" data-aos="fade-up">
-                        <a class="matrix-card" href="#matrix-popup" data-fancybox="" data-touch="false">
-                            <div class="matrix-card__img">
-                                <img src="<?= get_template_directory_uri(); ?>/assets/img/matrix-card-img.jpg" alt="#">
-                            </div>
-                            <div class="matrix-card__info">
-                                <div class="matrix-card__sub">Сервер Delta Tioga Pass</div>
-                                <div class="matrix-card__desc">Серверные решения</div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="matrix__col col-lg" data-aos="fade-up">
-                        <a class="matrix-card" href="#matrix-popup" data-fancybox="" data-touch="false">
-                            <div class="matrix-card__img">
-                                <img src="<?= get_template_directory_uri(); ?>/assets/img/matrix-card-img.jpg" alt="#">
-                            </div>
-                            <div class="matrix-card__info">
-                                <div class="matrix-card__sub">Сервер Delta Tioga Pass</div>
-                                <div class="matrix-card__desc">Серверные решения</div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="matrix__col col-lg" data-aos="fade-up">
-                        <a class="matrix-card" href="#matrix-popup" data-fancybox="" data-touch="false">
-                            <div class="matrix-card__img">
-                                <img src="<?= get_template_directory_uri(); ?>/assets/img/matrix-card-img.jpg" alt="#">
-                            </div>
-                            <div class="matrix-card__info">
-                                <div class="matrix-card__sub">Сервер Delta Tioga Pass</div>
-                                <div class="matrix-card__desc">Серверные решения</div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="matrix__col col-lg" data-aos="fade-up">
-                        <a class="matrix-card" href="#matrix-popup" data-fancybox="" data-touch="false">
-                            <div class="matrix-card__img">
-                                <img src="<?= get_template_directory_uri(); ?>/assets/img/matrix-card-img.jpg" alt="#">
-                            </div>
-                            <div class="matrix-card__info">
-                                <div class="matrix-card__sub">Сервер Delta Tioga Pass</div>
-                                <div class="matrix-card__desc">Серверные решения</div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="matrix__col col-lg" data-aos="fade-up">
-                        <a class="matrix-card" href="#matrix-popup" data-fancybox="" data-touch="false">
-                            <div class="matrix-card__img">
-                                <img src="<?= get_template_directory_uri(); ?>/assets/img/matrix-card-img.jpg" alt="#">
-                            </div>
-                            <div class="matrix-card__info">
-                                <div class="matrix-card__sub">Сервер Delta Tioga Pass</div>
-                                <div class="matrix-card__desc">Серверные решения</div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="matrix__col col-lg" data-aos="fade-up">
-                        <a class="matrix-card" href="#matrix-popup" data-fancybox="" data-touch="false">
-                            <div class="matrix-card__img">
-                                <img src="<?= get_template_directory_uri(); ?>/assets/img/matrix-card-img.jpg" alt="#">
-                            </div>
-                            <div class="matrix-card__info">
-                                <div class="matrix-card__sub">Сервер Delta Tioga Pass</div>
-                                <div class="matrix-card__desc">Серверные решения</div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="matrix__col col-lg" data-aos="fade-up">
-                        <a class="matrix-card" href="#matrix-popup" data-fancybox="" data-touch="false">
-                            <div class="matrix-card__img">
-                                <img src="<?= get_template_directory_uri(); ?>/assets/img/matrix-card-img.jpg" alt="#">
-                            </div>
-                            <div class="matrix-card__info">
-                                <div class="matrix-card__sub">Сервер Delta Tioga Pass</div>
-                                <div class="matrix-card__desc">Серверные решения</div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="matrix__col col-lg" data-aos="fade-up">
-                        <a class="matrix-card" href="#matrix-popup" data-fancybox="" data-touch="false">
-                            <div class="matrix-card__img">
-                                <img src="<?= get_template_directory_uri(); ?>/assets/img/matrix-card-img.jpg" alt="#">
-                            </div>
-                            <div class="matrix-card__info">
-                                <div class="matrix-card__sub">Сервер Delta Tioga Pass</div>
-                                <div class="matrix-card__desc">Серверные решения</div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="matrix__col col-lg" data-aos="fade-up">
-                        <a class="matrix-card" href="#matrix-popup" data-fancybox="" data-touch="false">
-                            <div class="matrix-card__img">
-                                <img src="<?= get_template_directory_uri(); ?>/assets/img/matrix-card-img.jpg" alt="#">
-                            </div>
-                            <div class="matrix-card__info">
-                                <div class="matrix-card__sub">Сервер Delta Tioga Pass</div>
-                                <div class="matrix-card__desc">Серверные решения</div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="matrix__col col-lg" data-aos="fade-up">
-                        <a class="matrix-card" href="#matrix-popup" data-fancybox="" data-touch="false">
-                            <div class="matrix-card__img">
-                                <img src="<?= get_template_directory_uri(); ?>/assets/img/matrix-card-img.jpg" alt="#">
-                            </div>
-                            <div class="matrix-card__info">
-                                <div class="matrix-card__sub">Сервер Delta Tioga Pass</div>
-                                <div class="matrix-card__desc">Серверные решения</div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="matrix__col col-lg" data-aos="fade-up">
-                        <a class="matrix-card" href="#matrix-popup" data-fancybox="" data-touch="false">
-                            <div class="matrix-card__img">
-                                <img src="<?= get_template_directory_uri(); ?>/assets/img/matrix-card-img.jpg" alt="#">
-                            </div>
-                            <div class="matrix-card__info">
-                                <div class="matrix-card__sub">Сервер Delta Tioga Pass</div>
-                                <div class="matrix-card__desc">Серверные решения</div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="matrix__col col-lg" data-aos="fade-up">
-                        <a class="matrix-card" href="#matrix-popup" data-fancybox="" data-touch="false">
-                            <div class="matrix-card__img">
-                                <img src="<?= get_template_directory_uri(); ?>/assets/img/matrix-card-img.jpg" alt="#">
-                            </div>
-                            <div class="matrix-card__info">
-                                <div class="matrix-card__sub">Сервер Delta Tioga Pass</div>
-                                <div class="matrix-card__desc">Серверные решения</div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="matrix__col col-lg" data-aos="fade-up">
-                        <a class="matrix-card" href="#matrix-popup" data-fancybox="" data-touch="false">
-                            <div class="matrix-card__img">
-                                <img src="<?= get_template_directory_uri(); ?>/assets/img/matrix-card-img.jpg" alt="#">
-                            </div>
-                            <div class="matrix-card__info">
-                                <div class="matrix-card__sub">Сервер Delta Tioga Pass</div>
-                                <div class="matrix-card__desc">Серверные решения</div>
-                            </div>
-                        </a>
+            <?php
+                $items_args = array(
+                    'post_type' => 'matrix',
+                    'post_status' => 'publish',
+                    'posts_per_page' => -1
+                );
+                $items_query = new WP_Query( $items_args );
+            
+                if( $items_query->have_posts() ):
+            ?>
+                <div class="matrix__content">
+                    <div class="matrix__row row-lg">
+                        <?php
+                            while( $items_query->have_posts() ){
+                                $items_query->the_post();
+
+                                get_template_part( 'templates/parts/matrix-card' );
+                            }
+                        ?>
                     </div>
                 </div>
-                <div class="matrix__more">
-                    <button class="btn" type="button">Показать ещё</button>
-                </div>
-            </div>
+            <?php endif; ?>
         </div>
     </div>
 </section>
-
-<div class="matrix-popup" id="matrix-popup">
-    <button class="matrix-popup__close" type="button" data-fancybox-close>
-        <img src="<?= get_template_directory_uri(); ?>/assets/img/close-icon.svg" alt="Close">
-    </button>
-    <div class="matrix-popup__wrap">
-        <div class="matrix-popup__info">
-            <div class="matrix-popup__title h5">Сервер Delta Tioga Pass</div>
-            <div class="matrix-popup__desc">Серверные решения</div>
-            <div class="matrix-popup__img">
-                <img src="<?= get_template_directory_uri(); ?>/assets/img/matrix-popup-img.jpg" alt="#">
-            </div>
-            <div class="matrix-popup__select">
-                <div class="filter-select main-scroll">
-                    <select class="js-select js-select-scroll">
-                        <option value="0">&nbsp;</option>
-                        <option value="1" selected>SPACE VM 6.5.1</option>
-                        <option value="2">SPACE VM 6.5.2</option>
-                        <option value="3">SPACE VM 6.5.3</option>
-                        <option value="4">SPACE VM 6.5.4</option>
-                        <option value="5">SPACE VM 6.5.5</option>
-                        <option value="6">SPACE VM 6.5.6</option>
-                        <option value="7">SPACE VM 6.5.7</option>
-                        <option value="8">SPACE VM 6.5.8</option>
-                        <option value="9">SPACE VM 6.5.9</option>
-                        <option value="10">SPACE VM 6.6.1</option>
-                        <option value="11">SPACE VM 6.6.2</option>
-                        <option value="12">SPACE VM 6.6.3</option>
-                        <option value="13">SPACE VM 6.6.4</option>
-                        <option value="14">SPACE VM 6.6.5</option>
-                        <option value="15">SPACE VM 6.6.6</option>
-                    </select>
-                    <span class="js-select-toggle">Версия</span>
-                </div>
-            </div>
-            <div class="matrix-popup__models">
-                <div class="matrix-popup__models-sub">Список моделей оборудования</div>
-                <div class="matrix-popup__models-list">
-                    <ul>
-                        <li>Модель 1</li>
-                        <li>Модель 2</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 <?php get_footer(); ?>

@@ -172,4 +172,36 @@ function register_post_types(){
         'template_item'       => '/templates/vacancies/vacancies-single.php',
         'template_archive'    => '/templates/vacancies/vacancies-archive.php',
 	] );
+
+    register_post_type( 'matrix', [
+		'label'  => null,
+		'labels' => [
+			'name'               => 'Матрица',
+			'singular_name'      => 'Матрица',
+			'add_new'            => 'Добавить матрицу',
+			'add_new_item'       => 'Добавление матрицы',
+			'edit_item'          => 'Редактирование матрицы',
+			'new_item'           => 'Новая матрица',
+			'view_item'          => 'Смотреть матрицу',
+			'search_items'       => 'Искать матрицу',
+			'not_found'          => 'Не найдено',
+			'not_found_in_trash' => 'Не найдено в корзине',
+			'parent_item_colon'  => '',
+			'menu_name'          => 'Матрица',
+		],
+		'description'         => 'Матрица',
+		'public'              => true,
+        'publicly_queryable'  => false,
+		'show_in_menu'        => true,
+		'show_in_rest'        => true,
+		'rest_base'           => null,
+		'menu_position'       => 22,
+		'menu_icon'           => 'dashicons-image-filter',
+		'hierarchical'        => false,
+		'supports'            => [ 'title' ],
+		'taxonomies'          => [],
+		'has_archive'         => false,
+		'rewrite'             => true,
+		'query_var'           => true,
+	] );
 }

@@ -137,3 +137,9 @@ function initialize_post_views_on_creation($post_id) {
     set_post_views($post_id);
 }
 add_action('save_post', 'initialize_post_views_on_creation');
+
+//sort
+function extractVersion($string) {
+    preg_match('/\d+(\.\d+)+/', $string, $matches);
+    return $matches[0] ?? '';
+}

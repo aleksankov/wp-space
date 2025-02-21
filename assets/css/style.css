@@ -1512,10 +1512,6 @@ h6,
   color: #10041B;
 }
 
-.filter-select .jq-selectbox .jq-selectbox__dropdown ul:not(.main-scrollbar) {
-  max-height: none !important;
-}
-
 .filter-select .jq-selectbox .jq-selectbox__dropdown ul li {
   -ms-flex-negative: 0;
   flex-shrink: 0;
