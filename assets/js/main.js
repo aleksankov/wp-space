@@ -603,6 +603,13 @@ $(document).ready(function() {
         });
     }
 
+    //vacancies filter
+    $(document).on('change', 'select.js-vacancies-city', function(){
+        const value = $(this).val();
+
+        window.location.href = value;
+    })
+
     //sliders
     var homeProductsSlider = new Swiper('.home-products__slider', {
         speed: 600,

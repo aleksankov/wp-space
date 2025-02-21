@@ -1374,6 +1374,19 @@ h6,
   position: relative;
 }
 
+.filter-select.filter-select--full .jq-selectbox .jq-selectbox__select-text {
+  color: #10041B;
+}
+
+.filter-select.filter-select--full .jq-selectbox + span {
+  -webkit-transform: scale(0.75) translateY(-15px);
+  transform: scale(0.75) translateY(-15px);
+}
+
+.filter-select.filter-select--full .jq-selectbox .jq-selectbox__dropdown ul li:first-child {
+  display: block;
+}
+
 .filter-select span {
   display: block;
   position: absolute;

@@ -6,7 +6,7 @@
 
     $terms = get_terms( array(
         'taxonomy' => $taxonomy,
-        'hide_empty' => false,
+        'hide_empty' => true,
         'orderby' => 'term_taxonomy_id',
         'order' => 'ASC'
     ) );
