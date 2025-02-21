@@ -73,26 +73,12 @@
             <div class="matrix-popup__img">
                 <img src="<?= $card_logo_url; ?>" alt="<?= $card_solution; ?>">
             </div>
-            <?php if( false ): ?>
+            <?php if( $card_product_version ): ?>
                 <div class="matrix-popup__select">
                     <div class="filter-select main-scroll">
                         <select class="js-select js-select-scroll">
                             <option value="0">&nbsp;</option>
-                            <option value="1" selected>SPACE VM 6.5.1</option>
-                            <option value="2">SPACE VM 6.5.2</option>
-                            <option value="3">SPACE VM 6.5.3</option>
-                            <option value="4">SPACE VM 6.5.4</option>
-                            <option value="5">SPACE VM 6.5.5</option>
-                            <option value="6">SPACE VM 6.5.6</option>
-                            <option value="7">SPACE VM 6.5.7</option>
-                            <option value="8">SPACE VM 6.5.8</option>
-                            <option value="9">SPACE VM 6.5.9</option>
-                            <option value="10">SPACE VM 6.6.1</option>
-                            <option value="11">SPACE VM 6.6.2</option>
-                            <option value="12">SPACE VM 6.6.3</option>
-                            <option value="13">SPACE VM 6.6.4</option>
-                            <option value="14">SPACE VM 6.6.5</option>
-                            <option value="15">SPACE VM 6.6.6</option>
+                            <option value="1" selected><?= $card_product_version; ?></option>
                         </select>
                         <span class="js-select-toggle">Версия</span>
                     </div>
