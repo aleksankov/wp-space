@@ -4988,10 +4988,6 @@ h6,
   padding-top: 40px;
 }
 
-.product-hero--vdi .product-hero__title span {
-  color: #946AD2;
-}
-
 .product-hero--client .product-hero__content {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -5000,10 +4996,6 @@ h6,
   -webkit-box-direction: normal;
   -ms-flex-direction: column;
   flex-direction: column;
-}
-
-.product-hero--client .product-hero__title span {
-  color: #FF8C53;
 }
 
 .product-hero--about .product-hero__content {
@@ -10131,6 +10123,7 @@ div.partners-distributors__item-link {
   .platform-video-card {
     position: relative;
     z-index: 1;
+    background: none !important;
   }
 
   .platform-video-card__bg {

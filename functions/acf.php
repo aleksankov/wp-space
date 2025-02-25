@@ -58,4 +58,46 @@ if( function_exists('acf_add_options_page') ) {
         <?php
       }
     );
+
+    //blocks
+    add_action( 'after_setup_theme', 'space_theme_setup' );
+    
+    function space_theme_setup() {
+        add_theme_support( 'editor-styles' );
+        add_editor_style( 'assets/css/style.css' );
+        add_editor_style( 'style.css' );
+    }
+
+    remove_theme_support( 'core-block-patterns' );
+    add_filter(
+        'block_editor_settings_all', function( $settings ) {
+            $settings['enableOpenverseMediaCategory'] = false;
+            return $settings;
+        }, 10 );
+
+    function space_register_acf_blocks() {
+        register_block_type( __DIR__ . '/blocks/hero' );
+        register_block_type( __DIR__ . '/blocks/advantages' );
+        register_block_type( __DIR__ . '/blocks/capabilities' );
+        register_block_type( __DIR__ . '/blocks/tech' );
+        register_block_type( __DIR__ . '/blocks/video' );
+        register_block_type( __DIR__ . '/blocks/overview' );
+        register_block_type( __DIR__ . '/blocks/form' );
+    }
+    add_action( 'init', 'space_register_acf_blocks' );
+
+    function block_render( $block, $content, $is_preview = false ) {
+        if ( $is_preview && ! empty( $block['data']['space_field'] ) ) {
+            $block_folder = mb_substr($block['name'], 3);
+            $block_preview_url = get_template_directory_uri() . '/functions/blocks' . $block_folder . '/preview.jpg';
+            echo '<img src="' . $block_preview_url . '">';
+            return;
+        }else{
+            if ( $block ) :
+                $block_folder = mb_substr($block['name'], 3);
+                $block_template = 'functions/blocks' . $block_folder . '/template';
+                get_template_part( $block_template );
+            endif;
+        }
+    }
 }

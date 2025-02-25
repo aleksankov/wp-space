@@ -1,0 +1,24 @@
+{
+    "name": "acf/tech",
+    "title": "4. Технологии",
+    "description": "",
+    "category": "media",
+    "icon": "editor-insertmore",
+    "keywords": ["4", "Технологии"],
+    "acf": {
+        "mode": "preview",
+        "renderTemplate": "template.php",
+        "renderCallback": "block_render"
+    },
+    "example": {
+        "attributes": {
+            "mode": "preview",
+            "data": {
+                "space_field": "value"
+            }
+        }
+    },
+    "supports": {
+        "anchor": false
+    }
+}

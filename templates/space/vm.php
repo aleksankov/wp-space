@@ -1,6 +1,7 @@
 <?php
     get_header();
 ?>
+
 <section class="product-hero product-hero--top product-hero--vm" data-aos="fade-up">
     <div class="container">
         <div class="product-hero__wrap">
@@ -1003,4 +1004,5 @@
         </div>
     </div>
 </section>
+
 <?php get_footer(); ?>

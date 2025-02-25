@@ -828,7 +828,7 @@ $(document).ready(function() {
             const variations = $('.js-platform-video-variation');
 
             $(this).addClass('active').siblings().removeClass('active');
-            variations.hide().stop().eq(index).fadeIn(300);
+            variations.hide().eq(index).fadeIn(300);
         }
     })
 

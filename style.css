@@ -1,3 +1,7 @@
 /**
  * Theme Name: Space
 */
+
+html :where(.wp-block){
+    max-width: 1200px;
+}

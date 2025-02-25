@@ -8,22 +8,10 @@
             padding-top: 5px;
         }
     }
-    &--vdi{
-        .product-hero__title{
-            span{
-                color: $violet;
-            }
-        }
-    }
     &--client{
         .product-hero__content{
             display: flex;
             flex-direction: column;
-        }
-        .product-hero__title{
-            span{
-                color: $orange;
-            }
         }
         .product-hero__desc{
             @include lg-u {
@@ -1129,6 +1117,7 @@
     @include lg {
         position: relative;
         z-index: 1;
+        background: none !important;
     }
     &.platform-video-card--violet{
         @include lg-u {

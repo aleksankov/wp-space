@@ -1,0 +1,24 @@
+{
+    "name": "acf/overview",
+    "title": "6. Интерфейсы",
+    "description": "",
+    "category": "media",
+    "icon": "images-alt2",
+    "keywords": ["6", "Интерфейсы"],
+    "acf": {
+        "mode": "preview",
+        "renderTemplate": "template.php",
+        "renderCallback": "block_render"
+    },
+    "example": {
+        "attributes": {
+            "mode": "preview",
+            "data": {
+                "space_field": "value"
+            }
+        }
+    },
+    "supports": {
+        "anchor": false
+    }
+}

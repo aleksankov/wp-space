@@ -143,3 +143,14 @@ function extractVersion($string) {
     preg_match('/\d+(\.\d+)+/', $string, $matches);
     return $matches[0] ?? '';
 }
+
+//href
+function isAnchorLink($url) {
+    $url = trim($url);
+
+    if (strpos($url, '#') === 0) {
+        return true;
+    }
+
+    return false;
+}
