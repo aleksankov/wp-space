@@ -170,15 +170,17 @@
             margin-bottom: 0;
         }
     }
-    &__slider{
-        .swiper-wrapper{
-            @include lg-u {
-                display: flex !important;
-                align-items: stretch !important;
-                flex-wrap: wrap !important;
-                margin-right: -32px !important;
-                width: auto !important;
-                gap: 32px 0;
+    &.career-bonuses--spec{
+        .career-bonuses__slider{
+            .swiper-wrapper{
+                @include lg-u {
+                    display: flex !important;
+                    align-items: stretch !important;
+                    flex-wrap: wrap !important;
+                    margin-right: -32px !important;
+                    width: auto !important;
+                    gap: 32px 0;
+                }
             }
         }
     }
