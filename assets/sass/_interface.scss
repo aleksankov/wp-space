@@ -1765,7 +1765,10 @@ h6, .h6{
         display: none;
     }
 }
-.main-text{
+.is-root-container{
+    padding-top: 80px;
+}
+.main-text, .is-root-container{
     &.main-text--small{
         h2, .h2{
             font-size: 24px;
@@ -1951,7 +1954,7 @@ h6, .h6{
         }
     }
     .wp-block-image{
-        margin: 24px 0;
+        margin: 24px auto;
         &:first-child{
             margin-top: 0;
         }
@@ -1965,7 +1968,7 @@ h6, .h6{
         }
     }
     .wp-block-table{
-        margin: 24px 0;
+        margin: 24px auto;
         overflow-x: auto;
         &:first-child{
             margin-top: 0;
