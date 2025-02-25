@@ -83,6 +83,8 @@ if( function_exists('acf_add_options_page') ) {
         register_block_type( __DIR__ . '/blocks/video' );
         register_block_type( __DIR__ . '/blocks/overview' );
         register_block_type( __DIR__ . '/blocks/form' );
+        register_block_type( __DIR__ . '/blocks/puzzle' );
+        register_block_type( __DIR__ . '/blocks/download' );
     }
     add_action( 'init', 'space_register_acf_blocks' );
 

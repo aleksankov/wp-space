@@ -1,0 +1,24 @@
+{
+    "name": "acf/download",
+    "title": "9. Скачать клиент",
+    "description": "",
+    "category": "media",
+    "icon": "share-alt2",
+    "keywords": ["9", "Скачать", "клиент"],
+    "acf": {
+        "mode": "preview",
+        "renderTemplate": "template.php",
+        "renderCallback": "block_render"
+    },
+    "example": {
+        "attributes": {
+            "mode": "preview",
+            "data": {
+                "space_field": "value"
+            }
+        }
+    },
+    "supports": {
+        "anchor": false
+    }
+}
