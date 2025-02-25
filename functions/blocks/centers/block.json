@@ -1,0 +1,24 @@
+{
+    "name": "acf/centers",
+    "title": "14. Центры",
+    "description": "",
+    "category": "media",
+    "icon": "admin-site-alt3",
+    "keywords": ["14", "Центры"],
+    "acf": {
+        "mode": "preview",
+        "renderTemplate": "template.php",
+        "renderCallback": "block_render"
+    },
+    "example": {
+        "attributes": {
+            "mode": "preview",
+            "data": {
+                "space_field": "value"
+            }
+        }
+    },
+    "supports": {
+        "anchor": false
+    }
+}

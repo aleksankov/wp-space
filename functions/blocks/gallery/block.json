@@ -1,0 +1,24 @@
+{
+    "name": "acf/gallery",
+    "title": "12. Галерея",
+    "description": "",
+    "category": "media",
+    "icon": "format-gallery",
+    "keywords": ["12", "Галерея"],
+    "acf": {
+        "mode": "preview",
+        "renderTemplate": "template.php",
+        "renderCallback": "block_render"
+    },
+    "example": {
+        "attributes": {
+            "mode": "preview",
+            "data": {
+                "space_field": "value"
+            }
+        }
+    },
+    "supports": {
+        "anchor": false
+    }
+}

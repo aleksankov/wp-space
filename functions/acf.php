@@ -85,6 +85,11 @@ if( function_exists('acf_add_options_page') ) {
         register_block_type( __DIR__ . '/blocks/form' );
         register_block_type( __DIR__ . '/blocks/puzzle' );
         register_block_type( __DIR__ . '/blocks/download' );
+        register_block_type( __DIR__ . '/blocks/model' );
+        register_block_type( __DIR__ . '/blocks/bonuses' );
+        register_block_type( __DIR__ . '/blocks/gallery' );
+        register_block_type( __DIR__ . '/blocks/education' );
+        register_block_type( __DIR__ . '/blocks/centers' );
     }
     add_action( 'init', 'space_register_acf_blocks' );
 

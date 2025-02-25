@@ -6897,6 +6897,10 @@ div.partners-distributors__item-link {
   display: flex !important;
 }
 
+.learning-contacts__title {
+  margin-bottom: 56px;
+}
+
 .learning-contacts__row {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -10431,6 +10435,10 @@ div.partners-distributors__item-link {
 
   .space-bugzilla__bottom {
     margin-top: 16px;
+  }
+
+  .learning-contacts__title {
+    margin-bottom: 32px;
   }
 
   .learning-contacts__row {

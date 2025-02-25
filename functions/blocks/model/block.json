@@ -1,0 +1,24 @@
+{
+    "name": "acf/model",
+    "title": "10. Модель продаж",
+    "description": "",
+    "category": "media",
+    "icon": "controls-repeat",
+    "keywords": ["10", "Модель", "продаж"],
+    "acf": {
+        "mode": "preview",
+        "renderTemplate": "template.php",
+        "renderCallback": "block_render"
+    },
+    "example": {
+        "attributes": {
+            "mode": "preview",
+            "data": {
+                "space_field": "value"
+            }
+        }
+    },
+    "supports": {
+        "anchor": false
+    }
+}
