@@ -54,7 +54,7 @@
 </head>
 <body <?php body_class(); ?>>
     <?php wp_body_open(); ?>
-    <header class="header compensate-for-scrollbar js-header">
+    <header class="header<?= $page_submenu ? ' header--submenu' : ''; ?> compensate-for-scrollbar js-header">
         <div class="header__wrap">
             <div class="container">
                 <div class="header__top">
