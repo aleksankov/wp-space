@@ -1,11 +1,11 @@
 <?php
     $career_bonuses_title = get_field('career_bonuses_title');
     $career_bonuses_items = get_field('career_bonuses_items');
-    $career_bonuses_items_chunks = array_chunk($career_bonuses_items, 2);
+    $career_bonuses_items_chunks = array_chunk($career_bonuses_items, 1);
 
     if( $career_bonuses_items_chunks ):
 ?>
-    <section class="career-bonuses section">
+    <section class="career-bonuses career-bonuses--spec section">
         <div class="container">
             <?php if( $career_bonuses_title ): ?>
                 <h2 class="career-bonuses__title h3" data-aos="fade-up"><?= $career_bonuses_title; ?></h2>

@@ -8678,6 +8678,20 @@ div.partners-distributors__item-link {
     z-index: -1;
   }
 
+  .career-bonuses__slider .swiper-wrapper {
+    display: -webkit-box !important;
+    display: -ms-flexbox !important;
+    display: flex !important;
+    -webkit-box-align: stretch !important;
+    -ms-flex-align: stretch !important;
+    align-items: stretch !important;
+    -ms-flex-wrap: wrap !important;
+    flex-wrap: wrap !important;
+    margin-right: -32px !important;
+    width: auto !important;
+    gap: 32px 0;
+  }
+
   .vacancies__more {
     display: none;
   }
