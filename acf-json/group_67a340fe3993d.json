@@ -1228,14 +1228,22 @@
             "append": ""
         },
         {
-            "key": "field_67a35b750fdf3",
+            "key": "field_67bd8302265dd",
             "label": "Описание для Habr",
             "name": "home_demo_desc_habr",
             "aria-label": "",
             "type": "text",
             "instructions": "",
             "required": 0,
-            "conditional_logic": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_67a34596ece4a",
+                        "operator": "==",
+                        "value": "2"
+                    }
+                ]
+            ],
             "wrapper": {
                 "width": "",
                 "class": "",
@@ -1975,5 +1983,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1738762830
+    "modified": 1740473225
 }
