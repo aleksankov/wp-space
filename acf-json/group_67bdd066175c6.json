@@ -41,7 +41,8 @@
                     "choices": {
                         "url": "Внешняя ссылка",
                         "anchor": "Якорная ссылка",
-                        "dropdown": "Выпадающее меню"
+                        "dropdown": "Выпадающее меню",
+                        "file": "Файл"
                     },
                     "default_value": "url",
                     "return_format": "value",
@@ -323,6 +324,36 @@
                         }
                     ],
                     "parent_repeater": "field_67bdd066ba8f2"
+                },
+                {
+                    "key": "field_67bf106f727bb",
+                    "label": "Файл",
+                    "name": "file",
+                    "aria-label": "",
+                    "type": "file",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": [
+                        [
+                            {
+                                "field": "field_67bdd64b0324f",
+                                "operator": "==",
+                                "value": "file"
+                            }
+                        ]
+                    ],
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "return_format": "url",
+                    "library": "all",
+                    "min_size": "",
+                    "max_size": "",
+                    "mime_types": "",
+                    "allow_in_bindings": 0,
+                    "parent_repeater": "field_67bdd066ba8f2"
                 }
             ]
         }
@@ -345,5 +376,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1740495130
+    "modified": 1740574859
 }

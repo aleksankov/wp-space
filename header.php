@@ -286,6 +286,14 @@
                                             <span><?= $page_submenu_item['label']; ?></span>
                                         </a>
                                     <?php endif; ?>
+                                    <?php elseif( $page_submenu_item['type'] == 'file' && $page_submenu_item['file'] ): ?>
+                                        <a href="<?= $page_submenu_item['file']; ?>" target="_blank">
+                                            <?php if( $page_submenu_item['icon'] ): ?>
+                                                <img src="<?= $page_submenu_item['icon']; ?>" alt="<?= $page_submenu_item['label']; ?>">
+                                            <?php endif; ?>
+                                            <span><?= $page_submenu_item['label']; ?></span>
+                                        </a>
+                                    <?php endif; ?>
                                     <?php if( $page_submenu_item['type'] == 'dropdown' && $page_submenu_item['items'] ): ?>
                                         <div class="header-submenu__dropdown">
                                             <div class="header-submenu__dropdown-list header-submenu__dropdown-list--lg">
