@@ -223,7 +223,7 @@
         <?php if( $connect_matrix_title ): ?>
             <h2 class="matrix__title" data-aos="fade-up"><?= $connect_matrix_title; ?></h2>
         <?php endif; ?>
-        <div class="matrix__wrap js-matrix-wrap ajax-wrap">
+        <div class="matrix__wrap js-matrix-wrap ajax-wrap ajax-wrap--single">
             <div class="matrix__filters js-matrix-filter">
                 <div class="matrix__filters-row">
                     <?php if( $filter_types ): ?>
@@ -323,5 +323,82 @@
         </div>
     </div>
 </section>
+
+<div class="main-popup" id="tech-partner-popup">
+    <button class="main-popup__close" type="button" data-fancybox-close>
+        <img src="<?= get_template_directory_uri(); ?>/assets/img/close-icon.svg" alt="Close">
+    </button>
+    <div class="main-popup__wrap">
+        <div class="main-popup__left">
+            <div class="main-popup__img">
+                <img src="<?= get_template_directory_uri(); ?>/assets/img/main-popup-img-3.png" alt="Space">
+                <div class="main-popup__sub">Станьте <br>технологическим <br>партнером — <br>Space</div>
+            </div>
+        </div>
+        <div class="main-popup__right">
+            <form class="main-popup__form ajax-wrap js-form">
+                <div class="main-popup__form-title">Заполните информацию ниже и&nbsp;мы свяжемся с&nbsp;вами</div>
+                <div class="main-popup__form-list ajax-wrap__item">
+                    <div class="main-popup__form-col">
+                        <div class="main-input">
+                            <label>
+                                <input class="js-form-input js-feedback-input" type="text" name="name">
+                                <span>Имя и фамилия</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="main-popup__form-col">
+                        <div class="main-input">
+                            <label>
+                                <input class="js-form-input js-feedback-input" type="text" name="company">
+                                <span>Компания</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="main-popup__form-col">
+                        <div class="main-input">
+                            <label>
+                                <input class="js-form-input js-tel-input js-feedback-input" type="text" name="phone">
+                                <span>Номер телефона</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="main-popup__form-col">
+                        <div class="main-input">
+                            <label>
+                                <input class="js-form-input js-feedback-input" type="text" name="email">
+                                <span>E-mail</span>
+                            </label>
+                        </div>
+                    </div>
+                    <?php if( $form_production_options ): ?>
+                        <div class="main-popup__form-col main-popup__form-col--lg">
+                            <div class="main-select">
+                                <select class="js-select js-feedback-input" name="production"><?= $form_production_options; ?></select>
+                                <span class="js-select-toggle">Выпускаемая продукция</span>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                    <div class="main-popup__form-col main-popup__form-col--lg">
+                        <div class="main-input">
+                            <label>
+                                <textarea class="js-form-input js-feedback-input" name="msg"></textarea>
+                                <span>Комментарий</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <?php if( $site_forms_agree ): ?>
+                    <div class="main-popup__form-agree ajax-wrap__item"><?= $site_forms_agree; ?></div>
+                <?php endif; ?>
+                <div class="main-popup__form-btn ajax-wrap__item">
+                    <button class="btn btn-white" type="submit">Отправить</button>
+                </div>
+                <input type="hidden" name="form_name" value="Заявка на технологического партнера">
+                <input type="hidden" name="to" value="<?= $site_feedback_tech_partner_email; ?>">
+            </form>
+        </div>
+    </div>
+</div>
 
 <?php get_footer(); ?>

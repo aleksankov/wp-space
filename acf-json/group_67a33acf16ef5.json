@@ -21,12 +21,93 @@
             "selected": 0
         },
         {
-            "key": "field_67a33acfaca56",
-            "label": "Текст согласия",
-            "name": "site_forms_agree",
+            "key": "field_67bf23e9e6bdf",
+            "label": "",
+            "name": "",
+            "aria-label": "",
+            "type": "message",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "Если e-mail для заявок несколько, то указываем их через запятую",
+            "new_lines": "wpautop",
+            "esc_html": 0
+        },
+        {
+            "key": "field_67bf26e20a58f",
+            "label": "Резервный e-mail для заявок",
+            "name": "site_feedback_main_email",
             "aria-label": "",
             "type": "text",
-            "instructions": "",
+            "instructions": "Используется для надежности",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_67bf3db64e3db",
+            "label": "E-mail для заявок на партнера",
+            "name": "site_feedback_partner_email",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Используется для надежности",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_67bf3dc84e3dc",
+            "label": "E-mail для заявок на технологического партнера",
+            "name": "site_feedback_tech_partner_email",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Используется для надежности",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_67bf3de74e3dd",
+            "label": "E-mail для заявок откликов вакансий",
+            "name": "site_feedback_hr_email",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Используется для надежности",
             "required": 1,
             "conditional_logic": 0,
             "wrapper": {
@@ -130,35 +211,11 @@
                     "prepend": "",
                     "append": "",
                     "parent_repeater": "field_67a33b3a3202e"
-                }
-            ]
-        },
-        {
-            "key": "field_67a33b5c32030",
-            "label": "Выпускаемая продукция",
-            "name": "site_forms_production",
-            "aria-label": "",
-            "type": "repeater",
-            "instructions": "",
-            "required": 1,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "layout": "table",
-            "pagination": 0,
-            "min": 0,
-            "max": 0,
-            "collapsed": "",
-            "button_label": "Добавить",
-            "rows_per_page": 20,
-            "sub_fields": [
+                },
                 {
-                    "key": "field_67a33b5c32031",
-                    "label": "Название продукта",
-                    "name": "item",
+                    "key": "field_67bf2368e6bde",
+                    "label": "E-mail для заявок",
+                    "name": "email",
                     "aria-label": "",
                     "type": "text",
                     "instructions": "",
@@ -171,13 +228,34 @@
                     },
                     "default_value": "",
                     "maxlength": "",
-                    "allow_in_bindings": 0,
+                    "allow_in_bindings": 1,
                     "placeholder": "",
                     "prepend": "",
                     "append": "",
-                    "parent_repeater": "field_67a33b5c32030"
+                    "parent_repeater": "field_67a33b3a3202e"
                 }
             ]
+        },
+        {
+            "key": "field_67a33acfaca56",
+            "label": "Текст согласия",
+            "name": "site_forms_agree",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
         },
         {
             "key": "field_67b79ad4d3a98",
@@ -321,5 +399,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1740108232
+    "modified": 1740590790
 }

@@ -362,13 +362,13 @@
         <div class="container">
             <div class="demo__row row-lg">
                 <div class="demo__left col-lg" data-aos="fade-up">
-                    <form class="demo__form">
+                    <form class="demo__form ajax-wrap js-form">
                         <h2 class="demo__form-sub"><?= $home_regions_title; ?></h2>
-                        <div class="demo__form-row">
+                        <div class="demo__form-row ajax-wrap__item">
                             <?php if( $form_product_options ): ?>
                                 <div class="demo__form-col">
                                     <div class="main-select">
-                                        <select class="js-select"><?= $form_product_options; ?></select>
+                                        <select class="js-select js-feedback-input" name="product"><?= $form_product_options; ?></select>
                                         <span class="js-select-toggle">Выберите продукт</span>
                                     </div>
                                 </div>
@@ -376,7 +376,7 @@
                             <?php if( $form_partner_options ): ?>
                                 <div class="demo__form-col">
                                     <div class="main-select">
-                                        <select class="js-select"><?= $form_partner_options; ?></select>
+                                        <select class="js-select js-feedback-input js-partner-select" name="partner"><?= $form_partner_options; ?></select>
                                         <span class="js-select-toggle">Выберите партнёра</span>
                                     </div>
                                 </div>
@@ -384,7 +384,7 @@
                             <div class="demo__form-col">
                                 <div class="main-input">
                                     <label>
-                                        <input class="js-form-input" type="text">
+                                        <input class="js-form-input js-feedback-input" type="text" name="name">
                                         <span>Имя и фамилия</span>
                                     </label>
                                 </div>
@@ -392,15 +392,15 @@
                             <div class="demo__form-col">
                                 <div class="main-input">
                                     <label>
-                                        <input class="js-form-input" type="text">
-                                        <span>Организиция</span>
+                                        <input class="js-form-input js-feedback-input" type="text" name="company">
+                                        <span>Организация</span>
                                     </label>
                                 </div>
                             </div>
                             <div class="demo__form-col">
                                 <div class="main-input">
                                     <label>
-                                        <input class="js-form-input js-tel-input" type="text">
+                                        <input class="js-form-input js-tel-input js-feedback-input" type="text" name="phone">
                                         <span>Номер телефона</span>
                                     </label>
                                 </div>
@@ -408,7 +408,7 @@
                             <div class="demo__form-col">
                                 <div class="main-input">
                                     <label>
-                                        <input class="js-form-input" type="text">
+                                        <input class="js-form-input js-feedback-input" type="text" name="email">
                                         <span>E-mail</span>
                                     </label>
                                 </div>
@@ -416,19 +416,21 @@
                             <div class="demo__form-col demo__form-col--lg">
                                 <div class="main-input">
                                     <label>
-                                        <textarea class="js-form-input"></textarea>
+                                        <textarea class="js-form-input js-feedback-input" name="msg"></textarea>
                                         <span>Комментарий</span>
                                     </label>
                                 </div>
                             </div>
                         </div>
-                        <div class="demo__form-bottom">
+                        <div class="demo__form-bottom ajax-wrap__item">
                             <?php if( $site_forms_agree ): ?>
                                 <div class="demo__form-agree"><?= $site_forms_agree; ?></div>
                             <?php endif; ?>
                             <div class="demo__form-btn">
                                 <button class="btn btn-white" type="submit">Отправить</button>
                             </div>
+                            <input type="hidden" name="form_name" value="Заявка на демо-версию">
+                            <input type="hidden" name="to" value="<?= $site_feedback_main_email; ?>">
                         </div>
                         <div class="demo__form-mob-btn">
                             <a class="btn btn-white" href="#demo-popup" data-fancybox="" data-touch="false">Продолжить</a>

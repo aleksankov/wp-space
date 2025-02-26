@@ -41,10 +41,21 @@ body{
     transition: opacity .25s, visibility .25s;
 }
 .ajax-wrap{
-    transition: opacity .25s;
-    &.loading{
-        pointer-events: none;
-        opacity: .5;
+    &.ajax-wrap--single{
+        transition: opacity .25s;
+        &.loading, &.disabled{
+            pointer-events: none;
+            opacity: .5;
+        }
+    }
+    &.loading, &.disabled{
+        .ajax-wrap__item{
+            pointer-events: none;
+            opacity: .5;
+        }
+    }
+    &__item{
+        transition: opacity .25s;
     }
 }
 a{
@@ -500,6 +511,9 @@ h6, .h6{
                     transform: scale(0.75) translateY(-18px);
                 }
             }
+            &.error{
+                border-color: #FFF72F !important;
+            }
             & + span{
                 display: block;
                 position: absolute;
@@ -550,6 +564,9 @@ h6, .h6{
                 & + span{
                     transform: scale(0.75) translateY(-18px);
                 }
+            }
+            &.error{
+                border-color: #EB5757 !important;
             }
             & + span{
                 display: block;
@@ -670,6 +687,13 @@ h6, .h6{
                     }
                 }
             }
+            &.error{
+                & + span{
+                    &::before{
+                        background-image: url(../img/check-4.svg);
+                    }
+                }
+            }
         }
         span{
             display: block;
@@ -766,6 +790,16 @@ h6, .h6{
             }
         }
     }
+    select{
+        &.error{
+            & ~ .jq-selectbox__select .jq-selectbox__select-text{
+                border-color: #FFF72F !important;
+            }
+            & ~ .jq-selectbox__dropdown{
+                border-color: #FFF72F !important;
+            }
+        }
+    }
     span{
         display: block;
         position: absolute;
@@ -798,9 +832,13 @@ h6, .h6{
             .jq-selectbox__select-text{
                 border-bottom-left-radius: 0px;
                 border-bottom-right-radius: 0px;
+                border-bottom-color: transparent;
                 &::before{
                     transform: rotate(180deg);
                 }
+            }
+            .jq-selectbox__dropdown{
+                border-top: 0;
             }
         }
         &.opened{
@@ -1235,6 +1273,24 @@ h6, .h6{
         max-width: 800px;
         .main-popup__wrap{
             padding: 0;
+        }
+    }
+    &.main-popup--result{
+        max-width: 800px;
+        text-align: center;
+        .main-popup__wrap{
+            padding: 0;
+        }
+        .main-popup__form-title{
+            max-width: 100%;
+            @include xl {
+                padding-left: 30px;
+            }
+        }
+        .main-popup__form-btn{
+            .btn{
+                width: 100%;
+            }
         }
     }
     .fancybox-close-small{

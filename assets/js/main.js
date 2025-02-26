@@ -198,10 +198,27 @@ $(document).ready(function() {
     const $fileRemove = $('.js-form-file-remove');
     const $formFileBlock = $('.js-form-file-block');
     const allowedFormats = ['doc', 'docx', 'pdf'];
+    const maxFileSize = 3 * 1024 * 1024;
 
     $fileInput.on('change', function (e) {
         const file = e.target.files[0];
         if (file) {
+            const fileExtension = file.name.split('.').pop().toLowerCase();
+
+            if (!allowedFormats.includes(fileExtension)) {
+                alert('Недопустимый формат файла. Разрешены только файлы форматов: doc, docx, pdf.');
+                $fileInput.val('');
+                $fileNameWrap.removeClass('show');
+                return;
+            }
+
+            if (file.size > maxFileSize) {
+                alert('Размер файла превышает допустимый лимит в 3 МБ.');
+                $fileInput.val('');
+                $fileNameWrap.removeClass('show');
+                return;
+            }
+
             $fileName.text(file.name);
             $fileNameWrap.addClass('show');
         }else{
@@ -232,12 +249,18 @@ $(document).ready(function() {
             const file = files[0];
             const fileExtension = file.name.split('.').pop().toLowerCase();
 
-            if (allowedFormats.includes(fileExtension)) {
-                $fileInput[0].files = files;
-                $fileInput.trigger('change');
-            } else {
+            if (!allowedFormats.includes(fileExtension)) {
                 alert('Недопустимый формат файла. Разрешены только файлы форматов: doc, docx, pdf.');
+                return;
             }
+    
+            if (file.size > maxFileSize) {
+                alert('Размер файла превышает допустимый лимит в 3 МБ.');
+                return;
+            }
+    
+            $fileInput[0].files = files;
+            $fileInput.trigger('change');
         }
     });
 
@@ -916,5 +939,126 @@ $(document).ready(function() {
         const wrap = $(this).closest('.js-slider-hide-controls');
 
         wrap.remove();
+    })
+
+    //forms
+    const emailRegEx = /^[\w-\.]+@[\w-]+\.[a-z]{2,8}$/i;
+
+    $(document).on('change', 'select.js-partner-select', function(){
+        const select = $(this),
+            form = select.closest('form'),
+            to = form.find('[name="to"]')
+            email = select.find('option:checked').attr('data-email');
+
+        to.val(email);
+    })
+    $(document).on('change input', '.js-feedback-input', function(){
+        if($(this).val().trim()){
+            $(this).removeClass('error');
+        }
+    })
+
+    $(document).on('submit', '.js-form', function(e){
+        e.preventDefault();
+
+        const form = $(this),
+            product = form.find('select[name="product"]'),
+            partner = form.find('select[name="partner"]'),
+            name = form.find('[name="name"]'),
+            phone = form.find('[name="phone"]'),
+            email = form.find('[name="email"]'),
+            specialization = form.find('[name="specialization"]'),
+            fileInput = form.find('[name="file"]'),
+            agree = form.find('[name="agree"]');
+
+        if(product.length && product.val() == '0'){
+            product.addClass('error');
+        }
+        
+        if(partner.length && partner.val() == '0'){
+            partner.addClass('error');
+        }
+
+        if(name.length && !name.val().trim()){
+            name.addClass('error');
+        }
+
+        if(phone.length && !phone.inputmask('isComplete')){
+            phone.addClass('error');
+        }
+        
+        if(email.length && !emailRegEx.test(email.val())){
+            email.addClass('error');
+        }
+
+        if(specialization.length && !specialization.val().trim()){
+            specialization.addClass('error');
+        }
+
+        if(agree.length && !agree.is(':checked')){
+            agree.addClass('error');
+        }
+
+        if(!form.find('.js-feedback-input.error').length){
+            let formData = new FormData(form[0]);
+
+            formData.append('url', window.location.href);
+            formData.append('action', 'feedback_form');
+
+            if(fileInput.length && fileInput[0].files.length > 0){
+                formData.append('file', fileInput[0].files[0]);
+            }
+
+            $.ajax({
+                url: space_obj.ajax_url,
+                data: formData,
+                type: 'POST',
+                dataType: 'json',
+                processData: false,
+                contentType: false,
+                beforeSend: function(){
+                    form.addClass('loading');
+                },
+                success: function(response){
+                    form.removeClass('loading');
+                    form.addClass('disabled');
+                    form.trigger('reset');
+                    form.find('.js-feedback-input').removeClass('not-empty');
+                    form.find('select.js-feedback-input').trigger('change');
+
+                    if( fileInput.length ){
+                        fileInput.trigger('change');
+                    }
+
+                    $.fancybox.close();
+
+                    if(response.status){
+                        $.fancybox.open({
+                            src  : '#feedback-success',
+                            type : 'inline',
+                            opts : {
+                                touch: false,
+                                keyboard: false,
+                                afterClose: function(){
+                                    $('style:contains(".compensate-for-scrollbar")').remove();
+                                }
+                            }
+                        });
+                    }else{
+                        $.fancybox.open({
+                            src  : '#feedback-error',
+                            type : 'inline',
+                            opts : {
+                                touch: false,
+                                keyboard: false,
+                                afterClose: function(){
+                                    $('style:contains(".compensate-for-scrollbar")').remove();
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+        }
     })
 })

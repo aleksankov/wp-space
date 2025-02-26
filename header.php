@@ -35,6 +35,16 @@
     $form_product_options = get_product_options();
     $form_partner_options = get_partner_options();
     $form_production_options = get_production_options();
+    
+    global $site_feedback_main_email;
+    global $site_feedback_partner_email;
+    global $site_feedback_tech_partner_email;
+    global $site_feedback_hr_email;
+
+    $site_feedback_main_email = get_field('site_feedback_main_email', 'option');
+    $site_feedback_partner_email = get_field('site_feedback_partner_email', 'option');
+    $site_feedback_tech_partner_email = get_field('site_feedback_tech_partner_email', 'option');
+    $site_feedback_hr_email = get_field('site_feedback_hr_email', 'option');
 ?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>

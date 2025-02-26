@@ -83,9 +83,9 @@
                     <?php $counter = 0; foreach( $career_partners_items as $career_partners_item ): if($counter == 4) $counter = 0; ?>
                         <div class="partners-list__slide swiper-slide" data-aos="fade-up" data-aos-delay="<?= $counter * 200; ?>">
                             <?php if( $career_partners_item['url'] ): ?>
-                                <a class="partners-list__item" href="<?= $career_partners_item['url']; ?>" target="_blank"><?= get_retina_img($career_partners_item['logo'], 'Partners - Logo ' . $counter + 1); ?></a>
+                                <a class="partners-list__item" href="<?= $career_partners_item['url']; ?>" target="_blank"><?= get_retina_img($career_partners_item['logo'], 'Partners - Logo ' . ($counter + 1)); ?></a>
                             <?php else: ?>
-                                <?= get_retina_img($career_partners_item['logo'], 'Partners - Logo ' . $counter + 1); ?>
+                                <?= get_retina_img($career_partners_item['logo'], 'Partners - Logo ' . ($counter + 1)); ?>
                             <?php endif; ?>
                         </div>
                     <?php $counter++; endforeach; ?>

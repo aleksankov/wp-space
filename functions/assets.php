@@ -11,7 +11,7 @@ add_action( 'wp_enqueue_scripts', 'my_jquery_script' );
 add_action( 'wp_enqueue_scripts', 'space_scripts' );
 
 function space_scripts() {
-    $version = '14';
+    $version = '15';
 
     wp_enqueue_style( 'space-aos', get_template_directory_uri() . '/assets/css/aos.css', array(), null);
     wp_enqueue_style( 'space-formstyler', get_template_directory_uri() . '/assets/css/formstyler.css', array(), null);

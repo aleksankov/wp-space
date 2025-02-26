@@ -113,12 +113,12 @@
                                     <div class="vacancy__form-desc"><?= $site_vacancy_form_desc; ?></div>
                                 <?php endif; ?>
                             </div>
-                            <form class="vacancy-feedback__form">
-                                <div class="vacancy-feedback__form-row">
+                            <form class="vacancy-feedback__form ajax-wrap js-form">
+                                <div class="vacancy-feedback__form-row ajax-wrap__item">
                                     <div class="vacancy-feedback__form-col vacancy-feedback__form-col--full">
                                         <div class="form-input">
                                             <label>
-                                                <input class="js-form-input" type="text">
+                                                <input class="js-form-input js-feedback-input" type="text" name="name">
                                                 <span>Имя и фамилия</span>
                                             </label>
                                         </div>
@@ -126,7 +126,7 @@
                                     <div class="vacancy-feedback__form-col">
                                         <div class="form-input">
                                             <label>
-                                                <input class="js-form-input js-tel-input" type="text">
+                                                <input class="js-form-input js-tel-input js-feedback-input" type="text" name="phone">
                                                 <span>Номер телефона</span>
                                             </label>
                                         </div>
@@ -134,21 +134,21 @@
                                     <div class="vacancy-feedback__form-col">
                                         <div class="form-input">
                                             <label>
-                                                <input class="js-form-input" type="text">
+                                                <input class="js-form-input js-feedback-input" type="text" name="email">
                                                 <span>Электронный адрес</span>
                                             </label>
                                         </div>
                                     </div>
                                     <div class="vacancy-feedback__form-col vacancy-feedback__form-col--full vacancy-feedback__form-col--lg">
                                         <div class="form-file js-form-file">
-                                            <input class="js-form-file-input" type="file" accept=".pdf, .doc, .docx" id="formFile">
+                                            <input class="js-form-file-input js-feedback-input" type="file" accept=".pdf, .doc, .docx" id="formFile" name="file">
                                             <label class="form-file__block js-form-file-block" for="formFile">
                                                 <div class="form-file__icon">
                                                     <img src="<?= get_template_directory_uri(); ?>/assets/img/form-file-icon.svg" alt="File">
                                                 </div>
                                                 <div class="form-file__sub">Перетащите файл сюда</div>
                                                 <div class="form-file__desc">Или <span>нажмите для загрузки файла</span></div>
-                                                <div class="form-file__accept">Форматы: docx, doc, pdf</div>
+                                                <div class="form-file__accept">Форматы: docx, doc, pdf. До 3 Мб.</div>
                                             </label>
                                             <div class="form-file__name js-form-file-name-wrap">
                                                 <span class="js-form-file-name"></span>
@@ -160,24 +160,27 @@
                                     <div class="vacancy-feedback__form-col vacancy-feedback__form-col--full vacancy-feedback__form-col--lg">
                                         <div class="form-input">
                                             <label>
-                                                <textarea class="js-form-input js-textarea" maxlength="300"></textarea>
+                                                <textarea class="js-form-input js-textarea js-feedback-input" maxlength="300" name="msg"></textarea>
                                                 <span>Напишите о себе</span>
                                                 <div class="form-input__counter js-textarea-counter">0/300</div>
                                             </label>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="vacancy-feedback__agree">
+                                <div class="vacancy-feedback__agree ajax-wrap__item">
                                     <div class="main-checkbox">
                                         <label>
-                                            <input type="checkbox">
+                                            <input type="checkbox" class="js-feedback-input" name="agree">
                                             <span><?= $site_forms_vacancies_agree; ?></span>
                                         </label>
                                     </div>
                                 </div>
-                                <div class="vacancy-feedback__btn">
+                                <div class="vacancy-feedback__btn ajax-wrap__item">
                                     <button class="btn" type="submit">Отправить</button>
                                 </div>
+                                <input type="hidden" name="specialization" value="<?= $title; ?>">
+                                <input type="hidden" name="form_name" value="Отклик на вакансию: <?= $title; ?>">
+                                <input type="hidden" name="to" value="<?= $site_feedback_hr_email; ?>">
                             </form>
                         </div>
                     <?php endif; ?>

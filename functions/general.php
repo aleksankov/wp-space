@@ -63,7 +63,7 @@ function get_partner_options(){
     if( $site_forms_partners ){
         $options = '<option value="0">&nbsp;</option>';
         foreach( $site_forms_partners as $site_forms_partner ){
-            $options .= '<option value="' . $site_forms_partner['item'] . '">' . $site_forms_partner['item'] . '</option>';
+            $options .= '<option value="' . $site_forms_partner['item'] . '" data-email="' . $site_forms_partner['email'] . '">' . $site_forms_partner['item'] . '</option>';
         }
 
         return $options;
@@ -72,17 +72,36 @@ function get_partner_options(){
     }
 }
 function get_production_options(){
-    $site_forms_productions = get_field('site_forms_production', 'option');
 
-    if( $site_forms_productions ){
+    $productions = [];
+
+    $args = array(
+        'post_type' => 'matrix',
+        'post_status' => 'publish',
+        'posts_per_page' => -1
+    );
+
+    $query = new WP_Query( $args );
+
+    while( $query->have_posts() ){
+        $query->the_post();
+
+        $type = get_field('matrix_type');
+        $productions[] = $type;
+    }
+    wp_reset_postdata();
+
+    $productions = array_unique($productions);
+
+    if( $productions ){
         $options = '<option value="0">&nbsp;</option>';
-        foreach( $site_forms_productions as $site_forms_production ){
-            $options .= '<option value="' . $site_forms_production['item'] . '">' . $site_forms_production['item'] . '</option>';
+        foreach( $productions as $production ){
+            $options .= '<option value="' . $production . '">' . $production . '</option>';
         }
 
         return $options;
     }else{
-        return;
+        return false;
     }
 }
 

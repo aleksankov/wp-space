@@ -20,6 +20,10 @@
     global $form_product_options;
     global $form_partner_options;
     global $form_production_options;
+
+    global $site_feedback_main_email;
+    global $site_feedback_partner_email;
+    global $site_feedback_tech_partner_email;
 ?>
     </main>
     <footer class="footer js-footer">
@@ -150,13 +154,13 @@
                 </div>
             </div>
             <div class="main-popup__right">
-                <form class="main-popup__form main-popup__form--aqua">
+                <form class="main-popup__form main-popup__form--aqua ajax-wrap js-form">
                     <div class="main-popup__form-title">Заполните информацию ниже и&nbsp;мы свяжемся с&nbsp;вами</div>
-                    <div class="main-popup__form-list">
+                    <div class="main-popup__form-list ajax-wrap__item">
                         <?php if( $form_partner_options ): ?>
                             <div class="main-popup__form-col main-popup__form-col--lg">
                                 <div class="main-select main-select--aqua">
-                                    <select class="js-select"><?= $form_partner_options; ?></select>
+                                    <select class="js-select js-feedback-input js-partner-select" name="partner"><?= $form_partner_options; ?></select>
                                     <span class="js-select-toggle">Выберите партнера</span>
                                 </div>
                             </div>
@@ -164,7 +168,7 @@
                         <div class="main-popup__form-col">
                             <div class="main-input main-input--aqua">
                                 <label>
-                                    <input class="js-form-input" type="text">
+                                    <input class="js-form-input js-feedback-input" type="text" name="name">
                                     <span>Имя и фамилия</span>
                                 </label>
                             </div>
@@ -172,7 +176,7 @@
                         <div class="main-popup__form-col">
                             <div class="main-input main-input--aqua">
                                 <label>
-                                    <input class="js-form-input" type="text">
+                                    <input class="js-form-input js-feedback-input" type="text" name="company">
                                     <span>Организация</span>
                                 </label>
                             </div>
@@ -180,7 +184,7 @@
                         <div class="main-popup__form-col">
                             <div class="main-input main-input--aqua">
                                 <label>
-                                    <input class="js-form-input js-tel-input" type="text">
+                                    <input class="js-form-input js-tel-input js-feedback-input" type="text" name="phone">
                                     <span>Номер телефона</span>
                                 </label>
                             </div>
@@ -188,7 +192,7 @@
                         <div class="main-popup__form-col">
                             <div class="main-input main-input--aqua">
                                 <label>
-                                    <input class="js-form-input" type="text">
+                                    <input class="js-form-input js-feedback-input" type="text" name="email">
                                     <span>E-mail</span>
                                 </label>
                             </div>
@@ -196,22 +200,25 @@
                         <div class="main-popup__form-col main-popup__form-col--lg">
                             <div class="main-input main-input--aqua">
                                 <label>
-                                    <textarea class="js-form-input"></textarea>
+                                    <textarea class="js-form-input js-feedback-input" name="msg"></textarea>
                                     <span>Комментарий</span>
                                 </label>
                             </div>
                         </div>
                     </div>
                     <?php if( $site_forms_agree ): ?>
-                        <div class="main-popup__form-agree"><?= $site_forms_agree; ?></div>
+                        <div class="main-popup__form-agree ajax-wrap__item"><?= $site_forms_agree; ?></div>
                     <?php endif; ?>
-                    <div class="main-popup__form-btn">
+                    <div class="main-popup__form-btn ajax-wrap__item">
                         <button class="btn btn-white" type="submit">Отправить</button>
                     </div>
+                    <input type="hidden" name="form_name" value="Заявка на демо-версию SpaceVM">
+                    <input type="hidden" name="to" value="<?= $site_feedback_main_email; ?>">
                 </form>
             </div>
         </div>
     </div>
+
     <div class="main-popup" id="buy-vm">
         <button class="main-popup__close" type="button" data-fancybox-close>
             <img src="<?= get_template_directory_uri(); ?>/assets/img/close-icon.svg" alt="Close">
@@ -220,17 +227,17 @@
             <div class="main-popup__left">
                 <div class="main-popup__img">
                     <img src="<?= get_template_directory_uri(); ?>/assets/img/main-popup-img-1.png" alt="SpaceVM">
-                    <div class="main-popup__sub">Заявка <br>на покупку <br>Space VM</div>
+                    <div class="main-popup__sub">Заявка <br>на покупку <br>SpaceVM</div>
                 </div>
             </div>
             <div class="main-popup__right">
-                <form class="main-popup__form main-popup__form--aqua">
+                <form class="main-popup__form main-popup__form--aqua ajax-wrap js-form">
                     <div class="main-popup__form-title">Заполните информацию ниже и&nbsp;мы свяжемся с&nbsp;вами</div>
-                    <div class="main-popup__form-list">
+                    <div class="main-popup__form-list ajax-wrap__item">
                         <?php if( $form_partner_options ): ?>
                             <div class="main-popup__form-col main-popup__form-col--lg">
                                 <div class="main-select main-select--aqua">
-                                    <select class="js-select"><?= $form_partner_options; ?></select>
+                                    <select class="js-select js-feedback-input js-partner-select" name="partner"><?= $form_partner_options; ?></select>
                                     <span class="js-select-toggle">Выберите партнера</span>
                                 </div>
                             </div>
@@ -238,7 +245,7 @@
                         <div class="main-popup__form-col">
                             <div class="main-input main-input--aqua">
                                 <label>
-                                    <input class="js-form-input" type="text">
+                                    <input class="js-form-input js-feedback-input" type="text" name="name">
                                     <span>Имя и фамилия</span>
                                 </label>
                             </div>
@@ -246,7 +253,7 @@
                         <div class="main-popup__form-col">
                             <div class="main-input main-input--aqua">
                                 <label>
-                                    <input class="js-form-input" type="text">
+                                    <input class="js-form-input js-feedback-input" type="text" name="company">
                                     <span>Организация</span>
                                 </label>
                             </div>
@@ -254,7 +261,7 @@
                         <div class="main-popup__form-col">
                             <div class="main-input main-input--aqua">
                                 <label>
-                                    <input class="js-form-input js-tel-input" type="text">
+                                    <input class="js-form-input js-tel-input js-feedback-input" type="text" name="phone">
                                     <span>Номер телефона</span>
                                 </label>
                             </div>
@@ -262,7 +269,7 @@
                         <div class="main-popup__form-col">
                             <div class="main-input main-input--aqua">
                                 <label>
-                                    <input class="js-form-input" type="text">
+                                    <input class="js-form-input js-feedback-input" type="text" name="email">
                                     <span>E-mail</span>
                                 </label>
                             </div>
@@ -270,22 +277,25 @@
                         <div class="main-popup__form-col main-popup__form-col--lg">
                             <div class="main-input main-input--aqua">
                                 <label>
-                                    <textarea class="js-form-input"></textarea>
+                                    <textarea class="js-form-input js-feedback-input" name="msg"></textarea>
                                     <span>Комментарий</span>
                                 </label>
                             </div>
                         </div>
                     </div>
                     <?php if( $site_forms_agree ): ?>
-                        <div class="main-popup__form-agree"><?= $site_forms_agree; ?></div>
+                        <div class="main-popup__form-agree ajax-wrap__item"><?= $site_forms_agree; ?></div>
                     <?php endif; ?>
-                    <div class="main-popup__form-btn">
+                    <div class="main-popup__form-btn ajax-wrap__item">
                         <button class="btn btn-white" type="submit">Отправить</button>
                     </div>
+                    <input type="hidden" name="form_name" value="Заявка на покупку SpaceVM">
+                    <input type="hidden" name="to" value="<?= $site_feedback_main_email; ?>">
                 </form>
             </div>
         </div>
     </div>
+
     <div class="main-popup" id="demo-vdi">
         <button class="main-popup__close" type="button" data-fancybox-close>
             <img src="<?= get_template_directory_uri(); ?>/assets/img/close-icon.svg" alt="Close">
@@ -298,13 +308,13 @@
                 </div>
             </div>
             <div class="main-popup__right">
-                <form class="main-popup__form">
+                <form class="main-popup__form ajax-wrap js-form">
                     <div class="main-popup__form-title">Заполните информацию ниже и&nbsp;мы свяжемся с&nbsp;вами</div>
-                    <div class="main-popup__form-list">
+                    <div class="main-popup__form-list ajax-wrap__item">
                         <?php if( $form_partner_options ): ?>
                             <div class="main-popup__form-col main-popup__form-col--lg">
                                 <div class="main-select">
-                                    <select class="js-select"><?= $form_partner_options; ?></select>
+                                    <select class="js-select js-feedback-input js-partner-select" name="partner"><?= $form_partner_options; ?></select>
                                     <span class="js-select-toggle">Выберите партнера</span>
                                 </div>
                             </div>
@@ -312,7 +322,7 @@
                         <div class="main-popup__form-col">
                             <div class="main-input">
                                 <label>
-                                    <input class="js-form-input" type="text">
+                                    <input class="js-form-input js-feedback-input" type="text" name="name">
                                     <span>Имя и фамилия</span>
                                 </label>
                             </div>
@@ -320,7 +330,7 @@
                         <div class="main-popup__form-col">
                             <div class="main-input">
                                 <label>
-                                    <input class="js-form-input" type="text">
+                                    <input class="js-form-input js-feedback-input" type="text" name="company">
                                     <span>Организация</span>
                                 </label>
                             </div>
@@ -328,7 +338,7 @@
                         <div class="main-popup__form-col">
                             <div class="main-input">
                                 <label>
-                                    <input class="js-form-input js-tel-input" type="text">
+                                    <input class="js-form-input js-tel-input js-feedback-input" type="text" name="phone">
                                     <span>Номер телефона</span>
                                 </label>
                             </div>
@@ -336,7 +346,7 @@
                         <div class="main-popup__form-col">
                             <div class="main-input">
                                 <label>
-                                    <input class="js-form-input" type="text">
+                                    <input class="js-form-input js-feedback-input" type="text" name="email">
                                     <span>E-mail</span>
                                 </label>
                             </div>
@@ -344,22 +354,25 @@
                         <div class="main-popup__form-col main-popup__form-col--lg">
                             <div class="main-input">
                                 <label>
-                                    <textarea class="js-form-input"></textarea>
+                                    <textarea class="js-form-input js-feedback-input" name="msg"></textarea>
                                     <span>Комментарий</span>
                                 </label>
                             </div>
                         </div>
                     </div>
                     <?php if( $site_forms_agree ): ?>
-                        <div class="main-popup__form-agree"><?= $site_forms_agree; ?></div>
+                        <div class="main-popup__form-agree ajax-wrap__item"><?= $site_forms_agree; ?></div>
                     <?php endif; ?>
-                    <div class="main-popup__form-btn">
+                    <div class="main-popup__form-btn ajax-wrap__item">
                         <button class="btn btn-white" type="submit">Отправить</button>
                     </div>
+                    <input type="hidden" name="form_name" value="Заявка на демо-версию Space VDI">
+                    <input type="hidden" name="to" value="<?= $site_feedback_main_email; ?>">
                 </form>
             </div>
         </div>
     </div>
+
     <div class="main-popup" id="buy-vdi">
         <button class="main-popup__close" type="button" data-fancybox-close>
             <img src="<?= get_template_directory_uri(); ?>/assets/img/close-icon.svg" alt="Close">
@@ -372,13 +385,13 @@
                 </div>
             </div>
             <div class="main-popup__right">
-                <form class="main-popup__form">
+                <form class="main-popup__form ajax-wrap js-form">
                     <div class="main-popup__form-title">Заполните информацию ниже и&nbsp;мы свяжемся с&nbsp;вами</div>
-                    <div class="main-popup__form-list">
+                    <div class="main-popup__form-list ajax-wrap__item">
                         <?php if( $form_partner_options ): ?>
                             <div class="main-popup__form-col main-popup__form-col--lg">
                                 <div class="main-select">
-                                    <select class="js-select"><?= $form_partner_options; ?></select>
+                                    <select class="js-select js-feedback-input js-partner-select" name="partner"><?= $form_partner_options; ?></select>
                                     <span class="js-select-toggle">Выберите партнера</span>
                                 </div>
                             </div>
@@ -386,7 +399,7 @@
                         <div class="main-popup__form-col">
                             <div class="main-input">
                                 <label>
-                                    <input class="js-form-input" type="text">
+                                    <input class="js-form-input js-feedback-input" type="text" name="name">
                                     <span>Имя и фамилия</span>
                                 </label>
                             </div>
@@ -394,7 +407,7 @@
                         <div class="main-popup__form-col">
                             <div class="main-input">
                                 <label>
-                                    <input class="js-form-input" type="text">
+                                    <input class="js-form-input js-feedback-input" type="text" name="company">
                                     <span>Организация</span>
                                 </label>
                             </div>
@@ -402,7 +415,7 @@
                         <div class="main-popup__form-col">
                             <div class="main-input">
                                 <label>
-                                    <input class="js-form-input js-tel-input" type="text">
+                                    <input class="js-form-input js-tel-input js-feedback-input" type="text" name="phone">
                                     <span>Номер телефона</span>
                                 </label>
                             </div>
@@ -410,7 +423,7 @@
                         <div class="main-popup__form-col">
                             <div class="main-input">
                                 <label>
-                                    <input class="js-form-input" type="text">
+                                    <input class="js-form-input js-feedback-input" type="text" name="email">
                                     <span>E-mail</span>
                                 </label>
                             </div>
@@ -418,22 +431,25 @@
                         <div class="main-popup__form-col main-popup__form-col--lg">
                             <div class="main-input">
                                 <label>
-                                    <textarea class="js-form-input"></textarea>
+                                    <textarea class="js-form-input js-feedback-input" name="msg"></textarea>
                                     <span>Комментарий</span>
                                 </label>
                             </div>
                         </div>
                     </div>
                     <?php if( $site_forms_agree ): ?>
-                        <div class="main-popup__form-agree"><?= $site_forms_agree; ?></div>
+                        <div class="main-popup__form-agree ajax-wrap__item"><?= $site_forms_agree; ?></div>
                     <?php endif; ?>
-                    <div class="main-popup__form-btn">
+                    <div class="main-popup__form-btn ajax-wrap__item">
                         <button class="btn btn-white" type="submit">Отправить</button>
                     </div>
+                    <input type="hidden" name="form_name" value="Заявка на покупку Space VDI">
+                    <input type="hidden" name="to" value="<?= $site_feedback_main_email; ?>">
                 </form>
             </div>
         </div>
     </div>
+
     <div class="main-popup" id="partner-popup">
         <button class="main-popup__close" type="button" data-fancybox-close>
             <img src="<?= get_template_directory_uri(); ?>/assets/img/close-icon.svg" alt="Close">
@@ -446,13 +462,13 @@
                 </div>
             </div>
             <div class="main-popup__right">
-                <form class="main-popup__form">
+                <form class="main-popup__form ajax-wrap js-form">
                     <div class="main-popup__form-title">Заполните информацию ниже и&nbsp;мы свяжемся с&nbsp;вами</div>
-                    <div class="main-popup__form-list">
+                    <div class="main-popup__form-list ajax-wrap__item">
                         <div class="main-popup__form-col">
                             <div class="main-input">
                                 <label>
-                                    <input class="js-form-input" type="text">
+                                    <input class="js-form-input js-feedback-input" type="text" name="name">
                                     <span>Имя и фамилия</span>
                                 </label>
                             </div>
@@ -460,7 +476,7 @@
                         <div class="main-popup__form-col">
                             <div class="main-input">
                                 <label>
-                                    <input class="js-form-input" type="text">
+                                    <input class="js-form-input js-feedback-input" type="text" name="company">
                                     <span>Организация</span>
                                 </label>
                             </div>
@@ -468,7 +484,7 @@
                         <div class="main-popup__form-col">
                             <div class="main-input">
                                 <label>
-                                    <input class="js-form-input js-tel-input" type="text">
+                                    <input class="js-form-input js-tel-input js-feedback-input" type="text" name="phone">
                                     <span>Номер телефона</span>
                                 </label>
                             </div>
@@ -476,7 +492,7 @@
                         <div class="main-popup__form-col">
                             <div class="main-input">
                                 <label>
-                                    <input class="js-form-input" type="text">
+                                    <input class="js-form-input js-feedback-input" type="text" name="email">
                                     <span>E-mail</span>
                                 </label>
                             </div>
@@ -484,109 +500,38 @@
                         <div class="main-popup__form-col main-popup__form-col--lg">
                             <div class="main-input">
                                 <label>
-                                    <textarea class="js-form-input"></textarea>
+                                    <textarea class="js-form-input js-feedback-input" name="msg"></textarea>
                                     <span>Комментарий</span>
                                 </label>
                             </div>
                         </div>
                     </div>
                     <?php if( $site_forms_agree ): ?>
-                        <div class="main-popup__form-agree"><?= $site_forms_agree; ?></div>
+                        <div class="main-popup__form-agree ajax-wrap__item"><?= $site_forms_agree; ?></div>
                     <?php endif; ?>
-                    <div class="main-popup__form-btn">
+                    <div class="main-popup__form-btn ajax-wrap__item">
                         <button class="btn btn-white" type="submit">Отправить</button>
                     </div>
+                    <input type="hidden" name="form_name" value="Заявка на партнера">
+                    <input type="hidden" name="to" value="<?= $site_feedback_partner_email; ?>">
                 </form>
             </div>
         </div>
     </div>
-    <div class="main-popup" id="tech-partner-popup">
-        <button class="main-popup__close" type="button" data-fancybox-close>
-            <img src="<?= get_template_directory_uri(); ?>/assets/img/close-icon.svg" alt="Close">
-        </button>
-        <div class="main-popup__wrap">
-            <div class="main-popup__left">
-                <div class="main-popup__img">
-                    <img src="<?= get_template_directory_uri(); ?>/assets/img/main-popup-img-3.png" alt="Space">
-                    <div class="main-popup__sub">Станьте <br>технологическим <br>партнером — <br>Space</div>
-                </div>
-            </div>
-            <div class="main-popup__right">
-                <form class="main-popup__form">
-                    <div class="main-popup__form-title">Заполните информацию ниже и&nbsp;мы свяжемся с&nbsp;вами</div>
-                    <div class="main-popup__form-list">
-                        <div class="main-popup__form-col">
-                            <div class="main-input">
-                                <label>
-                                    <input class="js-form-input" type="text">
-                                    <span>Имя и фамилия</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="main-popup__form-col">
-                            <div class="main-input">
-                                <label>
-                                    <input class="js-form-input" type="text">
-                                    <span>Компания</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="main-popup__form-col">
-                            <div class="main-input">
-                                <label>
-                                    <input class="js-form-input js-tel-input" type="text">
-                                    <span>Номер телефона</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="main-popup__form-col">
-                            <div class="main-input">
-                                <label>
-                                    <input class="js-form-input" type="text">
-                                    <span>E-mail</span>
-                                </label>
-                            </div>
-                        </div>
-                        <?php if( $form_production_options ): ?>
-                            <div class="main-popup__form-col main-popup__form-col--lg">
-                                <div class="main-select">
-                                    <select class="js-select"><?= $form_production_options; ?></select>
-                                    <span class="js-select-toggle">Выпускаемая продукция</span>
-                                </div>
-                            </div>
-                        <?php endif; ?>
-                        <div class="main-popup__form-col main-popup__form-col--lg">
-                            <div class="main-input">
-                                <label>
-                                    <textarea class="js-form-input"></textarea>
-                                    <span>Комментарий</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <?php if( $site_forms_agree ): ?>
-                        <div class="main-popup__form-agree"><?= $site_forms_agree; ?></div>
-                    <?php endif; ?>
-                    <div class="main-popup__form-btn">
-                        <button class="btn btn-white" type="submit">Отправить</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+
     <div class="main-popup main-popup--simple" id="demo-popup">
         <button class="main-popup__close" type="button" data-fancybox-close>
             <img src="<?= get_template_directory_uri(); ?>/assets/img/close-icon.svg" alt="Close">
         </button>
         <div class="main-popup__wrap">
             <div class="main-popup__right">
-                <form class="main-popup__form">
+                <form class="main-popup__form ajax-wrap js-form">
                     <div class="main-popup__form-title">Оставить на&nbsp;сайте <br>заявку&nbsp;на демо-версию</div>
-                    <div class="main-popup__form-list">
+                    <div class="main-popup__form-list ajax-wrap__item">
                         <?php if( $form_product_options ): ?>
                             <div class="main-popup__form-col">
                                 <div class="main-select">
-                                    <select class="js-select"><?= $form_product_options; ?></select>
+                                    <select class="js-select js-feedback-input" name="product"><?= $form_product_options; ?></select>
                                     <span class="js-select-toggle">Выберите продукт</span>
                                 </div>
                             </div>
@@ -594,7 +539,7 @@
                         <?php if( $form_partner_options ): ?>
                             <div class="main-popup__form-col">
                                 <div class="main-select">
-                                    <select class="js-select"><?= $form_partner_options; ?></select>
+                                    <select class="js-select js-feedback-input js-partner-select" name="partner"><?= $form_partner_options; ?></select>
                                     <span class="js-select-toggle">Выберите партнёра</span>
                                 </div>
                             </div>
@@ -602,7 +547,7 @@
                         <div class="main-popup__form-col">
                             <div class="main-input">
                                 <label>
-                                    <input class="js-form-input" type="text">
+                                    <input class="js-form-input js-feedback-input" type="text" name="name">
                                     <span>Имя и фамилия</span>
                                 </label>
                             </div>
@@ -610,7 +555,7 @@
                         <div class="main-popup__form-col">
                             <div class="main-input">
                                 <label>
-                                    <input class="js-form-input" type="text">
+                                    <input class="js-form-input js-feedback-input" type="text" name="company">
                                     <span>Организация</span>
                                 </label>
                             </div>
@@ -618,7 +563,7 @@
                         <div class="main-popup__form-col">
                             <div class="main-input">
                                 <label>
-                                    <input class="js-form-input js-tel-input" type="text">
+                                    <input class="js-form-input js-tel-input js-feedback-input" type="text" name="phone">
                                     <span>Номер телефона</span>
                                 </label>
                             </div>
@@ -626,7 +571,7 @@
                         <div class="main-popup__form-col">
                             <div class="main-input">
                                 <label>
-                                    <input class="js-form-input" type="text">
+                                    <input class="js-form-input js-feedback-input" type="text" name="email">
                                     <span>E-mail</span>
                                 </label>
                             </div>
@@ -634,17 +579,52 @@
                         <div class="main-popup__form-col main-popup__form-col--lg">
                             <div class="main-input">
                                 <label>
-                                    <textarea class="js-form-input"></textarea>
+                                    <textarea class="js-form-input js-feedback-input" name="msg"></textarea>
                                     <span>Комментарий</span>
                                 </label>
                             </div>
                         </div>
                     </div>
                     <?php if( $site_forms_agree ): ?>
-                        <div class="main-popup__form-agree"><?= $site_forms_agree; ?></div>
+                        <div class="main-popup__form-agree ajax-wrap__item"><?= $site_forms_agree; ?></div>
                     <?php endif; ?>
-                    <div class="main-popup__form-btn">
+                    <div class="main-popup__form-btn ajax-wrap__item">
                         <button class="btn btn-white" type="submit">Отправить</button>
+                    </div>
+                    <input type="hidden" name="form_name" value="Заявка на демо-версию">
+                    <input type="hidden" name="to" value="<?= $site_feedback_main_email; ?>">
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-popup main-popup--result" id="feedback-success">
+        <button class="main-popup__close" type="button" data-fancybox-close>
+            <img src="<?= get_template_directory_uri(); ?>/assets/img/close-icon.svg" alt="Close">
+        </button>
+        <div class="main-popup__wrap">
+            <div class="main-popup__right">
+                <form class="main-popup__form">
+                    <div class="main-popup__form-title">Заявка успешно отправлена!</div>
+                    <div class="main-popup__form-desc">Скоро с вами свяжется наш менеджер</div>
+                    <div class="main-popup__form-btn">
+                        <button class="btn btn-white" type="button" data-fancybox-close>Закрыть</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="main-popup main-popup--result" id="feedback-error">
+        <button class="main-popup__close" type="button" data-fancybox-close>
+            <img src="<?= get_template_directory_uri(); ?>/assets/img/close-icon.svg" alt="Close">
+        </button>
+        <div class="main-popup__wrap">
+            <div class="main-popup__right">
+                <form class="main-popup__form">
+                    <div class="main-popup__form-title">Произошла ошибка!</div>
+                    <div class="main-popup__form-desc">При отправке произошла ошибка. <br>Попробуйте обновить страницу и&nbsp;отправить заявку заново</div>
+                    <div class="main-popup__form-btn">
+                        <button class="btn btn-white" type="button" data-fancybox-close>Закрыть</button>
                     </div>
                 </form>
             </div>
