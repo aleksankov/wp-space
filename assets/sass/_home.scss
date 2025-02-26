@@ -1102,7 +1102,11 @@
             justify-content: space-between;
         }
     }
+    &__soc-col{
+        flex: 1;
+    }
     &__soc-item{
+        height: 100%;
         display: block;
         border: 1px solid #D9D7DA;
         border-radius: 24px;

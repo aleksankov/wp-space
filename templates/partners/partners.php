@@ -136,10 +136,11 @@
 <?php endif; ?>
 
 <?php
+    $partners_list_hide = get_field('partners_list_hide');
     $partners_list_title = get_field('partners_list_title');
     $partners_list_items = get_field('partners_list_items');
 
-    if( $partners_list_items ):
+    if( !$partners_list_hide && $partners_list_items ):
 ?>
     <section class="partners-list section">
         <div class="container">

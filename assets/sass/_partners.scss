@@ -5,6 +5,20 @@
             margin-bottom: 32px;
         }
     }
+    &__slider{
+        .swiper-wrapper{
+            @include lg-u {
+                width: auto !important;
+                display: flex !important;
+                align-items: stretch !important;
+                flex-wrap: wrap !important;
+                justify-content: center !important;
+                margin-right: -32px !important;
+                transform: none !important;
+                gap: 32px 0;
+            }
+        }
+    }
     &__slide{
         height: auto;
         @include lg {
