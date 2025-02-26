@@ -285,7 +285,6 @@
                                             <?php endif; ?>
                                             <span><?= $page_submenu_item['label']; ?></span>
                                         </a>
-                                    <?php endif; ?>
                                     <?php elseif( $page_submenu_item['type'] == 'file' && $page_submenu_item['file'] ): ?>
                                         <a href="<?= $page_submenu_item['file']; ?>" target="_blank">
                                             <?php if( $page_submenu_item['icon'] ): ?>
