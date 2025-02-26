@@ -115,8 +115,15 @@
                         [
                             {
                                 "field": "field_67bdd64b0324f",
-                                "operator": "!=",
-                                "value": "dropdown"
+                                "operator": "==",
+                                "value": "url"
+                            }
+                        ],
+                        [
+                            {
+                                "field": "field_67bdd64b0324f",
+                                "operator": "==",
+                                "value": "anchor"
                             }
                         ]
                     ],
@@ -376,5 +383,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1740574859
+    "modified": 1740575070
 }
