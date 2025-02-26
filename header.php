@@ -295,7 +295,7 @@
                                     <?php endif; ?>
                                     <?php if( $page_submenu_item['type'] == 'dropdown' && $page_submenu_item['items'] ): ?>
                                         <div class="header-submenu__dropdown">
-                                            <div class="header-submenu__dropdown-list header-submenu__dropdown-list--lg">
+                                            <div class="header-submenu__dropdown-list<?= $page_submenu_item['is_lg'] ? ' header-submenu__dropdown-list--lg' : ''; ?>">
                                                 <?php foreach( $page_submenu_item['items'] as $page_submenu_li ): ?>
                                                     <div class="header-submenu__dropdown-col">
                                                         <?php if( $page_submenu_li['type'] == 'url' && $page_submenu_li['url'] ): ?>

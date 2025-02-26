@@ -141,6 +141,36 @@
                     "parent_repeater": "field_67bdd066ba8f2"
                 },
                 {
+                    "key": "field_67bf129c1797a",
+                    "label": "Широкий блок",
+                    "name": "is_lg",
+                    "aria-label": "",
+                    "type": "true_false",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": [
+                        [
+                            {
+                                "field": "field_67bdd64b0324f",
+                                "operator": "==",
+                                "value": "dropdown"
+                            }
+                        ]
+                    ],
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "message": "Широкий",
+                    "default_value": 0,
+                    "allow_in_bindings": 0,
+                    "ui": 0,
+                    "ui_on_text": "",
+                    "ui_off_text": "",
+                    "parent_repeater": "field_67bdd066ba8f2"
+                },
+                {
                     "key": "field_67bdd105ba8f5",
                     "label": "Выпадающее меню",
                     "name": "items",
@@ -383,5 +413,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1740575070
+    "modified": 1740575437
 }
