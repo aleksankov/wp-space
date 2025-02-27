@@ -65,7 +65,7 @@
             "name": "site_feedback_partner_email",
             "aria-label": "",
             "type": "text",
-            "instructions": "Используется для надежности",
+            "instructions": "",
             "required": 1,
             "conditional_logic": 0,
             "wrapper": {
@@ -86,7 +86,7 @@
             "name": "site_feedback_tech_partner_email",
             "aria-label": "",
             "type": "text",
-            "instructions": "Используется для надежности",
+            "instructions": "",
             "required": 1,
             "conditional_logic": 0,
             "wrapper": {
@@ -107,7 +107,7 @@
             "name": "site_feedback_hr_email",
             "aria-label": "",
             "type": "text",
-            "instructions": "Используется для надежности",
+            "instructions": "",
             "required": 1,
             "conditional_logic": 0,
             "wrapper": {
@@ -399,5 +399,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1740590790
+    "modified": 1740653742
 }

@@ -8532,9 +8532,9 @@ div.partners-distributors__item-link {
     align-items: stretch !important;
     -ms-flex-wrap: wrap !important;
     flex-wrap: wrap !important;
-    -webkit-box-pack: center !important;
-    -ms-flex-pack: center !important;
-    justify-content: center !important;
+    -webkit-box-pack: start !important;
+    -ms-flex-pack: start !important;
+    justify-content: flex-start !important;
     margin-right: -32px !important;
     -webkit-transform: none !important;
     transform: none !important;
