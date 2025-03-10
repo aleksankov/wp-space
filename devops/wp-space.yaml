@@ -2,11 +2,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: wp-space
+  name: wp-space-server
   namespace: bazalt
 spec:
   selector: 
-    pod-label: wp-space-pod
+    pod-label: wp-space-server-pod
   type: ClusterIP 
   ports:
     - name: http
@@ -19,7 +19,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: wp-space
+  name: wp-space-server
   namespace: bazalt
   labels:
     app: wp-space
@@ -27,14 +27,14 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      pod-label: wp-space-pod
+      pod-label: wp-space-server-pod
   template:
     metadata:
       labels:
-        pod-label: wp-space-pod
+        pod-label: wp-space-server-pod
     spec:
       containers:
-      - name: wp-space-pod
+      - name: wp-space-server-pod
         image: kuber-registry.space.team:5000/wp-space:latest 
         imagePullPolicy: Always
         volumeMounts:
