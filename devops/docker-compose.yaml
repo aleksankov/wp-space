@@ -1,0 +1,24 @@
+services:
+  web: 
+    build:
+      context: ../
+      dockerfile: devops/Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+     - db
+    volumes:
+      - ../volumes/wp-content:/var/www/html/wp-content
+      - ./wp-config.php:/usr/src/wordpress/wp-config.php
+    env_file: 
+      - path: ./compose.env
+        required: true
+  db:
+    image: mariadb:10.5
+    restart: always
+    env_file: 
+      - path: ./compose.env
+        required: true
+    volumes:
+      - ../volumes/space-db.sql:/docker-entrypoint-initdb.d/space-db.sql
+      - ../volumes/db:/var/lib/mysql

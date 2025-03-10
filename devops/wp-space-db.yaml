@@ -1,0 +1,53 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wp-space-db
+  namespace: bazalt
+  labels:
+    app:  wp-space
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      pod-label: wp-space-db-pod
+  template:
+    metadata:
+      labels:
+        pod-label: wp-space-db-pod
+    spec:
+      containers:
+      - name: postgres
+        image: mariadb:10.5
+        volumeMounts:
+          - name: gluster-claim
+            mountPath: /var/lib/mysql
+            subPath: wp-space-db-pod
+        envFrom:
+        - secretRef:
+            name: wp-space-db-secret
+        resources:
+          limits:
+            cpu: "1"
+            memory: "2Gi"
+          requests:
+            memory: "1Gi"
+            cpu: "250m"
+      volumes:
+        - name: gluster-claim
+          persistentVolumeClaim:
+            claimName: gluster-claim
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wp-space-db
+  namespace: bazalt
+  labels:
+    app: wp-space
+spec:
+  selector:
+    pod-label: wp-space-db-pod
+  ports:
+  - protocol: TCP
+    port: 3306
