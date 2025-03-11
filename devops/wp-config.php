@@ -1,5 +1,5 @@
 <?php
-define( 'WP_CACHE', true ); // Added by WP Rocket
+define( 'WP_CACHE', filter_var( getenv('WP_CACHE'), FILTER_VALIDATE_BOOLEAN) ); // Added by WP Rocket
 
 /**
  * The base configuration for WordPress
@@ -50,14 +50,14 @@ define( 'DB_COLLATE', '' );
  *
  * @since 2.6.0
  */
-define( 'AUTH_KEY',         'c%I:kN=ZO?{CB;cBVRWOigix^(tEY}<*hf,*&C+LaMn@Zz!{c_>.^z6|jIK yHpZ' );
-define( 'SECURE_AUTH_KEY',  '+~2GJ8kf%}MEHiFaHa|r>j~XHLr)gz7=p;@im![dhba!uGIbGE5deZ]Ss_5_H?XL' );
-define( 'LOGGED_IN_KEY',    'iJcroFKgPr?5gYvEhr7{T-K8gno#B]rEJ|0]czHUJ:taN77|H/w,F7O_Ha0xS:o*' );
-define( 'NONCE_KEY',        '@<Fu8Su9+JLkel$k_4/o<eUJaG:.9Pd;$cv+3=6}]k#mc*?G%uSJ>?S~~#5slX}y' );
-define( 'AUTH_SALT',        'EW0DMqTk>zHJBuA7RDxee1BB:TAZ$1!sL<Yox#u(CV#:S=(ot=BB2#yY|V4i9JNr' );
-define( 'SECURE_AUTH_SALT', 'RQ]uN~AP<!%hU$C(8>.-mzIR-dggqTkL8_Q;>_m6bt#8eKs+6rm6VqGLR@@hg/Wg' );
-define( 'LOGGED_IN_SALT',   'k1{K>>+`<=8J[`l&bYu(%om0Fw;&a*p<prNHSeDYaXr`D$CYE~>[Go69RMN7ylsX' );
-define( 'NONCE_SALT',       'R8~M nd{&Igj7W@ ]#hpisa!.]So!B@K?% wDNfc@>([o7GmA/]SH6f4lY^`bIGe' );
+define( 'AUTH_KEY',         getenv('WP_AUTH_KEY') );
+define( 'SECURE_AUTH_KEY',  getenv('WP_SECURE_AUTH_KEY') );
+define( 'LOGGED_IN_KEY',    getenv('WP_LOGGED_IN_KEY') );
+define( 'NONCE_KEY',        getenv('WP_NONCE_KEY') );
+define( 'AUTH_SALT',        getenv('WP_AUTH_SALT') );
+define( 'SECURE_AUTH_SALT', getenv('WP_SECURE_AUTH_SALT') );
+define( 'LOGGED_IN_SALT',   getenv('WP_LOGGED_IN_SALT') );
+define( 'NONCE_SALT',       getenv('WP_NONCE_SALT') );
 
 /**#@-*/
 
@@ -87,11 +87,11 @@ $table_prefix = 'wp_';
  *
  * @link https://developer.wordpress.org/advanced-administration/debug/debug-wordpress/
  */
-define( 'WP_ENVIRONMENT_TYPE', 'development' );
-define( 'WP_DEBUG', true );
-define( 'WP_DEBUG_DISPLAY', false );
-define( 'WP_DEBUG_LOG', true );
-define( 'SCRIPT_DEBUG', true );
+define( 'WP_ENVIRONMENT_TYPE', getenv('WP_ENVIRONMENT_TYPE') );
+define( 'WP_DEBUG', filter_var( getenv('WP_DEBUG'), FILTER_VALIDATE_BOOLEAN) );
+define( 'WP_DEBUG_DISPLAY', filter_var( getenv('WP_DEBUG_DISPLAY'), FILTER_VALIDATE_BOOLEAN) );
+define( 'WP_DEBUG_LOG', filter_var( getenv('WP_DEBUG_LOG'), FILTER_VALIDATE_BOOLEAN) );
+define( 'SCRIPT_DEBUG', filter_var( getenv('WP_SCRIPT_DEBUG'), FILTER_VALIDATE_BOOLEAN) );
 
 /* Add any custom values between this line and the "stop editing" line. */
 
