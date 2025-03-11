@@ -1,0 +1,33 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: wp-space-redis
+  namespace: bazalt
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      pod-label: wp-space-redis-pod
+  template:
+    metadata:
+      labels:
+        pod-label: wp-space-redis-pod
+    spec:
+      containers:
+        - name: wp-space-redis
+          image: redis:7
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: wp-space-redis
+  namespace: bazalt
+  labels:
+    app: nextcloud
+spec:
+  selector:
+    pod-label: wp-space-redis-pod
+  ports:
+    - protocol: TCP
+      port: 6379

@@ -95,6 +95,8 @@ define( 'SCRIPT_DEBUG', filter_var( getenv('WP_SCRIPT_DEBUG'), FILTER_VALIDATE_B
 
 /* Add any custom values between this line and the "stop editing" line. */
 
+define( 'WP_MEMORY_LIMIT',getenv('WP_MEMORY_LIMIT') );
+define( 'WP_MAX_MEMORY_LIMIT',getenv('WP_MAX_MEMORY_LIMIT') );
 
 
 /* That's all, stop editing! Happy publishing. */
@@ -103,6 +105,11 @@ define( 'SCRIPT_DEBUG', filter_var( getenv('WP_SCRIPT_DEBUG'), FILTER_VALIDATE_B
 if ( ! defined( 'ABSPATH' ) ) {
 	define( 'ABSPATH', dirname(__FILE__) . '/' );
 }
+
+/* REdis Settings */
+define ('WP_REDIS_HOST', getenv('WP_REDIS_HOST') );
+define ('WP_REDIS_PORT', getenv("WP_REDIS_PORT") );
+define ('WP_REDIS_PREFIX', getenv("WP_REDIS_PREFIX") );
 
 /** Sets up WordPress vars and included files. */
 require_once ABSPATH . 'wp-settings.php';

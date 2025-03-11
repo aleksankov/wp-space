@@ -49,13 +49,23 @@ spec:
         - name: WP_ENVIRONMENT_TYPE
           value: production
         - name: WP_DEBUG
-          value: 'false'
+          value: 'true'
         - name: WP_DEBUG_DISPLAY
           value: 'false'
         - name: WP_DEBUG_LOG
-          value: 'false'
+          value: 'true'
         - name: WP_SCRIPT_DEBUG
-          value: 'false'
+          value: 'true'
+        - name: WP_REDIS_HOST
+          value: wp-space-redis
+        - name: WP_REDIS_PORT
+          value: '6379'
+        - name: WP_REDIS_PREFIX
+          value: 'wp-space'
+        - name: WP_MEMORY_LIMIT
+          value: '128M'
+        - name: WP_MAX_MEMORY_LIMIT
+          value: '512M'
         envFrom:
         - secretRef:
             name: wp-space-db-secret
@@ -71,10 +81,8 @@ spec:
         startupProbe:
           httpGet:
             port: http
-            path: /about/
+            path: /
             httpHeaders:
-            - name: X-Forwarded-Proto
-              value: https
             - name: X-Forwarded-Host
               value: "192.168.150.197"
             - name: Host
@@ -84,10 +92,8 @@ spec:
         livenessProbe:
           httpGet:
             port: http
-            path: /about/
+            path: /
             httpHeaders:
-            - name: X-Forwarded-Proto
-              value: https
             - name: X-Forwarded-Host
               value: "192.168.150.197"
             - name: Host
