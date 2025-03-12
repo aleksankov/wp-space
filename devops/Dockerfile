@@ -6,13 +6,15 @@ RUN chmod 755 /usr/local/bin/wp
 
 COPY ./ /usr/src/wordpress/wp-content/themes/space
 
-RUN rm -rf /usr/src/wordpress/wp-content/themes/space/docker
+RUN rm -rf /usr/src/wordpress/wp-content/themes/space/devops
 
 RUN chown -R www-data:www-data /usr/src/wordpress/wp-content/themes/space
 
 COPY ./devops/wp-config.php /usr/src/wordpress/wp-config.php
 
 COPY ./devops/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+
+COPY ./devops/wp-space.ini $PHP_INI_DIR/conf.d/
 
 RUN  chmod +x /usr/local/bin/docker-entrypoint.sh
 
