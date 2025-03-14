@@ -7,8 +7,10 @@
     $card_product = get_field('matrix_product');
     $card_product_version = get_field('matrix_product_version');
 
-    if( $card_logo ){
+    if( false && $card_logo ){
         $card_logo_url = wp_get_upload_dir()['baseurl'] . '/vendors_logo/' . $card_logo;
+    }elseif( $card_logo ){
+        $card_logo_url = $card_logo;
     }else{
         $card_logo_url = get_template_directory_uri() . '/assets/img/def-logo.svg';
     }
@@ -128,7 +130,7 @@
                         <select class="js-select js-select-scroll js-matrix-version">
                             <option value="0">&nbsp;</option>
                             <?php $counter = 1; foreach( $versions_arr as $versions_item ): ?>
-                                <option value="<?= $counter; ?>"<?= $card_product_version == $versions_item ? ' selected' : ''; ?>><?= $versions_item; ?></option>
+                                <option value="<?= $counter; ?>"<?= $card_product_version == $versions_item ? ' selected' : ''; ?>><?= $card_product; ?> <?= $versions_item; ?></option>
                             <?php $counter++; endforeach; ?>
                         </select>
                         <span class="js-select-toggle">Версия</span>
