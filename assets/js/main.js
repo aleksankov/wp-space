@@ -545,6 +545,15 @@ $(document).ready(function() {
         }
     })
 
+    //matrix version
+    $(document).on('change', 'select.js-matrix-version', function(){
+        const wrap = $(this).closest('.js-matrix-popup');
+        const lists = wrap.find('.js-matrix-list');
+        const index = $(this).val() - 1;
+
+        lists.removeClass('active').eq(index).addClass('active');
+    })
+
     //matrix filters
     $(document).on('click', '.js-matrix-filter-open', function(){
         menuBtn.addClass('active');
