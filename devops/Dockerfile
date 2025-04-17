@@ -1,20 +1,64 @@
 FROM wordpress:6.7.2-php8.1-apache
 
+RUN docker-php-ext-install opcache
+
+COPY ./devops/opcache.ini $PHP_INI_DIR/conf.d/
+
 ADD https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar /usr/local/bin/wp
 
 RUN chmod 755 /usr/local/bin/wp
 
-COPY ./ /usr/src/wordpress/wp-content/themes/space
+RUN apt update && apt install -y wget zip
 
-RUN rm -rf /usr/src/wordpress/wp-content/themes/space/devops
+USER www-data:www-data
 
-RUN chown -R www-data:www-data /usr/src/wordpress/wp-content/themes/space
+# Delete default plugins
 
-COPY ./devops/wp-config.php /usr/src/wordpress/wp-config.php
+RUN find /usr/src/wordpress/wp-content/plugins/* -type d -prune -exec rm -rf {} \; &&  find /usr/src/wordpress/wp-content/themes/* -type d -prune -exec rm -rf {} \;
 
-COPY ./devops/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+# Install plugins
+
+RUN wget -O /tmp/tmp.zip http://space-harbor.space.team/wordpress-plugins/advanced-custom-fields-pro.zip && cd /usr/src/wordpress/wp-content/plugins/ && unzip /tmp/tmp.zip && rm /tmp/tmp.zip && \
+    wget -O /tmp/tmp.zip http://space-harbor.space.team/wordpress-plugins/akismet.zip && cd /usr/src/wordpress/wp-content/plugins/ && unzip /tmp/tmp.zip && rm /tmp/tmp.zip && \
+    wget -O /tmp/tmp.zip https://downloads.wordpress.org/plugin/cyr2lat.6.3.0.zip && cd /usr/src/wordpress/wp-content/plugins/ && unzip /tmp/tmp.zip && rm /tmp/tmp.zip && \
+    wget -O /tmp/tmp.zip https://downloads.wordpress.org/plugin/duplicator.1.5.12.zip && cd /usr/src/wordpress/wp-content/plugins/ && unzip /tmp/tmp.zip && rm /tmp/tmp.zip && \
+    wget -O /tmp/tmp.zip https://downloads.wordpress.org/plugin/duplicate-post.4.5.zip && cd /usr/src/wordpress/wp-content/plugins/ && unzip /tmp/tmp.zip && rm /tmp/tmp.zip && \
+    wget -O /tmp/tmp.zip https://downloads.wordpress.org/plugin/kama-thumbnail.zip && cd /usr/src/wordpress/wp-content/plugins/ && unzip /tmp/tmp.zip && rm /tmp/tmp.zip && \
+    wget -O /tmp/tmp.zip https://downloads.wordpress.org/plugin/query-monitor.3.17.2.zip && cd /usr/src/wordpress/wp-content/plugins/ && unzip /tmp/tmp.zip && rm /tmp/tmp.zip && \
+    wget -O /tmp/tmp.zip https://downloads.wordpress.org/plugin/redirection.5.5.2.zip && cd /usr/src/wordpress/wp-content/plugins/ && unzip /tmp/tmp.zip && rm /tmp/tmp.zip && \
+    wget -O /tmp/tmp.zip https://downloads.wordpress.org/plugin/redis-cache.2.5.4.zip && cd /usr/src/wordpress/wp-content/plugins/ && unzip /tmp/tmp.zip && rm /tmp/tmp.zip && \
+    wget -O /tmp/tmp.zip https://downloads.wordpress.org/plugin/svg-support.2.5.14.zip && cd /usr/src/wordpress/wp-content/plugins/ && unzip /tmp/tmp.zip && rm /tmp/tmp.zip && \
+    wget -O /tmp/tmp.zip http://space-harbor.space.team/wordpress-plugins/vj-wp-import-export.zip && cd /usr/src/wordpress/wp-content/plugins/ && unzip /tmp/tmp.zip && rm /tmp/tmp.zip && \
+    wget -O /tmp/tmp.zip https://downloads.wordpress.org/plugin/wp-mail-smtp.4.4.0.zip && cd /usr/src/wordpress/wp-content/plugins/ && unzip /tmp/tmp.zip && rm /tmp/tmp.zip && \
+    wget -O /tmp/tmp.zip http://space-harbor.space.team/wordpress-plugins/wp-rocket.zip && cd /usr/src/wordpress/wp-content/plugins/ && unzip /tmp/tmp.zip && rm /tmp/tmp.zip && \
+    wget -O /tmp/tmp.zip https://downloads.wordpress.org/plugin/wpforms-lite.1.9.4.2.zip && cd /usr/src/wordpress/wp-content/plugins/ && unzip /tmp/tmp.zip && rm /tmp/tmp.zip && \
+    wget -O /tmp/tmp.zip https://downloads.wordpress.org/plugin/wordpress-seo.24.9.zip && cd /usr/src/wordpress/wp-content/plugins/ && unzip /tmp/tmp.zip && rm /tmp/tmp.zip
+
+# Move to workdir
+
+RUN rm -rf /var/www/html/* && mv /usr/src/wordpress/* /var/www/html && mv /usr/src/wordpress/.htaccess /var/www/html/.htaccess
+
+COPY ./ /var/www/html/wp-content/themes/space
+
+# Add config
+
+COPY ./devops/wp-config.php /var/www/html/wp-config.php
+
+USER root:root
+
+# Fix permissions
+
+RUN chown -R www-data:www-data /var/www/html/ && chmod 755 /var/www/html/
+
+RUN rm -rf /var/www/html/wp-content/themes/space/devops
+
+# Add php config
 
 COPY ./devops/wp-space.ini $PHP_INI_DIR/conf.d/
 
-RUN  chmod +x /usr/local/bin/docker-entrypoint.sh
+# Change entripoint script
+
+COPY ./devops/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 

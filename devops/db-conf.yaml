@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wp-space-db-settings
+  namespace: bazalt
+  labels:
+    app:  wp-space
+data: 
+  60-space.cnf: |
+    [mysqld]
+    innodb_buffer_pool_size = 4G
+    key_buffer_size = 1G
+    max_allowed_packet = 32M
+    innodb_log_file_size = 1G
+    innodb_log_buffer_size = 32M
+    table_cache = 1000
+    query_cache_type = 1
+    query_cache_size = 256M
+    query_cache_limit = 10M
+    thread_cache_size = 128
+    max_connections = 500 
+

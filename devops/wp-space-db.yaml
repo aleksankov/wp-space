@@ -23,20 +23,26 @@ spec:
           - name: gluster-claim
             mountPath: /var/lib/mysql
             subPath: wp-space-db-pod
+          - name: wp-space-db-settings
+            mountPath: /etc/mysql/mariadb.conf.d/60-space.cnf
+            subPath: 60-space.cnf
         envFrom:
         - secretRef:
             name: wp-space-db-secret
         resources:
           limits:
-            cpu: "1"
-            memory: "2Gi"
+            cpu: "4"
+            memory: "8Gi"
           requests:
-            memory: "1Gi"
-            cpu: "250m"
+            memory: "6Gi"
+            cpu: "2"
       volumes:
         - name: gluster-claim
           persistentVolumeClaim:
             claimName: gluster-claim
+        - name: wp-space-db-settings
+          configMap:
+            name: wp-space-db-settings
 ---
 apiVersion: v1
 kind: Service

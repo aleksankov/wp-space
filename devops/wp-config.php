@@ -98,7 +98,10 @@ define( 'SCRIPT_DEBUG', filter_var( getenv('WP_SCRIPT_DEBUG'), FILTER_VALIDATE_B
 define( 'WP_MEMORY_LIMIT',getenv('WP_MEMORY_LIMIT') );
 define( 'WP_MAX_MEMORY_LIMIT',getenv('WP_MAX_MEMORY_LIMIT') );
 
+define( 'AUTOMATIC_UPDATER_DISABLED', true );
+define( 'WP_AUTO_UPDATE_CORE', false );
 
+define( 'WP_ROCKET_CACHE_ROOT_PATH', getenv('WP_ROCKET_CACHE_ROOT_PATH') );
 /* That's all, stop editing! Happy publishing. */
 
 /** Absolute path to the WordPress directory. */

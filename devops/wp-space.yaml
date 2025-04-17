@@ -4,6 +4,8 @@ kind: Service
 metadata:
   name: wp-space-server
   namespace: bazalt
+  labels:
+    app: wp-space
 spec:
   selector: 
     pod-label: wp-space-server-pod
@@ -14,7 +16,7 @@ spec:
       port: 80
       targetPort: http
   externalIPs:
-    - 192.168.150.197
+    - 192.168.68.101
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -39,23 +41,32 @@ spec:
         imagePullPolicy: Always
         volumeMounts:
           - name: gluster-claim
-            mountPath: /var/www/html/wp-content
-            subPath: wp-space
+            mountPath: /var/www/html/wp-content/uploads/
+            subPath: wp-space/uploads
+          - name: gluster-claim
+            mountPath: /var/www/html/wp-content/languages/
+            subPath: wp-space/languages
+          - name: gluster-claim
+            mountPath: /var/www/html/wp-content/wp-rocket-config/
+            subPath: wp-space/wp-rocket-config/
+          - name: wp-space-apache-settings
+            mountPath: /etc/apache2/mods-available/mpm_prefork.conf
+            subPath: mpm_prefork.conf
         env:
         - name: DB_HOST
-          value: wp-space-db
+          value: 'wp-space-db'
         - name: WP_CACHE
           value: 'true'
         - name: WP_ENVIRONMENT_TYPE
           value: production
         - name: WP_DEBUG
-          value: 'true'
+          value: 'false'
         - name: WP_DEBUG_DISPLAY
           value: 'false'
         - name: WP_DEBUG_LOG
-          value: 'true'
+          value: 'false'
         - name: WP_SCRIPT_DEBUG
-          value: 'true'
+          value: 'false'
         - name: WP_REDIS_HOST
           value: wp-space-redis
         - name: WP_REDIS_PORT
@@ -63,9 +74,11 @@ spec:
         - name: WP_REDIS_PREFIX
           value: 'wp-space'
         - name: WP_MEMORY_LIMIT
-          value: '128M'
-        - name: WP_MAX_MEMORY_LIMIT
           value: '512M'
+        - name: WP_MAX_MEMORY_LIMIT
+          value: '1024M'
+        - name: WP_ROCKET_CACHE_ROOT_PATH
+          value:  /var/www/html/wp-content/cache/
         envFrom:
         - secretRef:
             name: wp-space-db-secret
@@ -73,20 +86,20 @@ spec:
             name: wp-space-server-secret
         resources:
           limits:
-            cpu: "4"
-            memory: "8Gi"
-          requests:
-            cpu: "3"
+            cpu: "16"
             memory: "6Gi"
+          requests:
+            cpu: "12"
+            memory: "3Gi"
         startupProbe:
           httpGet:
             port: http
             path: /
             httpHeaders:
             - name: X-Forwarded-Host
-              value: "192.168.150.197"
+              value: "192.168.68.101"
             - name: Host
-              value: "192.168.150.197"
+              value: "192.168.68.101"
           failureThreshold: 30
           periodSeconds: 10
         livenessProbe:
@@ -95,9 +108,9 @@ spec:
             path: /
             httpHeaders:
             - name: X-Forwarded-Host
-              value: "192.168.150.197"
+              value: "192.168.68.101"
             - name: Host
-              value: "192.168.150.197"
+              value: "192.168.68.101"
           initialDelaySeconds: 10
           failureThreshold: 3
           periodSeconds: 10
@@ -105,7 +118,11 @@ spec:
         ports:
           - name: http
             containerPort: 80
+      
       volumes:
         - name: gluster-claim
           persistentVolumeClaim:
             claimName: gluster-claim
+        - name: wp-space-apache-settings
+          configMap:
+            name: wp-space-apache-settings

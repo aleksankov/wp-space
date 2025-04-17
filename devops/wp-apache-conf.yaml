@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wp-space-apache-settings
+  namespace: bazalt
+  labels:
+    app:  wp-space
+data: 
+  mpm_prefork.conf: |
+    # prefork MPM
+    # StartServers: number of server processes to start
+    # MinSpareServers: minimum number of server processes which are kept spare
+    # MaxSpareServers: maximum number of server processes which are kept spare
+    # MaxRequestWorkers: maximum number of server processes allowed to start
+    # MaxConnectionsPerChild: maximum number of requests a server process serves
+
+    StartServers            10
+    MinSpareServers         10
+    MaxSpareServers         20
+    MaxRequestWorkers       300
+    ServerLimit             150
+    MaxConnectionsPerChild  0
