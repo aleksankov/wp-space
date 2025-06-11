@@ -173,3 +173,6 @@ function isAnchorLink($url) {
 
     return false;
 }
+#region Скрыть панель админа
+show_admin_bar(false);
+#endregion

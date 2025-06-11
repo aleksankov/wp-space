@@ -21,10 +21,10 @@
     <div class="h-news-card__tag">
         <span><?= $date; ?></span>
     </div>
-    <?php if( $thumbnail_id ): ?>
-        <div class="h-news-card__img">
-            <img src="<?= $img; ?>" alt="<?= $title; ?>">
-        </div>
-    <?php endif; ?>
+    <?php //if( $thumbnail_id ): ?>
+    <!--    <div class="h-news-card__img">-->
+    <!--        <img src="--><?php //= $img; ?><!--" alt="--><?php //= $title; ?><!--">-->
+    <!--    </div>-->
+    <?php //endif; ?>
     <div class="h-news-card__sub"><?= $title; ?></div>
 </a>

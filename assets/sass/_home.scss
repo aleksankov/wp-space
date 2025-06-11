@@ -1906,8 +1906,9 @@
 .h-news-card{
     display: block;
     position: relative;
-    padding: 7px 144px;
-    padding-left: 0;
+    //padding: 7px 144px;
+    padding: 7px;
+    //padding-left: 0;
     @include hover {
         &:hover{
             .h-news-card__sub{
