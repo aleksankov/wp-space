@@ -24,11 +24,13 @@
         <?php endif; ?>
     </div>
     <div class="h-news-lg-card__content">
-        <div class="h-news-lg-card__tag">
-            <div class="h-news-lg-card__tag-item">
-                <span><?= $date; ?></span>
+        <div class="h-news-lg-card__wrap">
+            <div class="h-news-lg-card__tag">
+                <div class="h-news-lg-card__tag-item">
+                    <span><?= $date; ?></span>
+                </div>
             </div>
+            <div class="h-news-lg-card__sub h5"><?= $title; ?></div>
         </div>
-        <div class="h-news-lg-card__sub h5"><?= $title; ?></div>
     </div>
 </a>

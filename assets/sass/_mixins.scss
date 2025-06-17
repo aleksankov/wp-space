@@ -65,6 +65,12 @@
     }
 }
 
+@mixin aspect-ratio ($width, $height) {
+    height: 0;
+    padding: 0 !important;
+    padding-bottom: calc( ($height / $width) * 100% ) !important;
+}
+
 @function decimal-round ($number, $digits: 0, $mode: round) {
     $n: 1;
     @if type-of($number) != number {

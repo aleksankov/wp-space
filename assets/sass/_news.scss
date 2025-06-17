@@ -138,6 +138,7 @@
         overflow: hidden;
         img{
             width: 100%;
+            transform-origin: top right;
             @include hover {
                 transition: transform .6s;
             }

@@ -4452,19 +4452,15 @@ h6,
 }
 
 .h-news-lg-card {
-  height: 100%;
+  height: 0;
+  padding: 0 !important;
+  padding-bottom: 60.2620087336% !important;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-box-pack: end;
-  -ms-flex-pack: end;
-  justify-content: flex-end;
-  padding: 38px 32px;
+  width: 100%;
   position: relative;
+  overflow: hidden;
   z-index: 1;
 }
 
@@ -4497,6 +4493,27 @@ h6,
   height: 100%;
   -o-object-fit: cover;
   object-fit: cover;
+  -webkit-transform-origin: top right;
+  transform-origin: top right;
+}
+
+.h-news-lg-card__content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  padding: 38px 32px;
 }
 
 .h-news-lg-card__tag {
@@ -4530,8 +4547,18 @@ h6,
 }
 
 .h-news-lg-card__sub {
+  opacity: 0;
   font-weight: 500;
   max-width: 400px;
+}
+
+.h-news-lg-card__wrap {
+  -webkit-transform: translateY(calc(100% - 30px));
+  transform: translateY(calc(100% - 30px));
+  -webkit-transition: -webkit-transform 0.3s;
+  transition: -webkit-transform 0.3s;
+  transition: transform 0.3s;
+  transition: transform 0.3s, -webkit-transform 0.3s;
 }
 
 .h-news-card {
@@ -7255,6 +7282,8 @@ div.partners-distributors__item-link {
 
 .news-card__img img {
   width: 100%;
+  -webkit-transform-origin: top right;
+  transform-origin: top right;
 }
 
 .news-card__info {
@@ -11783,8 +11812,8 @@ div.partners-distributors__item-link {
   }
 
   .h-news-lg-card:hover .h-news-lg-card__img img {
-    -webkit-transform: scale(1.2);
-    transform: scale(1.2);
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
   }
 
   .h-news-lg-card:hover .h-news-lg-card__sub {
@@ -11799,8 +11828,17 @@ div.partners-distributors__item-link {
   }
 
   .h-news-lg-card__sub {
-    -webkit-transition: color 0.25s;
-    transition: color 0.25s;
+    -webkit-transition: color 0.25s, opacity 0.3s;
+    transition: color 0.25s, opacity 0.3s;
+  }
+
+  .h-news-lg-card:hover .h-news-lg-card__wrap {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+
+  .h-news-lg-card:hover .h-news-lg-card__sub {
+    opacity: 1;
   }
 
   .h-news-card:hover .h-news-card__sub {
