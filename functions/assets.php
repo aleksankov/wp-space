@@ -21,6 +21,7 @@ function space_scripts() {
     wp_enqueue_style( 'space-style', get_template_directory_uri() . '/assets/css/style.css', array(), $version);
     wp_enqueue_style( 'themes-style', get_stylesheet_uri(), array(), $version);
     
+    //wp_enqueue_script( 'space-smooth-scroll', get_template_directory_uri() . '/assets/js/smooth-scroll.js', array(), null, false );
     wp_enqueue_script( 'space-aos', get_template_directory_uri() . '/assets/js/aos.js', array(), null, false );
     wp_enqueue_script( 'space-gsap', get_template_directory_uri() . '/assets/js/gsap.min.js', array(), null, true );
     wp_enqueue_script( 'space-scrolltrigger', get_template_directory_uri() . '/assets/js/ScrollTrigger.min.js', array(), null, true );

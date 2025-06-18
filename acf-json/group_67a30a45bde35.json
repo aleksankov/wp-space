@@ -329,6 +329,102 @@
             "mime_types": "",
             "insert": "append",
             "preview_size": "medium"
+        },
+        {
+            "key": "field_685272fc82631",
+            "label": "Шапка",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0,
+            "selected": 0
+        },
+        {
+            "key": "field_6852730682632",
+            "label": "E-Mail",
+            "name": "header_contacts_email",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_6852731c82633",
+            "label": "Телефон",
+            "name": "header_contacts_telephone",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_6852732482634",
+            "label": "Ссылка Telegram",
+            "name": "header_contacts_telegram",
+            "aria-label": "",
+            "type": "url",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "allow_in_bindings": 1,
+            "placeholder": ""
+        },
+        {
+            "key": "field_6852733e82635",
+            "label": "Ссылка Youtube",
+            "name": "header_contacts_youtube",
+            "aria-label": "",
+            "type": "url",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "allow_in_bindings": 1,
+            "placeholder": ""
         }
     ],
     "location": [
@@ -349,5 +445,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1738750653
+    "modified": 1750233960
 }

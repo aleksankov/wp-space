@@ -4,6 +4,12 @@
     global $form_partner_options;
 
     $title = get_field('title');
+    $isProduct = get_field('oc-form-product-field-active');
+    $isPartner = get_field('oc-form-partner-field-active');
+    $isName = get_field('oc-form-name-field-active');
+    $isOrganization = get_field('oc-form-organization-field-active');
+    $isEmail = get_field('oc-form-email-field-active');
+    $isComment = get_field('oc-form-comment-field-active');
 ?>
 
 <section class="product-feedback section">
@@ -12,12 +18,14 @@
             <div class="product-feedback__bg">
                 <img src="<?= get_template_directory_uri(); ?>/assets/img/product-feedback-bg-1.jpg" alt="#">
             </div>
+
             <?php if( $title ): ?>
                 <h2 class="product-feedback__title"><?= $title; ?></h2>
             <?php endif; ?>
+
             <form class="product-feedback__form ajax-wrap js-form">
                 <div class="product-feedback__row ajax-wrap__item">
-                    <?php if( $form_product_options ): ?>
+                    <?php if( $form_product_options && $isProduct ): ?>
                         <div class="product-feedback__col">
                             <div class="main-select main-select--transparent">
                                 <select class="js-select js-feedback-input" name="product"><?= $form_product_options; ?></select>
@@ -25,7 +33,8 @@
                             </div>
                         </div>
                     <?php endif; ?>
-                    <?php if( $form_partner_options ): ?>
+
+                    <?php if( $form_partner_options && $isPartner ): ?>
                         <div class="product-feedback__col">
                             <div class="main-select main-select--transparent">
                                 <select class="js-select js-feedback-input js-partner-select" name="partner"><?= $form_partner_options; ?></select>
@@ -33,22 +42,29 @@
                             </div>
                         </div>
                     <?php endif; ?>
-                    <div class="product-feedback__col">
-                        <div class="main-input">
-                            <label>
-                                <input class="js-form-input js-feedback-input" type="text" name="name">
-                                <span>Имя и фамилия</span>
-                            </label>
+
+                    <?php if ($isName) : ?>
+                        <div class="product-feedback__col">
+                            <div class="main-input">
+                                <label>
+                                    <input class="js-form-input js-feedback-input" type="text" name="name">
+                                    <span>Имя и фамилия</span>
+                                </label>
+                            </div>
                         </div>
-                    </div>
-                    <div class="product-feedback__col">
-                        <div class="main-input main-input--transparent">
-                            <label>
-                                <input class="js-form-input js-feedback-input" type="text" name="company">
-                                <span>Организация</span>
-                            </label>
+                    <?php endif ?>
+
+                    <?php if ($isOrganization) : ?>
+                        <div class="product-feedback__col">
+                            <div class="main-input main-input--transparent">
+                                <label>
+                                    <input class="js-form-input js-feedback-input" type="text" name="company">
+                                    <span>Организация</span>
+                                </label>
+                            </div>
                         </div>
-                    </div>
+                    <?php endif; ?>
+
                     <div class="product-feedback__col">
                         <div class="main-input main-input--transparent">
                             <label>
@@ -57,22 +73,28 @@
                             </label>
                         </div>
                     </div>
-                    <div class="product-feedback__col">
-                        <div class="main-input main-input--transparent">
-                            <label>
-                                <input class="js-form-input js-feedback-input" type="text" name="email">
-                                <span>E-mail</span>
-                            </label>
+
+                    <?php if ($isEmail) : ?>
+                        <div class="product-feedback__col">
+                            <div class="main-input main-input--transparent">
+                                <label>
+                                    <input class="js-form-input js-feedback-input" type="text" name="email">
+                                    <span>E-mail</span>
+                                </label>
+                            </div>
                         </div>
-                    </div>
-                    <div class="product-feedback__col product-feedback__col--lg">
-                        <div class="main-input main-input--transparent">
-                            <label>
-                                <textarea class="js-form-input js-feedback-input" name="msg"></textarea>
-                                <span>Комментарий</span>
-                            </label>
+                    <?php endif; ?>
+
+                    <?php if ($isComment) : ?>
+                        <div class="product-feedback__col product-feedback__col--lg">
+                            <div class="main-input main-input--transparent">
+                                <label>
+                                    <textarea class="js-form-input js-feedback-input" name="msg"></textarea>
+                                    <span>Комментарий</span>
+                                </label>
+                            </div>
                         </div>
-                    </div>
+                    <?php endif; ?>
                 </div>
                 <div class="product-feedback__bottom ajax-wrap__item">
                     <div class="product-feedback__agree">* Отправляя заявку, вы соглашаетесь с условиями <br><a href="privacy-policy.html" target="_blank">политики обработки персональных данных</a></div>

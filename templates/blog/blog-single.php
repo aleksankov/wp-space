@@ -46,12 +46,15 @@
                         <img src="<?= $img; ?>" alt="<?= $title; ?>">
                     </div>
                 <?php endif; ?>
-                <div class="article__share">
-                    <button class="share-btn" type="button">
-                        <span>Поделиться</span>
-                        <img src="<?= get_template_directory_uri(); ?>/assets/img/share-icon.svg" alt="Share">
-                    </button>
-                </div>
+
+                <?php if (false) : ?>
+                    <div class="article__share">
+                        <button class="share-btn" type="button">
+                            <span>Поделиться</span>
+                            <img src="<?= get_template_directory_uri(); ?>/assets/img/share-icon.svg" alt="Share">
+                        </button>
+                    </div>
+                <?php endif; ?>
             </div>
             <?php if( $content ): ?>
                 <div class="article__content main-text"><?= $content; ?></div>

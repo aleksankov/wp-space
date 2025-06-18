@@ -195,7 +195,7 @@ select{
     opacity: 0;
 }
 .section{
-    padding-top: 200px;
+    padding-top: 108px;
     @include lg {
         padding-top: 112px;
     }
@@ -1680,6 +1680,10 @@ h6, .h6{
             }
         }
     }
+    & > .dots {
+        color: #665F6D;
+        background-color: #F7F7F8;
+    }
     & > i{
         &:not(.main-pagination__btn){
             color: #665F6D;
@@ -1687,7 +1691,7 @@ h6, .h6{
         }
     }
     & > span{
-        &:not(.main-pagination__btn){
+        &:not(.main-pagination__btn):not(.dots) {
             background-color: $violet;
             color: $white;
         }

@@ -3,6 +3,8 @@
 
     $taxonomy = 'blog_category';
     $is_tax = is_tax();
+    $post_found_count = 15;
+    $paged = get_query_var('paged', 1);
 
     $terms = get_terms( array(
         'taxonomy' => $taxonomy,
@@ -23,7 +25,8 @@
     $args = array(
         'post_type' => 'blog',
         'post_status' => 'publish',
-        'posts_per_page' => -1
+        'posts_per_page' => $post_found_count,
+        'paged' => $paged
     );
 
     switch ($sort) {
@@ -56,7 +59,19 @@
 
     $query = new WP_Query( $args );
 
+    // Статистика
+    $from = 1;
+    $to = $post_found_count;
     $post_found = $query->found_posts;
+
+    if ($paged > 1) {
+        $from = ($paged * $post_found_count) - $post_found_count + 1;
+        $to = $paged * $post_found_count;
+    }
+
+    if ($to > $post_found) {
+        $to = $post_found;
+    }
 ?>
 
 <section class="news">
@@ -80,14 +95,12 @@
             <div class="news__right" data-aos="fade-up" data-aos-delay="600">
                 <?php if( $post_found ): ?>
                     <?php
-                        $post_found_count = 15;
-                        
                         if( $post_found < $post_found_count){
                             $post_found_count = $post_found;
                         }
                     ?>
                     <div class="news__controls">
-                        <div class="news__count">1-<?= $post_found_count; ?> из <?= $post_found; ?></div>
+                        <div class="news__count"><?= $from ?>-<?= $to; ?> из <?= $post_found; ?></div>
                         <div class="news__sort">
                             <div class="sort-select">
                                 <select class="js-select" onchange="location.href=this.value;">
@@ -105,23 +118,46 @@
                             </div>
                         <?php endwhile; wp_reset_postdata(); ?>
                     </div>
-                    <?php if( false ): ?>
+
+                    <?php if ($query->max_num_pages > 1) : ?>
                         <div class="news__pagination main-pagination">
-                            <span>1</span>
-                            <a href="news.html">2</a>
-                            <a href="news.html">3</a>
-                            <a href="news.html">4</a>
-                            <a href="news.html">5</a>
-                            <a class="main-pagination__btn" href="news.html">Дальше</a>
-                        </div>
-                        <div class="news__pagination main-pagination-mob">
-                            <span>1</span>
-                            <a href="news.html">2</a>
-                            <a href="news.html">3</a>
-                            <a href="news.html">4</a><i>...</i>
-                            <a href="news.html">124</a>
+                            <?php
+                                echo paginate_links( array(
+                                    'base'         => str_replace( 999999999, '%#%', esc_url( get_pagenum_link( 999999999 ) ) ),
+                                    'total'        => $query->max_num_pages,
+                                    'current'      => $paged,
+                                    'format'       => '?paged=%#%',
+                                    'show_all'     => false,
+                                    'type'         => 'plain',
+                                    'end_size'     => 2,
+                                    'mid_size'     => 1,
+                                    'prev_next'    => false,
+                                    'prev_text'    => sprintf( '<i></i> %1$s', __( 'Newer Posts', 'text-domain' ) ),
+                                    'next_text'    => sprintf( '%1$s <i></i>', __( 'Older Posts', 'text-domain' ) ),
+                                    'add_args'     => false,
+                                    'add_fragment' => '',
+                                ) );
+                            ?>
                         </div>
                     <?php endif; ?>
+
+                    <?php //if ( false ) : ?>
+                    <!--    <div class="news__pagination main-pagination">-->
+                    <!--        <span>1</span>-->
+                    <!--        <a href="news.html">2</a>-->
+                    <!--        <a href="news.html">3</a>-->
+                    <!--        <a href="news.html">4</a>-->
+                    <!--        <a href="news.html">5</a>-->
+                    <!--        <a class="main-pagination__btn" href="news.html">Дальше</a>-->
+                    <!--    </div>-->
+                    <!--    <div class="news__pagination main-pagination-mob">-->
+                    <!--        <span>1</span>-->
+                    <!--        <a href="news.html">2</a>-->
+                    <!--        <a href="news.html">3</a>-->
+                    <!--        <a href="news.html">4</a><i>...</i>-->
+                    <!--        <a href="news.html">124</a>-->
+                    <!--    </div>-->
+                    <?php //endif; ?>
                 <?php else: ?>
                     <p>По данному запросу ничего не найдено...</p>
                 <?php endif; ?>

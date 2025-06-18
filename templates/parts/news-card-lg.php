@@ -10,7 +10,8 @@
     
     if( has_post_thumbnail($card_id) ){
         $thumbnail_id = get_post_thumbnail_id($card_id);
-        $img = kama_thumb_src( 'wh=1374:828', $thumbnail_id );
+        //$img = kama_thumb_src( 'wh=1374:828', $thumbnail_id );
+        $img = wp_get_attachment_image_url($thumbnail_id, 'large', false);
     }else{
         $thumbnail_id = false;
     }
