@@ -1087,6 +1087,7 @@ $(document).ready(function() {
 
 window.addEventListener('load', function() {
     AOS.refresh();
+    console.log('aos load refresh')
 })
 
 // Плавный скролл
