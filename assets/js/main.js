@@ -1085,6 +1085,10 @@ $(document).ready(function() {
     })
 })
 
+window.addEventListener('load', function() {
+    AOS.refresh();
+})
+
 // Плавный скролл
 function CustomSmoothScroll(target, speed = 100, smooth = 12) {
     if (target === document)
