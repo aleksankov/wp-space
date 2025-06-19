@@ -1,0 +1,50 @@
+.vdi-components {
+  &__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__title {
+    span {
+      color: #946AD2;
+    }
+  }
+
+  &__content {
+    width: 100%;
+    margin-top: 36px;
+  }
+
+  &__list {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 8px;
+  }
+
+  &__item {
+    width: 100%;
+    min-height: 360px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(275deg, rgba(159, 55, 226, 0.03) 44.51%, rgba(159, 55, 226, 0.16) 164.44%);
+    border-radius: 24px;
+    overflow: hidden;
+  }
+
+  &__header {
+    margin-bottom: 16px;
+  }
+
+  &__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  &__footer {
+    margin-top: auto;
+  }
+}

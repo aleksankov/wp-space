@@ -72,6 +72,8 @@
     if ($to > $post_found) {
         $to = $post_found;
     }
+
+
 ?>
 
 <section class="news">

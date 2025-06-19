@@ -1,0 +1,24 @@
+{
+    "name": "acf/vdi-components",
+    "title": "15. Компоненты VDI",
+    "description": "",
+    "category": "media",
+    "icon": "grid-view",
+    "keywords": ["15", "Компоненты", "VDI"],
+    "acf": {
+        "mode": "preview",
+        "renderTemplate": "template.php",
+        "renderCallback": "block_render"
+    },
+    "example": {
+        "attributes": {
+            "mode": "preview",
+            "data": {
+                "space_field": "value"
+            }
+        }
+    },
+    "supports": {
+        "anchor": false
+    }
+}
