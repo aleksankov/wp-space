@@ -155,7 +155,7 @@ $(document).ready(function() {
     }
 
     AOS.init({
-        offset: "100",
+        offset: 0,
         duration: 650,
         once: false,
         mirror: true
