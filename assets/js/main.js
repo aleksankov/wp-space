@@ -9,6 +9,10 @@ document.addEventListener('DOMContentLoaded', function () {
     //})
 
     new CustomSmoothScroll(document,250,30)
+
+    setInterval(function (  ) {
+        AOS.refresh();
+    }, 1000)
 })
 
 let mm = gsap.matchMedia();
@@ -1083,11 +1087,6 @@ $(document).ready(function() {
             });
         }
     })
-})
-
-window.addEventListener('load', function() {
-    AOS.refresh();
-    console.log('aos load refresh')
 })
 
 // Плавный скролл
