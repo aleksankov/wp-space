@@ -23,11 +23,11 @@
                     </div>
                 </div>
             </div>
-            <div class="product-tech__variations">
+            <div class="product-tech__variations" data-aos="fade-up">
                 <?php $img_counter = 1; $counter = 1; foreach( $sections as $section ): ?>
                     <div class="product-tech__variation js-product-tech-variation"<?= $counter == 1 ? ' style="display: block;"' : ''; ?>>
                         <div class="product-tech__wrap row-lg">
-                            <div class="product-tech__left col-lg" data-aos="fade-up">
+                            <div class="product-tech__left col-lg">
                                 <?php if( $section['title'] ): ?>
                                     <h2 class="product-tech__title"><?= $section['title']; ?></h2>
                                 <?php endif; ?>
@@ -44,7 +44,7 @@
                                 <?php if( $section['banners'] ): ?>
                                     <div class="product-tech__blocks">
                                         <?php $counter = 1; foreach( $section['banners'] as $banner ): ?>
-                                            <div class="product-tech__block" data-aos="fade-up" data-aos-delay="<?= $counter * 200; ?>">
+                                            <div class="product-tech__block">
                                                 <div class="product-t-block product-t-block--<?= $banner['type']; ?>">
                                                     <?php if( $banner['bg'] ): ?>
                                                         <div class="product-t-block__bg">
@@ -71,7 +71,7 @@
                             <div class="product-tech__cards">
                                 <div class="product-tech__card-row">
                                     <?php foreach( $section['cards'] as $cards ): ?>
-                                        <div class="product-tech__cards-col" data-aos="fade-up">
+                                        <div class="product-tech__cards-col">
                                             <div class="product-tech__card">
                                                 <?php if( $cards['icon'] ): ?>
                                                     <div class="product-tech__card-icon">
