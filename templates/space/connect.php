@@ -59,11 +59,19 @@
         $filter_product_version = get_field('matrix_product_version');
         
         if( $filter_product && $filter_product_version ){
+            // Если версия состоит из трех частей, оставляем только первую и вторую
+            $version_parts = explode('.', $filter_product_version);
+
+            if (count($version_parts) > 2) {
+                $filter_product_version = $version_parts[0] . '.' . $version_parts[1] . '.X';
+            }
+
             $filter_products[$filter_product][] = $filter_product_version;
 
             $filter_products[$filter_product] = array_unique($filter_products[$filter_product]);
         }
     }
+
     wp_reset_postdata();
 
     $filter_products_arr = array();
@@ -110,11 +118,21 @@
     }
 
     if( $selected_version ){
-        $args['meta_query'][] = array(
-            'key' => 'matrix_product_version',
-            'value' => $selected_version,
-            'compare' => '='
-        );
+        $parts = explode('.', $selected_version);
+
+        if (isset($parts[2]) && $parts[2] == 'X') {
+            $args['meta_query'][] = array(
+                'key' => 'matrix_product_version',
+                'value' => '^' . $parts[0] . '.' . $parts[1],
+                'compare' => 'REGEXP'
+            );
+        } else {
+            $args['meta_query'][] = array(
+                'key' => 'matrix_product_version',
+                'value' => $selected_version,
+                'compare' => '='
+            );
+        }
     }
 
     $query = new WP_Query( $args );
