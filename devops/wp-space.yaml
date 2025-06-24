@@ -102,6 +102,7 @@ spec:
               value: "192.168.68.101"
           failureThreshold: 30
           periodSeconds: 10
+          timeoutSeconds: 10
         livenessProbe:
           httpGet:
             port: http
