@@ -1,14 +1,14 @@
 gsap.registerPlugin(ScrollTrigger);
 
 document.addEventListener('DOMContentLoaded', function () {
-    //SmoothScroll({
-    //    animationTime    : 3000,
-    //    stepSize         : 50,
-    //    accelerationDelta : 50,
-    //    accelerationMax   : 3,
-    //})
+    SmoothScroll({
+        animationTime    : 1500,
+        stepSize         : 100,
+        accelerationDelta : 50,
+        accelerationMax   : 3,
+    })
 
-    new CustomSmoothScroll(document,250,30)
+    //new CustomSmoothScroll(document,250,30)
 
     setInterval(function (  ) {
         AOS.refresh();
@@ -1090,79 +1090,79 @@ $(document).ready(function() {
 })
 
 // Плавный скролл
-function CustomSmoothScroll(target, speed = 100, smooth = 12) {
-    if (target === document)
-        target = (
-            document.scrollingElement ||
-            document.documentElement ||
-            document.body.parentNode ||
-            document.body
-        );
-
-    let moving = false;
-    let pos = target.scrollTop;
-    const frame = (target === document.body && document.documentElement)
-        ? document.documentElement
-        : target;
-
-    target.addEventListener('mousewheel', scrolled, { passive: false });
-    target.addEventListener('DOMMouseScroll', scrolled, { passive: false });
-
-    // следим за ручным скроллом и синхронизируем, если расхождение большое
-    target.addEventListener('scroll', () => {
-        if (!moving && Math.abs(pos - target.scrollTop) > 2) {
-            pos = target.scrollTop;
-        }
-    });
-
-    function scrolled(e) {
-        e.preventDefault();
-
-        const delta = normalizeWheelDelta(e);
-
-        // только если пользователь прокрутил вручную, а не плавно
-        if (Math.abs(pos - target.scrollTop) > 50) {
-            pos = target.scrollTop;
-        }
-
-        pos += -delta * speed;
-        pos = Math.max(0, Math.min(pos, target.scrollHeight - frame.clientHeight));
-
-        if (!moving) update();
-    }
-
-    function normalizeWheelDelta(e) {
-        if (e.detail) {
-            if (e.wheelDelta)
-                return e.wheelDelta / e.detail / 40 * (e.detail > 0 ? 1 : -1);
-            else
-                return -e.detail / 3;
-        } else {
-            return e.wheelDelta / 120;
-        }
-    }
-
-    function update() {
-        moving = true;
-
-        const delta = (pos - target.scrollTop) / smooth;
-        target.scrollTop += delta;
-
-        if (Math.abs(delta) > 0.5) {
-            requestFrame(update);
-        } else {
-            moving = false;
-        }
-    }
-
-    const requestFrame = (
-        window.requestAnimationFrame ||
-        window.webkitRequestAnimationFrame ||
-        window.mozRequestAnimationFrame ||
-        window.oRequestAnimationFrame ||
-        window.msRequestAnimationFrame ||
-        function (func) {
-            window.setTimeout(func, 1000 / 50);
-        }
-    );
-}
+//function CustomSmoothScroll(target, speed = 100, smooth = 12) {
+//    if (target === document)
+//        target = (
+//            document.scrollingElement ||
+//            document.documentElement ||
+//            document.body.parentNode ||
+//            document.body
+//        );
+//
+//    let moving = false;
+//    let pos = target.scrollTop;
+//    const frame = (target === document.body && document.documentElement)
+//        ? document.documentElement
+//        : target;
+//
+//    target.addEventListener('mousewheel', scrolled, { passive: false });
+//    target.addEventListener('DOMMouseScroll', scrolled, { passive: false });
+//
+//    // следим за ручным скроллом и синхронизируем, если расхождение большое
+//    target.addEventListener('scroll', () => {
+//        if (!moving && Math.abs(pos - target.scrollTop) > 2) {
+//            pos = target.scrollTop;
+//        }
+//    });
+//
+//    function scrolled(e) {
+//        e.preventDefault();
+//
+//        const delta = normalizeWheelDelta(e);
+//
+//        // только если пользователь прокрутил вручную, а не плавно
+//        if (Math.abs(pos - target.scrollTop) > 50) {
+//            pos = target.scrollTop;
+//        }
+//
+//        pos += -delta * speed;
+//        pos = Math.max(0, Math.min(pos, target.scrollHeight - frame.clientHeight));
+//
+//        if (!moving) update();
+//    }
+//
+//    function normalizeWheelDelta(e) {
+//        if (e.detail) {
+//            if (e.wheelDelta)
+//                return e.wheelDelta / e.detail / 40 * (e.detail > 0 ? 1 : -1);
+//            else
+//                return -e.detail / 3;
+//        } else {
+//            return e.wheelDelta / 120;
+//        }
+//    }
+//
+//    function update() {
+//        moving = true;
+//
+//        const delta = (pos - target.scrollTop) / smooth;
+//        target.scrollTop += delta;
+//
+//        if (Math.abs(delta) > 0.5) {
+//            requestFrame(update);
+//        } else {
+//            moving = false;
+//        }
+//    }
+//
+//    const requestFrame = (
+//        window.requestAnimationFrame ||
+//        window.webkitRequestAnimationFrame ||
+//        window.mozRequestAnimationFrame ||
+//        window.oRequestAnimationFrame ||
+//        window.msRequestAnimationFrame ||
+//        function (func) {
+//            window.setTimeout(func, 1000 / 50);
+//        }
+//    );
+//}
