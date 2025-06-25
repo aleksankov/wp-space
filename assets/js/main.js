@@ -3,15 +3,8 @@ gsap.registerPlugin(ScrollTrigger);
 document.addEventListener('DOMContentLoaded', function () {
     SmoothScroll({
         animationTime    : 1500,
-        stepSize         : 200,
-        accelerationDelta : 150,
-        accelerationMax   : 3,
-    })
-
-    console.log({
-        animationTime    : 1500,
-        stepSize         : 200,
-        accelerationDelta : 150,
+        stepSize         : 60,
+        accelerationDelta : 50,
         accelerationMax   : 3,
     })
 
