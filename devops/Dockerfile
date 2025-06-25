@@ -2,8 +2,6 @@ FROM wordpress:6.7.2-php8.1-apache
 
 RUN docker-php-ext-install opcache
 
-COPY ./devops/opcache.ini $PHP_INI_DIR/conf.d/
-
 ADD https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar /usr/local/bin/wp
 
 RUN chmod 755 /usr/local/bin/wp
