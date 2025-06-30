@@ -24,6 +24,7 @@
                 <div class="hero-section__img" data-aos="zoom-in">
                     <div class="hero-section__video">
                         <canvas id="hero-video-canvas"></canvas>
+                        <!--<img src="--><?php //= get_template_directory_uri(); ?><!--/assets/img/hero-video-preview.png" alt="">-->
                     </div>
                 </div>
                 <div class="hero-section__content">

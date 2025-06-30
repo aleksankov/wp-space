@@ -1171,6 +1171,7 @@ class FramePlayer
 {
     constructor(parent, totalFrames, fps)
     {
+        this.previewVideo =
         this.canvas = parent.querySelector('canvas');
         this.ctx = this.canvas.getContext('2d');
         this.canvas.width = this.canvas.offsetWidth;
@@ -1193,8 +1194,17 @@ class FramePlayer
 
     async init()
     {
+        await this.preview()
         await this.preloadFrames();
         this.animate()
+    }
+
+    async preview()
+    {
+        this.preview = this.loadImage(this.pathToImage + '/preview.webp');
+        this.preview.then((img) => {
+            this.drawImageFitTopLeft(img);
+        });
     }
 
 
@@ -1211,6 +1221,15 @@ class FramePlayer
                 };
             });
         }
+    }
+
+    async loadImage(url)
+    {
+        return new Promise((resolve) => {
+            const img = new Image();
+            img.src = url;
+            img.onload = () => resolve(img);
+        });
     }
 
     // Анимация
