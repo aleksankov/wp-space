@@ -1166,3 +1166,70 @@ $(document).ready(function() {
 //        }
 //    );
 //}
+
+class FramePlayer
+{
+    constructor(parent, totalFrames, fps)
+    {
+        this.canvas = parent.querySelector('canvas');
+        this.ctx = this.canvas.getContext('2d');
+        this.canvas.width = this.canvas.offsetWidth;
+        this.canvas.height = this.canvas.offsetHeight;
+
+        this.pathToImage = parent.dataset.path;
+        this.totalFrames = totalFrames; // Подставь своё количество
+        this.fps = fps;
+        this.frames = [];
+        this.currentFrame = 0;
+
+        this.init()
+        window.addEventListener('resize', this.resize.bind(this));
+    }
+
+    resize() {
+        this.canvas.width = this.canvas.offsetWidth;
+        this.canvas.height = this.canvas.offsetHeight;
+    }
+
+    async init()
+    {
+        await this.preloadFrames();
+        this.animate()
+    }
+
+
+    // Загружаем кадры
+    async preloadFrames() {
+        for (let i = 1; i <= this.totalFrames; i++) {
+            const frame = new Image();
+            frame.src = this.pathToImage + `/frame-${String(i).padStart(3, '0')}.webp`;
+
+            await new Promise((resolve) => {
+                frame.onload = () => {
+                    this.frames.push(frame);
+                    resolve();
+                };
+            });
+        }
+    }
+
+    // Анимация
+    animate() {
+        this.drawImageFitTopLeft(this.frames[this.currentFrame]);
+        this.currentFrame = (this.currentFrame + 1) % this.frames.length;
+        setTimeout(() => requestAnimationFrame(this.animate.bind(this)), 1000 / this.fps);
+    }
+
+    drawImageFitTopLeft(img) {
+        const offset = 60;
+
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.drawImage(img, 0, 0, img.width, img.height, -offset, -offset, this.canvas.width + (offset * 2), this.canvas.height + (offset * 2));
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function (  ) {
+    if (document.querySelector('[data-hero-video]')) {
+        new FramePlayer(document.querySelector('[data-hero-video]'), 150, 60)
+    }
+})
