@@ -173,6 +173,19 @@ function isAnchorLink($url) {
 
     return false;
 }
+
+function modifyProductVersion($version)
+{
+    // Если версия состоит из двух частей, дописываем X
+    $version_parts = explode('.', $version);
+
+    if (count($version_parts) == 2) {
+        return $version_parts[0] . '.' . $version_parts[1] . '.X';
+    }
+
+    return $version;
+}
+
 #region Скрыть панель админа
 show_admin_bar(false);
 #endregion

@@ -5,7 +5,7 @@
     $card_type = get_field('matrix_type');
     $card_vendor = get_field('matrix_vendor');
     $card_product = get_field('matrix_product');
-    $card_product_version = get_field('matrix_product_version');
+    $card_product_version = modifyProductVersion(get_field('matrix_product_version'));
 
     if( false && $card_logo ){
         $card_logo_url = wp_get_upload_dir()['baseurl'] . '/vendors_logo/' . $card_logo;
@@ -40,6 +40,8 @@
             $versions_query->the_post();
 
             if( $matrix_product_version = get_field('matrix_product_version') ){
+                $matrix_product_version = modifyProductVersion($matrix_product_version);
+
                 $versions_arr[] = $matrix_product_version;
             }
         }
