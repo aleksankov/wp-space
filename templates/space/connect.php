@@ -59,12 +59,7 @@
         $filter_product_version = get_field('matrix_product_version');
         
         if( $filter_product && $filter_product_version ){
-            // Если версия состоит из двух частей, дописываем X
-            $version_parts = explode('.', $filter_product_version);
-
-            if (count($version_parts) == 2) {
-                $filter_product_version = $version_parts[0] . '.' . $version_parts[1] . '.X';
-            }
+            $filter_product_version = modifyProductVersion($filter_product_version);
 
             $filter_products[$filter_product][] = $filter_product_version;
 

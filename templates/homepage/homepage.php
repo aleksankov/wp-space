@@ -13,14 +13,20 @@
 ?>
     <section class="hero-section">
         <div class="container">
-            <div class="hero-section__wrap">
-                <?php if( $home_hero_video ): ?>
-                    <div class="hero-section__img" data-aos="zoom-in">
-                        <video class="js-autoplay-video" autoplay muted loop playsinline>
-                            <source src="<?= $home_hero_video; ?>" type="video/webm">
-                        </video>
+            <div class="hero-section__wrap" data-hero-video data-path="<?= get_template_directory_uri(); ?>/assets/hero-video-frames">
+                <?php //if( $home_hero_video ): ?>
+                <!--    <div class="hero-section__img" data-aos="zoom-in">-->
+                <!--        <video class="js-autoplay-video" autoplay muted loop playsinline>-->
+                <!--            <source src="--><?php //= $home_hero_video; ?><!--" type="video/mp4">-->
+                <!--        </video>-->
+                <!--    </div>-->
+                <?php //endif; ?>
+                <div class="hero-section__img" data-aos="zoom-in">
+                    <div class="hero-section__video">
+                        <canvas id="hero-video-canvas"></canvas>
+                        <!--<img src="--><?php //= get_template_directory_uri(); ?><!--/assets/img/hero-video-preview.png" alt="">-->
                     </div>
-                <?php endif; ?>
+                </div>
                 <div class="hero-section__content">
                     <div class="hero-section__top" data-aos="fade-up">
                         <h1 class="hero-section__title"><?= $home_hero_title; ?></h1>
