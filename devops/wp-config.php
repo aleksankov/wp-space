@@ -114,5 +114,13 @@ define ('WP_REDIS_HOST', getenv('WP_REDIS_HOST') );
 define ('WP_REDIS_PORT', getenv("WP_REDIS_PORT") );
 define ('WP_REDIS_PREFIX', getenv("WP_REDIS_PREFIX") );
 
+/* Add ssl config */
+define('FORCE_SSL_ADMIN', true);
+if ($_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+    $_SERVER['HTTPS']='on';
+}
+
 /** Sets up WordPress vars and included files. */
 require_once ABSPATH . 'wp-settings.php';
+/** wp option update home https://new.spacevm.ru/ */
+/** wp option update siteurl http://192.168.68.101/ */
