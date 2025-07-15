@@ -58,22 +58,42 @@
 
     if( $versions_arr ){
         foreach( $versions_arr as $versions_item ){
-            $models_args = array(
-                'post_type' => 'matrix',
-                'post_status' => 'publish',
-                'posts_per_page' => -1,
-                'meta_query' => [[
-                    'key' => 'matrix_solution',
-                    'value' => $card_solution,
-                    'compare' => '='
-                ],
-                [
-                    'key' => 'matrix_product_version',
-                    'value' => $versions_item,
-                    'compare' => '='
-                ]]
-            );
-        
+            $parts = explode('.', $versions_item);
+
+            if (isset($parts[2]) && $parts[2] == 'X') {
+                $models_args = array(
+                    'post_type' => 'matrix',
+                    'post_status' => 'publish',
+                    'posts_per_page' => -1,
+                    'meta_query' => [[
+                        'key' => 'matrix_solution',
+                        'value' => $card_solution,
+                        'compare' => '='
+                    ],
+                        [
+                            'key' => 'matrix_product_version',
+                            'value' => '^' . $parts[0] . '.' . $parts[1],
+                            'compare' => 'REGEXP'
+                        ]]
+                );
+            } else {
+                $models_args = array(
+                    'post_type' => 'matrix',
+                    'post_status' => 'publish',
+                    'posts_per_page' => -1,
+                    'meta_query' => [[
+                        'key' => 'matrix_solution',
+                        'value' => $card_solution,
+                        'compare' => '='
+                    ],
+                    [
+                        'key' => 'matrix_product_version',
+                        'value' => $versions_item,
+                        'compare' => '='
+                    ]]
+                );
+            }
+
             $models_query = new WP_Query( $models_args );
         
             if( $models_query->have_posts() ){
