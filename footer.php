@@ -147,12 +147,12 @@
             <img src="<?= get_template_directory_uri(); ?>/assets/img/close-icon.svg" alt="Close">
         </button>
         <div class="main-popup__wrap">
-            <div class="main-popup__left">
-                <div class="main-popup__img">
-                    <img src="<?= get_template_directory_uri(); ?>/assets/img/main-popup-img-1.png" alt="SpaceVM">
-                    <div class="main-popup__sub">Заявка на&nbsp;демоверсию SpaceVM</div>
-                </div>
-            </div>
+            <!-- <div class="main-popup__left"> -->
+                <!-- <div class="main-popup__img"> -->
+                    <!-- <img src="<?= get_template_directory_uri(); ?>/assets/img/main-popup-img-1.png" alt="SpaceVM"> -->
+                    <!-- <div class="main-popup__sub">Заявка на&nbsp;демоверсию SpaceVM</div> -->
+                <!-- </div> -->
+            <!-- </div> -->
             <div class="main-popup__right">
                 <form class="main-popup__form main-popup__form--aqua ajax-wrap js-form">
                     <div class="main-popup__form-title">Заполните информацию ниже и&nbsp;мы свяжемся с&nbsp;вами</div>
@@ -224,12 +224,12 @@
             <img src="<?= get_template_directory_uri(); ?>/assets/img/close-icon.svg" alt="Close">
         </button>
         <div class="main-popup__wrap">
-            // <div class="main-popup__left">
-                // <div class="main-popup__img">
-                    // <img src="<?= get_template_directory_uri(); ?>/assets/img/main-popup-img-1.png" alt="SpaceVM">
-                    // <div class="main-popup__sub">Заявка <br>на покупку <br>SpaceVM</div>
-                // </div>
-            // </div>
+            <!-- <div class="main-popup__left"> -->
+                <!-- <div class="main-popup__img"> -->
+                    <!-- <img src="<?= get_template_directory_uri(); ?>/assets/img/main-popup-img-1.png" alt="SpaceVM"> -->
+                    <!-- <div class="main-popup__sub">Заявка <br>на покупку <br>SpaceVM</div> -->
+                <!-- </div> -->
+            <!-- </div> -->
             <div class="main-popup__right">
                 <form class="main-popup__form main-popup__form--aqua ajax-wrap js-form">
                     <div class="main-popup__form-title">Заполните информацию ниже и&nbsp;мы свяжемся с&nbsp;вами</div>
@@ -378,12 +378,12 @@
             <img src="<?= get_template_directory_uri(); ?>/assets/img/close-icon.svg" alt="Close">
         </button>
         <div class="main-popup__wrap">
-            // <div class="main-popup__left">
-                // <div class="main-popup__img">
-                    // <img src="<?= get_template_directory_uri(); ?>/assets/img/main-popup-img-2.png" alt="SpaceVDI">
-                    // <div class="main-popup__sub">Заявка <br>на покупку <br>Space VDI</div>
-                // </div>
-            // </div>
+            <div class="main-popup__left">
+                <div class="main-popup__img">
+                    <img src="<?= get_template_directory_uri(); ?>/assets/img/main-popup-img-2.png" alt="SpaceVDI">
+                    <div class="main-popup__sub">Заявка <br>на покупку <br>Space VDI</div>
+                </div>
+            </div>
             <div class="main-popup__right">
                 <form class="main-popup__form ajax-wrap js-form">
                     <div class="main-popup__form-title">Заполните информацию ниже и&nbsp;мы свяжемся с&nbsp;вами</div>
