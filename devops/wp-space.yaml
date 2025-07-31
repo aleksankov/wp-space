@@ -52,6 +52,12 @@ spec:
           - name: wp-space-apache-settings
             mountPath: /etc/apache2/mods-available/mpm_prefork.conf
             subPath: mpm_prefork.conf
+          - name: wp-robots-config
+            mountPath: /var/www/html/robots.txt
+            subPath: robots.txt
+          - name: wp-htaccess-config
+            mountPath: /var/www/html/.htaccess
+            subPath: .htaccess
         env:
         - name: DB_HOST
           value: 'wp-space-db'
@@ -117,9 +123,8 @@ spec:
           periodSeconds: 10
           timeoutSeconds: 10
         ports:
-          - name: http
+          - name: http    
             containerPort: 80
-      
       volumes:
         - name: gluster-claim
           persistentVolumeClaim:
@@ -127,3 +132,9 @@ spec:
         - name: wp-space-apache-settings
           configMap:
             name: wp-space-apache-settings
+        - name: wp-robots-config
+          configMap:
+            name: wp-robots-config
+        - name: wp-htaccess-config
+          configMap:
+            name: wp-htaccess-config

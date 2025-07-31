@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wp-robots-config
+  namespace: bazalt
+  labels:
+    app:  wp-space
+data: 
+  robots.txt: |
+    #WP Import Export Rule
+    User-agent: *
+    Disallow: /wp-login
+    Disallow: /wp-admin
+    Disallow: /wp-includes
+    Disallow: /wp-content
+    Disallow: /wp-json
+    Allow: /*.css
+    Allow: /*.js
+    Disallow: /*openstat*
+    Disallow: /*?utm*
+    Disallow: /*&utm*
+    Disallow: /*?from*
+    Disallow: /*&from*
+    Disallow: /*gclid*
+    Disallow: /*yclid*
+    Disallow: /*ymclid*
+    Disallow: /*?tid*
+    Disallow: /*&tid*
+    Disallow: /*.swf
+    Disallow: /*etext*
+                  
+    User-agent: Googlebot
+    Disallow: /wp-login
+    Disallow: /wp-admin
+    Disallow: /wp-includes
+    Disallow: /wp-content
+    Disallow: /wp-json
+    Allow: /*.css
+    Allow: /*.js
+    
+    Sitemap: https://spacevm.ru/sitemap_index.xml
