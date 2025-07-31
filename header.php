@@ -57,9 +57,18 @@
 <html <?php language_attributes(); ?>>
 
 <head>
+	<!-- Google Tag Manager -->
+	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+	'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+	})(window,document,'script','dataLayer','GTM-KCHTT9K7');</script>
+	<!-- End Google Tag Manager -->
     <meta charset="<?php bloginfo('charset'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="yandex-verification" content="b48de33d72252a4a" />
+	<meta name="google-site-verification" content="5AK4SPWcJ-6lGjnU0gOse6pFLM-aaQvQtf3vhzYIW6M" />
 
     <link rel="preload" href="<?= get_template_directory_uri(); ?>/assets/css/fonts/Manrope/manrope-v15-cyrillic_cyrillic-ext_latin_latin-ext-regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
     <link rel="preload" href="<?= get_template_directory_uri(); ?>/assets/css/fonts/Manrope/manrope-v15-cyrillic_cyrillic-ext_latin_latin-ext-500.woff2" as="font" type="font/woff2" crossorigin="anonymous">
@@ -71,6 +80,10 @@
 </head>
 <body <?php body_class(); ?>>
     <?php wp_body_open(); ?>
+	<!-- Google Tag Manager (noscript) -->
+	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KCHTT9K7"
+	height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+	<!-- End Google Tag Manager (noscript) -->
     <header class="header<?= $page_submenu ? ' header--submenu' : ''; ?> compensate-for-scrollbar js-header">
         <div class="header__wrap">
             <div class="container">
