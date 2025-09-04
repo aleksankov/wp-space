@@ -1,6 +1,15 @@
 <?php
     get_header();
 ?>
+<section class="breadcrumbs-wrap">
+    <div class="container">
+        <?php if (function_exists('yoast_breadcrumb')): ?>
+            <div class="breadcrumbs-wrapper">
+                <?php yoast_breadcrumb('<nav class="breadcrumbs">', '</nav>'); ?>
+            </div>
+        <?php endif; ?>
+    </div>
+</section>
 
 <?php
     $education_hero_title = get_field('education_hero_title');
@@ -48,6 +57,10 @@
                                 <div class="partners-distributors__item-sub h4"><?= $education_centers_item['label']; ?></div>
                                 <?php if( $education_centers_item['desc'] ): ?>
                                     <div class="partners-distributors__item-desc"><?= $education_centers_item['desc']; ?></div>
+                                <?php endif; ?>
+
+                                <?php if( $education_centers_item['url'] ): ?>
+                                    <a href="<?= $education_centers_item['url']; ?>" class="partners-distributors__item-url btn">Записаться на курс</a>
                                 <?php endif; ?>
                             </div>
                             <?php if( $education_centers_item['phone'] || $education_centers_item['email'] ): ?>

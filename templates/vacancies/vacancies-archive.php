@@ -39,6 +39,16 @@
     $post_found = $query->found_posts;
 ?>
 
+<section class="breadcrumbs-wrap">
+    <div class="container">
+        <?php if (function_exists('yoast_breadcrumb')): ?>
+            <div class="breadcrumbs-wrapper">
+                <?php yoast_breadcrumb('<nav class="breadcrumbs">', '</nav>'); ?>
+            </div>
+        <?php endif; ?>
+    </div>
+</section>
+
 <section class="vacancies">
     <div class="container">
         <?php if( $query->have_posts() ): ?>

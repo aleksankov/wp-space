@@ -6,14 +6,32 @@ document.addEventListener('DOMContentLoaded', function () {
         stepSize         : 60,
         accelerationDelta : 50,
         accelerationMax   : 3,
-    })
+    });
 
-    //new CustomSmoothScroll(document,250,30)
+    window.addEventListener('resize', debounce(function() {
+        if (typeof AOS !== 'undefined' && AOS.refresh) {
+            AOS.refresh();
+        }
+    }, 250));
 
-    setInterval(function (  ) {
-        AOS.refresh();
-    }, 1000)
-})
+    // Очистка при уходе со страницы
+    window.addEventListener('beforeunload', function() {
+        ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    });
+});
+
+// Функция debounce для оптимизации
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
 
 let mm = gsap.matchMedia();
 
@@ -32,6 +50,18 @@ function getScrollbarWidth() {
     outer.parentNode.removeChild(outer);
 
     return scrollbarWidth;
+}
+
+function toggleErrorLabel(field, isError) {
+    const fieldContainer = field.closest('.main-select, .main-input, .form-input');
+
+    if (isError) {
+        if (!fieldContainer.find('.error-message').length) {
+            fieldContainer.append('<div class="error-message">Обязательно</div>');
+        }
+    } else {
+        fieldContainer.find('.error-message').remove();
+    }
 }
 
 function disableScroll() {
@@ -762,6 +792,7 @@ $(document).ready(function() {
     var homeGallerySlider = new Swiper('.home-gallery__slider', {
         speed: 600,
         slidesPerView: 'auto',
+        lazy: true,
         spaceBetween: 0,
         centeredSlides: true,
         loop: true,
@@ -968,7 +999,7 @@ $(document).ready(function() {
     })
 
     //forms
-    const emailRegEx = /^[\w-\.]+@[\w-]+\.[a-z]{2,8}$/i;
+    const emailRegEx = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,8}$/;
 
     $(document).on('change', 'select.js-partner-select', function(){
         const select = $(this),
@@ -981,6 +1012,7 @@ $(document).ready(function() {
     $(document).on('change input', '.js-feedback-input', function(){
         if($(this).val().trim()){
             $(this).removeClass('error');
+            toggleErrorLabel($(this), false);
         }
     })
 
@@ -999,26 +1031,32 @@ $(document).ready(function() {
 
         if(product.length && product.val() == '0'){
             product.addClass('error');
+            toggleErrorLabel(product, true);
         }
         
         if(partner.length && partner.val() == '0'){
             partner.addClass('error');
+            toggleErrorLabel(partner, true);
         }
 
         if(name.length && !name.val().trim()){
             name.addClass('error');
+            toggleErrorLabel(name, true);
         }
 
         if(phone.length && !phone.inputmask('isComplete')){
             phone.addClass('error');
+            toggleErrorLabel(phone, true);
         }
         
         if(email.length && !emailRegEx.test(email.val())){
             email.addClass('error');
+            toggleErrorLabel(email, true);
         }
 
         if(specialization.length && !specialization.val().trim()){
             specialization.addClass('error');
+            toggleErrorLabel(specialization, true);
         }
 
         if(agree.length && !agree.is(':checked')){
@@ -1047,7 +1085,7 @@ $(document).ready(function() {
                 },
                 success: function(response){
                     form.removeClass('loading');
-                    form.addClass('disabled');
+                    // form.addClass('disabled');
                     form.trigger('reset');
                     form.find('.js-feedback-input').removeClass('not-empty');
                     form.find('select.js-feedback-input').trigger('change');
@@ -1171,17 +1209,18 @@ class FramePlayer
 {
     constructor(parent, totalFrames, fps)
     {
-        this.previewVideo =
         this.canvas = parent.querySelector('canvas');
         this.ctx = this.canvas.getContext('2d');
         this.canvas.width = this.canvas.offsetWidth;
         this.canvas.height = this.canvas.offsetHeight;
 
         this.pathToImage = parent.dataset.path;
-        this.totalFrames = totalFrames; // Подставь своё количество
-        this.fps = fps;
+        this.totalFrames = totalFrames;
+        this.fps = document.hidden ? 30 : fps;
         this.frames = [];
         this.currentFrame = 0;
+        this.loadedFrames = 0;
+        this.isPreviewVisible = true;
 
         this.init()
         window.addEventListener('resize', this.resize.bind(this));
@@ -1190,60 +1229,89 @@ class FramePlayer
     resize() {
         this.canvas.width = this.canvas.offsetWidth;
         this.canvas.height = this.canvas.offsetHeight;
+
+        // Перерисовываем текущий кадр после ресайза
+        if (this.frames[this.currentFrame]) {
+            this.drawImageFitTopLeft(this.frames[this.currentFrame]);
+        }
     }
 
     async init()
     {
-        await this.preview()
-        await this.preloadFrames();
-        this.animate()
+        await this.preview();
+        this.preloadFrames(); // Не ждем завершения, начинаем анимацию сразу
+        this.animate(); // Начинаем анимацию сразу после превью
     }
 
     async preview()
     {
-        this.preview = this.loadImage(this.pathToImage + '/preview.webp');
-        this.preview.then((img) => {
+        try {
+            const img = await this.loadImage(this.pathToImage + '/preview.webp');
             this.drawImageFitTopLeft(img);
-        });
+        } catch (error) {
+            console.warn('Preview image failed to load:', error);
+        }
     }
 
-
-    // Загружаем кадры
+    // Параллельная загрузка кадров
     async preloadFrames() {
-        for (let i = 1; i <= this.totalFrames; i++) {
-            const frame = new Image();
-            frame.src = this.pathToImage + `/frame-${String(i).padStart(3, '0')}.webp`;
+        const loadPromises = [];
 
-            await new Promise((resolve) => {
-                frame.onload = () => {
-                    this.frames.push(frame);
-                    resolve();
-                };
-            });
+        for (let i = 1; i <= this.totalFrames; i++) {
+            const promise = this.loadImage(this.pathToImage + `/frame-${String(i).padStart(3, '0')}.webp`)
+                .then(img => {
+                    this.frames[i-1] = img;
+                    this.loadedFrames++;
+                    return img;
+                })
+                .catch(error => {
+                    console.warn(`Failed to load frame ${i}:`, error);
+                    return null;
+                });
+
+            loadPromises.push(promise);
         }
+
+        // Ждем загрузку всех кадров в фоне
+        await Promise.all(loadPromises);
+        // console.log(`Loaded ${this.loadedFrames}/${this.totalFrames} frames`);
     }
 
     async loadImage(url)
     {
-        return new Promise((resolve) => {
+        return new Promise((resolve, reject) => {
             const img = new Image();
-            img.src = url;
             img.onload = () => resolve(img);
+            img.onerror = reject;
+            img.src = url;
         });
     }
 
-    // Анимация
+    // Анимация с проверкой загрузки
     animate() {
-        this.drawImageFitTopLeft(this.frames[this.currentFrame]);
-        this.currentFrame = (this.currentFrame + 1) % this.frames.length;
-        setTimeout(() => requestAnimationFrame(this.animate.bind(this)), 1000 / this.fps);
+        if (this.frames[this.currentFrame]) {
+            this.drawImageFitTopLeft(this.frames[this.currentFrame]);
+            this.isPreviewVisible = false;
+        }
+
+        this.currentFrame = (this.currentFrame + 1) % this.totalFrames;
+
+        setTimeout(() => {
+            requestAnimationFrame(this.animate.bind(this));
+        }, 1000 / this.fps);
     }
 
     drawImageFitTopLeft(img) {
         const offset = 60;
 
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.ctx.drawImage(img, 0, 0, img.width, img.height, -offset, -offset, this.canvas.width + (offset * 2), this.canvas.height + (offset * 2));
+        this.ctx.drawImage(
+            img,
+            0, 0, img.width, img.height,
+            -offset, -offset,
+            this.canvas.width + (offset * 2),
+            this.canvas.height + (offset * 2)
+        );
     }
 }
 

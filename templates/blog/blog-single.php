@@ -29,6 +29,16 @@
     $content = get_the_content($card_id);
 ?>
 
+    <section class="breadcrumbs-wrap">
+        <div class="container">
+            <?php if (function_exists('yoast_breadcrumb')): ?>
+                <div class="breadcrumbs-wrapper">
+                    <?php yoast_breadcrumb('<nav class="breadcrumbs">', '</nav>'); ?>
+                </div>
+            <?php endif; ?>
+        </div>
+    </section>
+
 <article class="article">
     <div class="container">
         <div class="article__wrap">

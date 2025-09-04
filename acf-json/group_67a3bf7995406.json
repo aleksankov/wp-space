@@ -263,6 +263,28 @@
                     "prepend": "",
                     "append": "",
                     "parent_repeater": "field_67a3e779908cc"
+                },
+                {
+                    "key": "field_68b6f4c560069",
+                    "label": "Ссылка",
+                    "name": "url",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "allow_in_bindings": 0,
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_67a3e779908cc"
                 }
             ]
         },
@@ -568,5 +590,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1738796487
+    "modified": 1756820699
 }

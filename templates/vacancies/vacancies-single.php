@@ -23,6 +23,16 @@
     $vacancy_hh = get_field('vacancy_hh');
 ?>
 
+<section class="breadcrumbs-wrap">
+    <div class="container">
+        <?php if (function_exists('yoast_breadcrumb')): ?>
+            <div class="breadcrumbs-wrapper">
+                <?php yoast_breadcrumb('<nav class="breadcrumbs">', '</nav>'); ?>
+            </div>
+        <?php endif; ?>
+    </div>
+</section>
+
 <section class="vacancy">
     <div class="container">
         <div class="vacancy__back">

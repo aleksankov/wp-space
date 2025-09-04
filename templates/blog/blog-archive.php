@@ -76,6 +76,16 @@
 
 ?>
 
+    <section class="breadcrumbs-wrap">
+        <div class="container">
+            <?php if (function_exists('yoast_breadcrumb')): ?>
+                <div class="breadcrumbs-wrapper">
+                    <?php yoast_breadcrumb('<nav class="breadcrumbs">', '</nav>'); ?>
+                </div>
+            <?php endif; ?>
+        </div>
+    </section>
+
 <section class="news">
     <div class="container">
         <?php if( $cur_term ): ?>
@@ -88,7 +98,11 @@
             <?php if( $terms ): ?>
                 <div class="news__left" data-aos="fade-up" data-aos-delay="400">
                     <div class="news__tabs">
+                        <a href="<?= home_url('/news/'); ?>" class="news__tabs-item<?= !$is_tax ?>">
+                            Новости
+                        </a>
                         <?php foreach( $terms as $term ): ?>
+                            <?php if($term->slug == 'news') continue; ?>
                             <a href="<?= get_term_link( $term->term_id ); ?>" class="news__tabs-item<?= $term->term_id == $cur_term->term_id ? ' active' : ''; ?>"><?= $term->name; ?></a>
                         <?php endforeach; ?>
                     </div>

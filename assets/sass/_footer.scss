@@ -112,6 +112,18 @@
             }
         }
     }
+    &__contacts-link-group {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 16px;
+    }
+    &__contacts-link {
+        opacity: 0.64;
+        &:hover{
+            opacity: 1;
+        }
+    }
     &__bottom{
         @include lg-u {
             margin-top: 32px;

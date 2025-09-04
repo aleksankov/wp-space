@@ -2,6 +2,16 @@
     get_header();
 ?>
 
+    <section class="breadcrumbs-wrap">
+        <div class="container">
+            <?php if (function_exists('yoast_breadcrumb')): ?>
+                <div class="breadcrumbs-wrapper">
+                    <?php yoast_breadcrumb('<nav class="breadcrumbs">', '</nav>'); ?>
+                </div>
+            <?php endif; ?>
+        </div>
+    </section>
+
 <?php
     $about_hero_img = get_field('about_hero_img');
     $about_hero_title = get_field('about_hero_title');
@@ -44,6 +54,78 @@
                             <?php endforeach; ?>
                         </div>
                     <?php endif; ?>
+                </div>
+            </div>
+        </div>
+    </section>
+<?php endif; ?>
+
+<?php
+    $about_achievements_card = get_field('about_achievements_card');
+    //var_dump($about_achievements_card);
+    if( $about_achievements_card ):
+?>
+    <section class="about-achievements" data-aos="fade-up">
+        <div class="container">
+            <div class="about-achievements__wrap">
+                <div class="about-achievements__items">
+                    <?php foreach( $about_achievements_card as $item ): ?>
+                        <div class="about-achievements__item" data-aos="fade-up">
+                            <span class="about-achievements__title h2"><?= $item['about_achievements_title']; ?></span>
+                            <p class="about-achievements__text"><?= $item['about_achievements_text']; ?></p>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </div>
+    </section>
+<?php endif; ?>
+
+<?php
+$about_products_title = get_field('about_products_title');
+$about_products_card = get_field('about_products_card');
+//var_dump($about_products_card);
+if( $about_products_title ):
+    ?>
+    <section class="about-products section" data-aos="fade-up">
+        <div class="container">
+            <div class="about-products__wrap">
+                <h2 class="about-products__main-title h2"><?= $about_products_title ?></h2>
+                <div class="about-products__items">
+                    <?php foreach( $about_products_card as $index => $item ): ?>
+                        <a href="<?= $item['link']; ?>" class="about-products__item" data-aos="fade-up">
+                            <div class="about-products__icon">
+                                <img src="<?= $item['icon']; ?>" alt="Icon-<?= $index ?>">
+                            </div>
+                            <span class="about-products__title h5"><?= $item['title']; ?></span>
+                            <p class="about-products__text"><?= $item['text']; ?></p>
+                        </a>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </div>
+    </section>
+<?php endif; ?>
+
+<?php
+$about_regions_title = get_field('about_regions_title');
+$about_regions_card = get_field('about_regions_cards');
+
+if( $about_regions_title ):
+    ?>
+    <section class="about-regions section" data-aos="fade-up">
+        <div class="container">
+            <div class="about-regions__wrap">
+                <h2 class="about-regions__main-title h2"><?= $about_regions_title ?></h2>
+                <div class="about-regions__items">
+                    <?php foreach( $about_regions_card as $index => $item ): ?>
+                        <div class="about-regions__item" data-aos="fade-up">
+                            <div class="about-regions__image">
+                                <img src="<?= $item['image']; ?>" alt="Icon-<?= $index ?>">
+                            </div>
+                            <span class="about-regions__title h5"><?= $item['name']; ?></span>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </div>
