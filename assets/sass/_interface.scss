@@ -6,6 +6,23 @@ html{
     width: 100%;
     height: 100%;
 }
+
+input {
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus,
+    &:-webkit-autofill:active {
+        -webkit-box-shadow: 0 0 0 30px #9A73D5 inset !important;
+        -webkit-text-fill-color: #fff !important;
+        transition: background-color 5000s ease-in-out 0s;
+    }
+
+    &:-moz-autofill {
+        filter: none;
+        background-color: #9A73D5;
+        color: #fff;
+    }
+}
 html * {max-height: 999999px;}
 body{
     font-family: 'Manrope Space', sans-serif;
@@ -532,6 +549,16 @@ h6, .h6{
         }
     }
 }
+.form-input .error-message{
+    color: #EB5757 !important;
+}
+.error-message {
+    display: block;
+    margin-top: 4px;
+    color: #FFF72F;
+    text-align: left;
+}
+
 .form-input{
     label{
         display: block;

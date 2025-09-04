@@ -2,6 +2,16 @@
     get_header();
 ?>
 
+<section class="breadcrumbs-wrap">
+    <div class="container">
+        <?php if (function_exists('yoast_breadcrumb')): ?>
+            <div class="breadcrumbs-wrapper">
+                <?php yoast_breadcrumb('<nav class="breadcrumbs">', '</nav>'); ?>
+            </div>
+        <?php endif; ?>
+    </div>
+</section>
+
 <?php
     $support_hero_title = get_field('support_hero_title');
     $support_hero_desc = get_field('support_hero_desc');

@@ -22,6 +22,11 @@
     $site_contacts_email = get_field('site_contacts_email', 'option');
     $site_contacts_phone = get_field('site_contacts_phone', 'option');
     $site_contacts_addresses = get_field('site_contacts_addresses', 'option');
+
+    global $site_contacts_email_footer;
+    global $site_contacts_phone_footer;
+    $site_contacts_email_footer = get_field('site_contacts_email_footer', 'option');
+    $site_contacts_phone_footer = get_field('site_contacts_phone_footer', 'option');
     
     $site_header_menu = get_field('site_header_menu', 'option');
     $page_submenu = get_field('page_submenu');
@@ -401,5 +406,6 @@
             </div>
         </div>
     </header>
+
     <div class="body-bg js-body-bg"></div>
     <main class="main<?= !is_front_page() ? ' post' : ''; ?>">

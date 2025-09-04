@@ -38,7 +38,7 @@
                         <div class="product-feedback__col">
                             <div class="main-select main-select--transparent">
                                 <select class="js-select js-feedback-input js-partner-select" name="partner"><?= $form_partner_options; ?></select>
-                                <span class="js-select-toggle">Выберите партнёра</span>
+                                <span class="js-select-toggle">Выберите дистрибьютора</span>
                             </div>
                         </div>
                     <?php endif; ?>
@@ -97,7 +97,7 @@
                     <?php endif; ?>
                 </div>
                 <div class="product-feedback__bottom ajax-wrap__item">
-                    <div class="product-feedback__agree">* Отправляя заявку, вы соглашаетесь с условиями <br><a href="privacy-policy.html" target="_blank">политики обработки персональных данных</a></div>
+                    <div class="product-feedback__agree">* Отправляя заявку, вы соглашаетесь с условиями <br><a href="/privacy-policy" target="_blank">политики обработки персональных данных</a></div>
                     <div class="product-feedback__btn">
                         <button class="btn btn-white" type="submit">Отправить</button>
                     </div>

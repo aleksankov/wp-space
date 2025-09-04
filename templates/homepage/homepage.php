@@ -383,7 +383,7 @@
                                 <div class="demo__form-col">
                                     <div class="main-select">
                                         <select class="js-select js-feedback-input js-partner-select" name="partner"><?= $form_partner_options; ?></select>
-                                        <span class="js-select-toggle">Выберите партнёра</span>
+                                        <span class="js-select-toggle">Выберите дистрибьютора</span>
                                     </div>
                                 </div>
                             <?php endif; ?>

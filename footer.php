@@ -10,6 +10,12 @@
     global $site_soc_rutube;
 
     global $site_contacts_addresses;
+    global $site_contacts_phone;
+    global $site_contacts_email;
+    global $site_contacts_email_footer;
+    global $site_contacts_phone_footer;
+    $site_contacts_email_footer = get_field('site_contacts_email_footer', 'option');
+    $site_contacts_phone_footer = get_field('site_contacts_phone_footer', 'option');
 
     $site_contacts_copy = get_field('site_contacts_copy', 'option');
     $site_contacts_footer_logos = get_field('site_contacts_footer_logos', 'option');
@@ -67,14 +73,19 @@
                             </nav>
                         </div>
                     <?php $counter++; endforeach; endif; ?>
-                    <?php if( $site_contacts_addresses ): ?>
+                    <?php if( $site_contacts_phone_footer || $site_contacts_email_footer): ?>
                         <div class="footer__contacts footer__col col-lg">
                             <div class="footer__contacts-sub">Контакты</div>
-                            <div class="footer__contacts-info">
-                                <?php foreach( $site_contacts_addresses as $site_contacts_address ): ?>
-                                    <p><?= $site_contacts_address['city']; ?>, <?= $site_contacts_address['address']; ?></p>
-                                <?php endforeach; ?>
+                            <div class="footer__contacts-link-group">
+                                <a href="tel:<?= str_replace(array(' ', '-', '(', ')'), '', $site_contacts_phone_footer); ?>" class="footer__contacts-link"><?= $site_contacts_phone_footer; ?></a>
+                                <a href="mailto:<?= $site_contacts_email_footer; ?>" class="footer__contacts-link"><?= $site_contacts_email_footer; ?></a>
                             </div>
+<!--                            <div class="footer__contacts-info">-->
+<!---->
+<!--                                --><?php //foreach( $site_contacts_addresses as $site_contacts_address ): ?>
+<!--                                    <p>--><?php //= $site_contacts_address['city']; ?><!--, --><?php //= $site_contacts_address['address']; ?><!--</p>-->
+<!--                                --><?php //endforeach; ?>
+<!--                            </div>-->
                         </div>
                     <?php endif; ?>
                 </div>
@@ -161,7 +172,7 @@
                             <div class="main-popup__form-col main-popup__form-col--lg">
                                 <div class="main-select main-select--aqua">
                                     <select class="js-select js-feedback-input js-partner-select" name="partner"><?= $form_partner_options; ?></select>
-                                    <span class="js-select-toggle">Выберите партнера</span>
+                                    <span class="js-select-toggle">Выберите дистрибьютора</span>
                                 </div>
                             </div>
                         <?php endif; ?>
@@ -238,7 +249,7 @@
                             <div class="main-popup__form-col main-popup__form-col--lg">
                                 <div class="main-select main-select--aqua">
                                     <select class="js-select js-feedback-input js-partner-select" name="partner"><?= $form_partner_options; ?></select>
-                                    <span class="js-select-toggle">Выберите партнера</span>
+                                    <span class="js-select-toggle">Выберите дистрибьютора</span>
                                 </div>
                             </div>
                         <?php endif; ?>
@@ -315,7 +326,7 @@
                             <div class="main-popup__form-col main-popup__form-col--lg">
                                 <div class="main-select">
                                     <select class="js-select js-feedback-input js-partner-select" name="partner"><?= $form_partner_options; ?></select>
-                                    <span class="js-select-toggle">Выберите партнера</span>
+                                    <span class="js-select-toggle">Выберите дистрибьютора</span>
                                 </div>
                             </div>
                         <?php endif; ?>
@@ -392,7 +403,7 @@
                             <div class="main-popup__form-col main-popup__form-col--lg">
                                 <div class="main-select">
                                     <select class="js-select js-feedback-input js-partner-select" name="partner"><?= $form_partner_options; ?></select>
-                                    <span class="js-select-toggle">Выберите партнера</span>
+                                    <span class="js-select-toggle">Выберите дистрибьютора</span>
                                 </div>
                             </div>
                         <?php endif; ?>
@@ -540,7 +551,7 @@
                             <div class="main-popup__form-col">
                                 <div class="main-select">
                                     <select class="js-select js-feedback-input js-partner-select" name="partner"><?= $form_partner_options; ?></select>
-                                    <span class="js-select-toggle">Выберите партнёра</span>
+                                    <span class="js-select-toggle">Выберите дистрибьютора</span>
                                 </div>
                             </div>
                         <?php endif; ?>
