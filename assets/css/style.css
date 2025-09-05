@@ -7006,6 +7006,62 @@ h6,
   z-index: 3;
 }
 
+.about-clients__items {
+  position: relative;
+  overflow: hidden;
+}
+
+.about-clients__items::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 48px;
+  height: 100%;
+  background: -webkit-gradient(linear, left top, right top, from(white), to(rgba(255, 255, 255, 0)));
+  background: linear-gradient(to right, white 0%, rgba(255, 255, 255, 0) 100%);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.about-clients__items::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 48px;
+  height: 100%;
+  background: -webkit-gradient(linear, right top, left top, from(white), to(rgba(255, 255, 255, 0)));
+  background: linear-gradient(to left, white 0%, rgba(255, 255, 255, 0) 100%);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.about-clients__item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  border-radius: 24px;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  min-height: 140px;
+  border: 1px solid #D9D7DA;
+}
+
+.about-clients__wrap {
+  overflow: hidden !important;
+}
+
+.about-clients__main-title {
+  margin-bottom: 32px;
+}
+
 .partners-distributors__title {
   margin-bottom: 56px;
 }
@@ -11303,6 +11359,10 @@ div.partners-distributors__item-link {
   }
 
   .about-regions__item {
+    padding: 20px;
+  }
+
+  .about-clients__item {
     padding: 20px;
   }
 }

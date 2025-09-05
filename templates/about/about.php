@@ -181,6 +181,32 @@ if( $about_regions_title ):
 <?php endif; ?>
 
 <?php
+$about_clients_title = get_field('about_clients_title');
+$about_clients_logo = get_field('about_clients_logo');
+//var_dump($about_clients_logo);
+if( $about_clients_title ):
+    ?>
+    <section class="about-clients section" data-aos="fade-up">
+        <div class="container">
+            <div class="about_clients__wrap">
+                <h2 class="about-clients__main-title h2"><?= $about_clients_title ?></h2>
+                <div class="about-clients__items about-clients__slider">
+                    <div class="swiper-wrapper">
+                        <?php foreach( $about_clients_logo as $index => $item ): ?>
+                            <div class="about-clients__item swiper-slide" data-aos="fade-up">
+                                <div class="about-clients__image">
+                                    <img src="<?= $item; ?>" alt="Icon-<?= $index ?>">
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+<?php endif; ?>
+
+<?php
     $about_team_title = get_field('about_team_title');
     $about_team_desc = get_field('about_team_desc');
     $about_team_items = get_field('about_team_items');
