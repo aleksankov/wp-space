@@ -188,11 +188,20 @@ $(document).ready(function() {
         AOS.refresh();
     }
 
+    // AOS.init({
+    //     offset: 0,
+    //     duration: 650,
+    //     once: false,
+    //     mirror: true
+    // });
+
     AOS.init({
-        offset: 0,
-        duration: 650,
+        offset: 120,
+        duration: 600,
         once: false,
-        mirror: true
+        mirror: false,
+        debounceDelay: 50,
+        throttleDelay: 99
     });
 
     //svg
@@ -786,6 +795,30 @@ $(document).ready(function() {
                 slidesPerView: 3,
                 spaceBetween: 32
             }
+        }
+    });
+
+    var aboutClientsSlider = new Swiper('.about-clients__slider', {
+        speed: 600,
+        slidesPerView: 3,
+        spaceBetween: 32,
+        loop: true,
+        lazy: true,
+        autoplay: {
+            delay: 2000,
+            speed: 500,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true
+        },
+        breakpoints: {
+            0: {
+                slidesPerView: 1,
+                spaceBetween: 24
+            },
+            992: {
+                slidesPerView: 4,
+                spaceBetween: 16
+            },
         }
     });
 
