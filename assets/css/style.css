@@ -8238,6 +8238,54 @@ div.partners-distributors__item-link {
   color: #999;
 }
 
+.banner-min {
+  padding-top: 108px;
+}
+
+.banner-min__wrapper {
+  padding: 32px 60px;
+  background-position: center;
+  background-size: cover;
+  border-radius: 38px;
+  position: relative;
+}
+
+.banner-min__title {
+  color: #fff;
+  font-size: 36px;
+  font-weight: 700;
+}
+
+.banner-min__text {
+  margin-top: 10px;
+  color: #fff;
+  font-size: 25px;
+  max-width: calc(100% - 204px);
+  line-height: 1.2;
+}
+
+.banner-min__link {
+  position: absolute;
+  top: 50%;
+  right: 60px;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.banner-min__link svg rect,
+.banner-min__link svg path {
+  -webkit-transition: 0.3s linear all;
+  transition: 0.3s linear all;
+}
+
+.banner-min__link:hover svg rect {
+  fill: #946AD2;
+}
+
+.banner-min__link:hover svg path {
+  stroke: #FBFAFD;
+}
+
 @media (min-width: 576px) {
   .h-news-card__img {
     position: absolute;
@@ -11758,6 +11806,33 @@ div.partners-distributors__item-link {
 
   .not-found__wrap {
     max-width: 100%;
+  }
+
+  .banner-min__text {
+    font-size: 16px;
+    max-width: calc(100% - 50px);
+  }
+
+  .banner-min__wrapper {
+    padding: 16px 30px;
+    border-radius: 18px;
+  }
+
+  .banner-min__title {
+    font-size: 24px;
+  }
+
+  .banner-min__link {
+    bottom: 16px;
+    top: auto;
+    -webkit-transform: translateY(0%);
+    transform: translateY(0%);
+    right: 30px;
+  }
+
+  .banner-min__link svg {
+    height: 40px;
+    width: 40px;
   }
 }
 

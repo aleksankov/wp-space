@@ -92,6 +92,7 @@ if( function_exists('acf_add_options_page') ) {
         register_block_type( __DIR__ . '/blocks/centers' );
         register_block_type( __DIR__ . '/blocks/news' );
         register_block_type( __DIR__ . '/blocks/vdi-components' );
+        register_block_type( __DIR__ . '/blocks/banner-min' );
     }
     add_action( 'init', 'space_register_acf_blocks' );
 
@@ -105,8 +106,19 @@ if( function_exists('acf_add_options_page') ) {
             if ( $block ) :
                 $block_folder = mb_substr($block['name'], 3);
                 $block_template = 'functions/blocks' . $block_folder . '/template';
-                get_template_part( $block_template );
+                get_template_part( $block_template, null, [
+                        "block"=>$block
+                ] );
             endif;
         }
     }
+    function get_field_block($field_name, $block = null)
+    {
+        if (isset($block)) {
+            return get_field($field_name, $block['id']);
+        } else {
+            return get_field($field_name, get_queried_object());
+        }
+    }
+
 }
