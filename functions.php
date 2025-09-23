@@ -13,4 +13,5 @@ require __DIR__ . '/functions/register-post-types.php';
 require __DIR__ . '/functions/routes.php';
 require __DIR__ . '/functions/ajax/module.php';
 require __DIR__ . '/functions/acf.php';
+require __DIR__ . '/functions/enhanced/blocks.php';
 

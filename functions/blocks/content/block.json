@@ -1,0 +1,27 @@
+{
+    "name": "acf/content",
+    "title": "Пользовательский контент",
+    "description": "",
+    "category": "text",
+    "icon": "table",
+    "keywords": ["content","контент"],
+    "acf": {
+        "mode": "preview",
+        "renderTemplate": "template.php",
+        "renderCallback": "block_render"
+    },
+    "example": {
+        "attributes": {
+            "mode": "preview",
+            "data": {
+                "space_field": "value"
+            }
+        }
+    },
+
+    "supports": {
+        "anchor": false,
+        "jsx": true
+
+    }
+}

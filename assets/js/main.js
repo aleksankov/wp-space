@@ -63,6 +63,24 @@ function toggleErrorLabel(field, isError) {
         fieldContainer.find('.error-message').remove();
     }
 }
+function toggleErrorLabelVanilaJs(field, isError) {
+    const fieldContainer = field.closest('.main-select, .main-input, .form-input');
+    if (isError) {
+        field.classList.add('error');
+        if (!fieldContainer.querySelector('.error-message')) {
+            const div = document.createElement('div');
+            div.classList.add('error-message');
+            div.textContent = 'Обязательно';
+            fieldContainer.append(div);
+        }
+    } else {
+        field.classList.remove('error')
+        let mess = fieldContainer.querySelector('.error-message')
+        if (mess){
+            fieldContainer.querySelector('.error-message').remove();
+        }
+    }
+}
 
 function disableScroll() {
     var $body = $('body');
@@ -198,7 +216,7 @@ $(document).ready(function() {
     AOS.init({
         offset: 120,
         duration: 600,
-        once: false,
+        once: true,
         mirror: false,
         debounceDelay: 50,
         throttleDelay: 99
@@ -229,7 +247,9 @@ $(document).ready(function() {
     });
 
     //input mask
-    $('.js-tel-input').inputmask({mask: "+7 (999) 999-99-99", showMaskOnHover: false});
+    $('.js-tel-input').inputmask({mask: "+7 (999) 999-99-99", showMaskOnHover: false}).on('change', function(e) {
+        // Ваша логика здесь
+    });;
 
     //form input
     $(document).on('input', '.js-form-input', function () {
@@ -338,6 +358,11 @@ $(document).ready(function() {
     $('.js-select-scroll ul').each(function(){
         $(this).addClass('main-scrollbar js-scrollbar');
     })
+
+
+    
+
+    
 
     //scrollbar
     var scrollbars = [];
@@ -934,6 +959,23 @@ $(document).ready(function() {
             }
         }
     });
+    var videoGideSlider = new Swiper('.video-gide__slider', {
+        speed: 600,
+        slidesPerView: 3,
+        spaceBetween: 32,
+        navigation: {
+            prevEl: '.video-gide__controls .video-gide__prev',
+            nextEl: '.video-gide__controls .video-gide__next',
+        },
+        breakpoints: {
+            0: {
+                spaceBetween: 24
+            },
+            992: {
+                spaceBetween: 32
+            }
+        }
+    });
 
     $(document).on('click', '.js-platform-video-tag', function(){
         if( !$(this).hasClass('active') ){
@@ -1042,7 +1084,7 @@ $(document).ready(function() {
 
         to.val(email);
     })
-    $(document).on('change input', '.js-feedback-input', function(){
+    $(document).on('change input', '.js-feedback-input:not([data-required])', function(){
         if($(this).val().trim()){
             $(this).removeClass('error');
             toggleErrorLabel($(this), false);
@@ -1051,6 +1093,7 @@ $(document).ready(function() {
 
     $(document).on('submit', '.js-form', function(e){
         e.preventDefault();
+
 
         const form = $(this),
             product = form.find('select[name="product"]'),
@@ -1158,6 +1201,91 @@ $(document).ready(function() {
             });
         }
     })
+
+
+
+    const inputsRequired =document.querySelectorAll('[data-required]');
+    inputsRequired.forEach((field)=>{
+        field.addEventListener('change',(e)=>{
+            toggleErrorLabelVanilaJs(field, false);
+        })
+    })
+
+
+
+
+    const customForms =document.querySelectorAll('.js-form-custom');
+    customForms.forEach(form=>{
+        form.addEventListener('submit',async (e) => {
+            e.preventDefault()
+            const fields = form.querySelectorAll('input,textarea,select');
+            let error = false
+            fields.forEach((field) => {
+                if (field.hasAttribute('data-required')) {
+                    switch (field.type) {
+                        case "select":
+                            if (+field.value === 0) {
+                                error = true
+                                toggleErrorLabelVanilaJs(field, true);
+                            }
+                            break;
+                        default:
+                            if (field.value.trim() === '') {
+                                error = true
+                                toggleErrorLabelVanilaJs(field, true);
+                            }
+                            break
+                    }
+                }
+
+            })
+            if (!error){
+                const formData = new FormData(form);
+                formData.append('url', window.location.href);
+                formData.append('action', 'feedback_form_custom');
+                form.classList.add('loading');
+                let response = await fetch( space_obj.ajax_url,{
+                    method:'POST',
+                    body:formData,
+
+                });
+                response = await response.json()
+                form.classList.remove('loading');
+                form.reset();
+                $.fancybox.close();
+                if(response.status){
+                    $.fancybox.open({
+                        src  : '#feedback-success',
+                        type : 'inline',
+                        opts : {
+                            touch: false,
+                            keyboard: false,
+                            afterClose: function(){
+                                $('style:contains(".compensate-for-scrollbar")').remove();
+                            }
+                        }
+                    });
+                }else{
+                    $.fancybox.open({
+                        src  : '#feedback-error',
+                        type : 'inline',
+                        opts : {
+                            touch: false,
+                            keyboard: false,
+                            afterClose: function(){
+                                $('style:contains(".compensate-for-scrollbar")').remove();
+                            }
+                        }
+                    });
+                }
+            }
+
+
+
+        })
+    })
+
+
 })
 
 // Плавный скролл
@@ -1238,118 +1366,118 @@ $(document).ready(function() {
 //    );
 //}
 
-class FramePlayer
-{
-    constructor(parent, totalFrames, fps)
-    {
-        this.canvas = parent.querySelector('canvas');
-        this.ctx = this.canvas.getContext('2d');
-        this.canvas.width = this.canvas.offsetWidth;
-        this.canvas.height = this.canvas.offsetHeight;
-
-        this.pathToImage = parent.dataset.path;
-        this.totalFrames = totalFrames;
-        this.fps = document.hidden ? 30 : fps;
-        this.frames = [];
-        this.currentFrame = 0;
-        this.loadedFrames = 0;
-        this.isPreviewVisible = true;
-
-        this.init()
-        window.addEventListener('resize', this.resize.bind(this));
-    }
-
-    resize() {
-        this.canvas.width = this.canvas.offsetWidth;
-        this.canvas.height = this.canvas.offsetHeight;
-
-        // Перерисовываем текущий кадр после ресайза
-        if (this.frames[this.currentFrame]) {
-            this.drawImageFitTopLeft(this.frames[this.currentFrame]);
-        }
-    }
-
-    async init()
-    {
-        await this.preview();
-        this.preloadFrames(); // Не ждем завершения, начинаем анимацию сразу
-        this.animate(); // Начинаем анимацию сразу после превью
-    }
-
-    async preview()
-    {
-        try {
-            const img = await this.loadImage(this.pathToImage + '/preview.webp');
-            this.drawImageFitTopLeft(img);
-        } catch (error) {
-            console.warn('Preview image failed to load:', error);
-        }
-    }
-
-    // Параллельная загрузка кадров
-    async preloadFrames() {
-        const loadPromises = [];
-
-        for (let i = 1; i <= this.totalFrames; i++) {
-            const promise = this.loadImage(this.pathToImage + `/frame-${String(i).padStart(3, '0')}.webp`)
-                .then(img => {
-                    this.frames[i-1] = img;
-                    this.loadedFrames++;
-                    return img;
-                })
-                .catch(error => {
-                    console.warn(`Failed to load frame ${i}:`, error);
-                    return null;
-                });
-
-            loadPromises.push(promise);
-        }
-
-        // Ждем загрузку всех кадров в фоне
-        await Promise.all(loadPromises);
-        // console.log(`Loaded ${this.loadedFrames}/${this.totalFrames} frames`);
-    }
-
-    async loadImage(url)
-    {
-        return new Promise((resolve, reject) => {
-            const img = new Image();
-            img.onload = () => resolve(img);
-            img.onerror = reject;
-            img.src = url;
-        });
-    }
-
-    // Анимация с проверкой загрузки
-    animate() {
-        if (this.frames[this.currentFrame]) {
-            this.drawImageFitTopLeft(this.frames[this.currentFrame]);
-            this.isPreviewVisible = false;
-        }
-
-        this.currentFrame = (this.currentFrame + 1) % this.totalFrames;
-
-        setTimeout(() => {
-            requestAnimationFrame(this.animate.bind(this));
-        }, 1000 / this.fps);
-    }
-
-    drawImageFitTopLeft(img) {
-        const offset = 60;
-
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.ctx.drawImage(
-            img,
-            0, 0, img.width, img.height,
-            -offset, -offset,
-            this.canvas.width + (offset * 2),
-            this.canvas.height + (offset * 2)
-        );
-    }
-}
-
-document.addEventListener('DOMContentLoaded', function (  ) {
-    if (document.querySelector('[data-hero-video]')) {
-        new FramePlayer(document.querySelector('[data-hero-video]'), 150, 60)
-    }
-})
+// class FramePlayer
+// {
+//     constructor(parent, totalFrames, fps)
+//     {
+//         this.canvas = parent.querySelector('canvas');
+//         this.ctx = this.canvas.getContext('2d');
+//         this.canvas.width = this.canvas.offsetWidth;
+//         this.canvas.height = this.canvas.offsetHeight;
+//
+//         this.pathToImage = parent.dataset.path;
+//         this.totalFrames = totalFrames;
+//         this.fps = document.hidden ? 30 : fps;
+//         this.frames = [];
+//         this.currentFrame = 0;
+//         this.loadedFrames = 0;
+//         this.isPreviewVisible = true;
+//
+//         this.init()
+//         window.addEventListener('resize', this.resize.bind(this));
+//     }
+//
+//     resize() {
+//         this.canvas.width = this.canvas.offsetWidth;
+//         this.canvas.height = this.canvas.offsetHeight;
+//
+//         // Перерисовываем текущий кадр после ресайза
+//         if (this.frames[this.currentFrame]) {
+//             this.drawImageFitTopLeft(this.frames[this.currentFrame]);
+//         }
+//     }
+//
+//     async init()
+//     {
+//         await this.preview();
+//         this.preloadFrames(); // Не ждем завершения, начинаем анимацию сразу
+//         this.animate(); // Начинаем анимацию сразу после превью
+//     }
+//
+//     async preview()
+//     {
+//         try {
+//             const img = await this.loadImage(this.pathToImage + '/preview.webp');
+//             this.drawImageFitTopLeft(img);
+//         } catch (error) {
+//             console.warn('Preview image failed to load:', error);
+//         }
+//     }
+//
+//     // Параллельная загрузка кадров
+//     async preloadFrames() {
+//         const loadPromises = [];
+//
+//         for (let i = 1; i <= this.totalFrames; i++) {
+//             const promise = this.loadImage(this.pathToImage + `/frame-${String(i).padStart(3, '0')}.webp`)
+//                 .then(img => {
+//                     this.frames[i-1] = img;
+//                     this.loadedFrames++;
+//                     return img;
+//                 })
+//                 .catch(error => {
+//                     console.warn(`Failed to load frame ${i}:`, error);
+//                     return null;
+//                 });
+//
+//             loadPromises.push(promise);
+//         }
+//
+//         // Ждем загрузку всех кадров в фоне
+//         await Promise.all(loadPromises);
+//         // console.log(`Loaded ${this.loadedFrames}/${this.totalFrames} frames`);
+//     }
+//
+//     async loadImage(url)
+//     {
+//         return new Promise((resolve, reject) => {
+//             const img = new Image();
+//             img.onload = () => resolve(img);
+//             img.onerror = reject;
+//             img.src = url;
+//         });
+//     }
+//
+//     // Анимация с проверкой загрузки
+//     animate() {
+//         if (this.frames[this.currentFrame]) {
+//             this.drawImageFitTopLeft(this.frames[this.currentFrame]);
+//             this.isPreviewVisible = false;
+//         }
+//
+//         this.currentFrame = (this.currentFrame + 1) % this.totalFrames;
+//
+//         setTimeout(() => {
+//             requestAnimationFrame(this.animate.bind(this));
+//         }, 1000 / this.fps);
+//     }
+//
+//     drawImageFitTopLeft(img) {
+//         const offset = 60;
+//
+//         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+//         this.ctx.drawImage(
+//             img,
+//             0, 0, img.width, img.height,
+//             -offset, -offset,
+//             this.canvas.width + (offset * 2),
+//             this.canvas.height + (offset * 2)
+//         );
+//     }
+// }
+//
+// document.addEventListener('DOMContentLoaded', function (  ) {
+//     if (document.querySelector('[data-hero-video]')) {
+//         new FramePlayer(document.querySelector('[data-hero-video]'), 150, 60)
+//     }
+// })
