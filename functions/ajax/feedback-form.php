@@ -106,7 +106,7 @@ function ajax_feedback_form(){
     $headers = array('Content-Type: text/html; charset=UTF-8', 'From: ' . 'Space' . ' <info@spacevm.ru>');
 
     $message = '<p style="font-size: 22px; text-align: center; padding-bottom: 30px; margin: 0;"><b>Детали заявки:</b></p><table>';
-    
+
     if( $product ){
         $message .= '<tr>
             <td><b>Продукт</b></td>
@@ -226,4 +226,49 @@ function ajax_feedback_form(){
     echo json_encode($result);
 
     die();
+}
+add_action('wp_ajax_nopriv_feedback_form_custom', 'ajax_feedback_form_custom');
+add_action('wp_ajax_feedback_form_custom', 'ajax_feedback_form_custom');
+
+function ajax_feedback_form_custom(){
+    $result = ['status' => false];
+
+    var_dump($_POST['custom_field']);
+    $message = '<p style="font-size: 22px; text-align: center; padding-bottom: 30px; margin: 0;"><b>Детали заявки:</b></p><table>';
+     foreach ($_POST['custom_field'] as $item){
+         $message .= '<tr>
+            <td><b>'.$item['title'].'</b></td>
+            <td>' . $item['value'] . '</td>
+        </tr>';
+     }
+    if( $_POST['form_name'] ){
+        $message .= '<tr>
+            <td><b>Название формы</b></td>
+            <td>' .  $_POST['form_name'] . '</td>
+        </tr>';
+    }
+     if ($_POST['url']){
+         $message .= '<tr>
+            <td><b>Страница отправки</b></td>
+            <td><a href="' . $_POST['url'] . '" target="_blank">' . $_POST['url'] . '</a></td>
+        </tr>';
+     }
+
+    $to = explode(',', $_POST['to']);
+    $to = array_map('trim', $to);
+    $subject =  $_POST['form_name'] . ' с сайта Space';
+    $headers = array('Content-Type: text/html; charset=UTF-8', 'From: ' . 'Space' . ' <info@spacevm.ru>');
+    $mail = wp_mail($to, $subject, $message, $headers);
+
+
+    if( $mail ){
+        $result['status'] = true;
+    }
+
+
+
+    echo json_encode($result);
+
+    die();
+
 }

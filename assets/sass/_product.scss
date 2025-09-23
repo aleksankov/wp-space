@@ -981,6 +981,11 @@
     }
 }
 .product-feedback{
+    &__btnn{
+        @include lg{
+            margin-top: 32px;
+        }
+    }
     &__wrap{
         padding: 32px;
         display: flex;
@@ -1038,6 +1043,7 @@
             width: 100%;
         }
     }
+
     &__mob-btn{
         margin-top: 32px;
         @include lg-u {

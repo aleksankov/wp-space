@@ -1,0 +1,50 @@
+.content {
+  img {
+    border-radius: 24px;
+  }
+
+  ul {
+    list-style-type: disc;
+    padding-left: 18px;
+    li{
+      &::marker {
+        color: $violet
+      }
+      margin-bottom: 6px;
+      &:last-child{
+        margin-bottom: 0px;
+      }
+    }
+
+  }
+  blockquote{
+    margin: 24px 0;
+    padding: 24px;
+    padding-left: 74px;
+    background-color: #F9F6FD;
+    border-radius: 16px;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    &::before{
+      content: '';
+      position: absolute;
+      top: 24px;
+      left: 24px;
+      width: 33px;
+      height: 32px;
+      background: url(../img/quote-icon.svg) center center no-repeat;
+      background-size: contain;
+      z-index: -1;
+    }
+    & + blockquote{
+      margin-top: -8px;
+    }
+    p{
+      margin-bottom: 16px;
+      &:last-child{
+        margin-bottom: 0;
+      }
+    }
+  }
+}

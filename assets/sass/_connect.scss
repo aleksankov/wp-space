@@ -326,11 +326,14 @@
             display: block;
         }
         ul{
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            align-items: start;
             li{
-                margin-bottom: 8px;
-                &:last-child{
-                    margin-bottom: 0;
-                }
+                background: #E3E3E3;
+                padding: 12px 24px;
+                border-radius: 50px;
             }
         }
     }

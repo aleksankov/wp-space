@@ -281,6 +281,8 @@
                             <div class="matrix__filter-item">
                                 <div class="filter-select filter-select--full">
                                     <select class="js-select js-select-scroll js-matrix-filter-select" name="version">
+
+                                        
                                         <?php foreach( $filter_products_arr[$selected_product] as $filter_products_item_val ): ?>
                                             <option value="<?= $filter_products_item_val; ?>"<?= $selected_version === $filter_products_item_val ? ' selected' : ''; ?>><?= $filter_products_item_val; ?></option>
                                         <?php endforeach; ?>
