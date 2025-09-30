@@ -6,7 +6,7 @@
     "icon": "star-filled",
     "keywords": ["Баннер"],
     "acf": {
-        "mode": "preview",
+        "mode": "edit",
         "renderTemplate": "template.php",
         "renderCallback": "block_render"
     },

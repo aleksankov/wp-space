@@ -93,6 +93,7 @@ if( function_exists('acf_add_options_page') ) {
         register_block_type( __DIR__ . '/blocks/news' );
         register_block_type( __DIR__ . '/blocks/vdi-components' );
         register_block_type( __DIR__ . '/blocks/banner-min');
+        register_block_type( __DIR__ . '/blocks/banner-min-v2');
         register_block_type( __DIR__ . '/blocks/video-gide');
         register_block_type( __DIR__ . '/blocks/folder');
         register_block_type( __DIR__ . '/blocks/form-custom');

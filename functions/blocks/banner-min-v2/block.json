@@ -1,10 +1,10 @@
 {
-    "name": "acf/video-gide",
-    "title": "Блок видео гайды",
+    "name": "acf/banner-min-v2",
+    "title": "Баннер малый v2",
     "description": "",
     "category": "media",
-    "icon": "video-alt3",
-    "keywords": ["Блок видео гайд"],
+    "icon": "star-filled",
+    "keywords": ["Баннер","Банер малый v2"],
     "acf": {
         "mode": "edit",
         "renderTemplate": "template.php",
