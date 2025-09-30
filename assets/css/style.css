@@ -8298,6 +8298,16 @@ div.partners-distributors__item-link {
   stroke: #FBFAFD;
 }
 
+.banner-min-v2 {
+  padding-top: 108px;
+}
+
+.banner-min-v2 img {
+  width: 100%;
+  height: auto;
+  border-radius: 38px;
+}
+
 .video-gide {
   padding-top: 108px;
 }

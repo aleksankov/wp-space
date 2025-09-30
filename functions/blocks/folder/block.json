@@ -6,7 +6,7 @@
     "icon": "open-folder",
     "keywords": ["Блок папка"],
     "acf": {
-        "mode": "preview",
+        "mode": "edit",
         "renderTemplate": "template.php",
         "renderCallback": "block_render"
     },

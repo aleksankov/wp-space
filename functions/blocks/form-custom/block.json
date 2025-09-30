@@ -6,7 +6,7 @@
     "icon": "forms",
     "keywords": ["7", "Форма", "ОС"],
     "acf": {
-        "mode": "preview",
+        "mode": "edit",
         "renderTemplate": "template.php",
         "renderCallback": "block_render"
     },
