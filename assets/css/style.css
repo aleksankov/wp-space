@@ -2816,8 +2816,6 @@ h6,
   width: -moz-fit-content;
   width: fit-content;
   padding: 12px 16px;
-  border: 1px solid #D9D7DA;
-  border-radius: 32px;
 }
 
 .header-submenu > ul {
