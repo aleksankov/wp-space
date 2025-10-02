@@ -49,31 +49,7 @@ if (!empty($title) && !empty($videos)) : ?>
                                     </div>
                                 </a>
                             </div>
-                            <div class="swiper-slide">
-                                <a class="video-gide__slide">
-                                    <?php echo $img?>
-                                    <div class="video-gide__play-btn">
-                                        <svg  xmlns="http://www.w3.org/2000/svg" width="30" height="34" viewBox="0 0 30 34"
-                                              fill="none">
-                                            <path d="M29 15.2679C30.3333 16.0377 30.3333 17.9623 29 18.7321L3.5 33.4545C2.16666 34.2243 0.499998 33.262 0.499998 31.7224L0.5 2.27757C0.5 0.737966 2.16667 -0.224284 3.5 0.545516L29 15.2679Z"
-                                                  fill="white"></path>
-                                        </svg>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="swiper-slide">
-                                <a class="video-gide__slide">
-                                    <?php echo $img?>
-                                    <div class="video-gide__play-btn">
-                                        <svg  xmlns="http://www.w3.org/2000/svg" width="30" height="34" viewBox="0 0 30 34"
-                                              fill="none">
-                                            <path d="M29 15.2679C30.3333 16.0377 30.3333 17.9623 29 18.7321L3.5 33.4545C2.16666 34.2243 0.499998 33.262 0.499998 31.7224L0.5 2.27757C0.5 0.737966 2.16667 -0.224284 3.5 0.545516L29 15.2679Z"
-                                                  fill="white"></path>
-                                        </svg>
-                                    </div>
 
-                                </a>
-                            </div>
                         <?php endforeach; ?>
                     </div>
                 </div>
