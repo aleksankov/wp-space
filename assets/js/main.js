@@ -1212,6 +1212,79 @@ $(document).ready(function() {
     })
 
 
+    const formInputsValidate= document.querySelectorAll('[data-validate]');
+
+
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                let classOpened=null;
+                if (mutation.target.classList.contains('opened')){
+                    classOpened=true;
+                }else{
+                    classOpened=false;
+                }
+                if (classOpened===false){
+                    const select = mutation.target.querySelector('select')
+                    if (select.value==='0'){
+                        select.classList.add('error');
+                        toggleErrorLabelVanilaJs(select, true);
+                    }
+                    classOpened=null;
+                }
+            }
+        });
+    });
+
+
+    formInputsValidate.forEach((input)=>{
+
+        switch (input.dataset.validate){
+            case 'select':
+                observer.observe(input.closest('.jqselect'), {
+                    attributes: true, // наблюдать за атрибутами
+                    attributeFilter: ['class'] // наблюдать только за атрибутом class
+                });
+
+                break;
+            case 'empty':
+                input.addEventListener('blur',function (e){
+                    switch (input.type){
+                        case 'text':
+                            if (input.value.trim()===''){
+                                input.classList.add('error');
+                                toggleErrorLabelVanilaJs(input, true);
+                            }
+
+                            break;
+                        case 'email':
+                            if (input.value.trim()===''){
+                                input.classList.add('error');
+                                toggleErrorLabelVanilaJs(input, true);
+                            }
+
+                            const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$/;
+                            if (!emailRegex.test( input.value)){
+                                input.classList.add('error');
+                                toggleErrorLabelVanilaJs(input, true);
+                            }
+                            break;
+
+                    }
+
+
+                })
+
+                break;
+
+        }
+
+
+
+
+    })
+
+
 
 
     const customForms =document.querySelectorAll('.js-form-custom');
