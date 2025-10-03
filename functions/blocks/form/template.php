@@ -28,7 +28,7 @@
                     <?php if( $form_product_options && $isProduct ): ?>
                         <div class="product-feedback__col">
                             <div class="main-select main-select--transparent">
-                                <select class="js-select js-feedback-input" name="product"><?= $form_product_options; ?></select>
+                                <select data-validate="select" class="js-select js-feedback-input" name="product"><?= $form_product_options; ?></select>
                                 <span class="js-select-toggle">Выберите продукт</span>
                             </div>
                         </div>
@@ -37,7 +37,7 @@
                     <?php if( $form_partner_options && $isPartner ): ?>
                         <div class="product-feedback__col">
                             <div class="main-select main-select--transparent">
-                                <select class="js-select js-feedback-input js-partner-select" name="partner"><?= $form_partner_options; ?></select>
+                                <select data-validate="select" class="js-select js-feedback-input js-partner-select" name="partner"><?= $form_partner_options; ?></select>
                                 <span class="js-select-toggle">Выберите дистрибьютора</span>
                             </div>
                         </div>
@@ -47,7 +47,7 @@
                         <div class="product-feedback__col">
                             <div class="main-input">
                                 <label>
-                                    <input class="js-form-input js-feedback-input" type="text" name="name">
+                                    <input data-validate="empty" class="js-form-input js-feedback-input" type="text" name="name">
                                     <span>Имя и фамилия</span>
                                 </label>
                             </div>
@@ -58,7 +58,7 @@
                         <div class="product-feedback__col">
                             <div class="main-input main-input--transparent">
                                 <label>
-                                    <input class="js-form-input js-feedback-input" type="text" name="company">
+                                    <input data-validate="empty" class="js-form-input js-feedback-input" type="text" name="company">
                                     <span>Организация</span>
                                 </label>
                             </div>
@@ -68,7 +68,7 @@
                     <div class="product-feedback__col">
                         <div class="main-input main-input--transparent">
                             <label>
-                                <input class="js-form-input js-tel-input js-feedback-input" type="text" name="phone">
+                                <input data-validate="empty" class="js-form-input js-tel-input js-feedback-input" type="text" name="phone">
                                 <span>Номер телефона</span>
                             </label>
                         </div>
@@ -78,13 +78,12 @@
                         <div class="product-feedback__col">
                             <div class="main-input main-input--transparent">
                                 <label>
-                                    <input class="js-form-input js-feedback-input" type="text" name="email">
+                                    <input data-validate="empty" class="js-form-input js-feedback-input" type="email" name="email">
                                     <span>E-mail</span>
                                 </label>
                             </div>
                         </div>
                     <?php endif; ?>
-
                     <?php if ($isComment) : ?>
                         <div class="product-feedback__col product-feedback__col--lg">
                             <div class="main-input main-input--transparent">
