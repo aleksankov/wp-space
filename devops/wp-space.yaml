@@ -25,22 +25,22 @@ spec:
         imagePullPolicy: Always
         volumeMounts:
           - name: gluster-claim
-            mountPath: /var/www/html/wp-content/uploads/
+            mountPath: /var/www/wp-space/wp-content/uploads/
             subPath: wp-space/uploads
           - name: gluster-claim
-            mountPath: /var/www/html/wp-content/languages/
+            mountPath: /var/www/wp-space/wp-content/languages/
             subPath: wp-space/languages
           - name: gluster-claim
-            mountPath: /var/www/html/wp-content/wp-rocket-config/
+            mountPath: /var/www/wp-space/wp-content/wp-rocket-config/
             subPath: wp-space/wp-rocket-config/
           - name: wp-space-apache-settings
             mountPath: /etc/apache2/mods-available/mpm_prefork.conf
             subPath: mpm_prefork.conf
           - name: wp-robots-config
-            mountPath: /var/www/html/robots.txt
+            mountPath: /var/www/wp-space/robots.txt
             subPath: robots.txt
           - name: wp-htaccess-config
-            mountPath: /var/www/html/.htaccess
+            mountPath: /var/www/wp-space/.htaccess
             subPath: .htaccess
         env:
         - name: DB_HOST
@@ -68,7 +68,7 @@ spec:
         - name: WP_MAX_MEMORY_LIMIT
           value: '1024M'
         - name: WP_ROCKET_CACHE_ROOT_PATH
-          value:  /var/www/html/wp-content/cache/
+          value:  /var/www/wp-space/wp-content/cache/
         envFrom:
         - secretRef:
             name: wp-space-db-secret

@@ -34,15 +34,23 @@ RUN wget -O /tmp/tmp.zip http://space-harbor.space.team/wordpress-plugins/advanc
 
 # Move to workdir
 
-# RUN rm -rf /var/www/html/* && mv /usr/src/wordpress/* /var/www/html && mv /usr/src/wordpress/.htaccess /var/www/html/.htaccess
+COPY devops/000-default.conf /etc/apache2/sites-enabled/
 
-COPY ./ /usr/src/wordpress/wp-content/themes/space
+RUN rm -rf /var/www/html/* && mkdir -p /var/www/wp-space/ && mv /usr/src/wordpress/* /var/www/wp-space/ && mv /usr/src/wordpress/.htaccess /var/www/wp-space/.htaccess
+
+COPY ./ /var/www/wp-space/wp-content/themes/space
 
 # Add config
 
-COPY ./devops/wp-config.php /usr/src/wordpress/wp-config.php
+COPY ./devops/wp-config.php /var/www/wp-space/wp-config.php
 
-RUN rm -rf /usr/src/wordpress/wp-content/themes/space/devops
+USER root:root
+
+# Fix permissions
+
+RUN chown -R www-data:www-data /var/www/wp-space/ && chmod 755 /var/www/wp-space/
+
+RUN rm -rf /var/www/wp-space/wp-content/themes/space/devops
 
 # Add php config
 
@@ -53,8 +61,3 @@ COPY ./devops/wp-space.ini $PHP_INI_DIR/conf.d/
 COPY ./devops/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
-
-USER root:root
-
-
-
