@@ -5,6 +5,8 @@ metadata:
   namespace: bazalt
   labels:
     app:  wp-space
+  annotations:
+    kubectl.kubernetes.io/restartedAt: <time.Now()>
 data: 
   mpm_prefork.conf: |
     # prefork MPM

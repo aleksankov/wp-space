@@ -1,23 +1,4 @@
 ---
-apiVersion: v1
-kind: Service
-metadata:
-  name: wp-space-server
-  namespace: bazalt
-  labels:
-    app: wp-space
-spec:
-  selector: 
-    pod-label: wp-space-server-pod
-  type: ClusterIP 
-  ports:
-    - name: http
-      protocol: TCP
-      port: 80
-      targetPort: http
-  externalIPs:
-    - 192.168.68.101
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -32,8 +13,11 @@ spec:
       pod-label: wp-space-server-pod
   template:
     metadata:
+      name: wp-space
       labels:
         pod-label: wp-space-server-pod
+      annotations:
+        kubectl.kubernetes.io/restartedAt: <time.Now()>
     spec:
       containers:
       - name: wp-space-server-pod
