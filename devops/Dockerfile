@@ -61,3 +61,5 @@ COPY ./devops/wp-space.ini $PHP_INI_DIR/conf.d/
 COPY ./devops/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+WORKDIR /var/www/wp-space/
