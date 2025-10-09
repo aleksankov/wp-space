@@ -38,6 +38,7 @@ $form_id = get_field_block('form-custom-popup-id', $block)
 
                                                 <input
                                                     <?= $field['form-custom-popup-fields-required']?"data-required" : "" ?>
+                                                        data-validate="empty"
                                                         class="js-form-input <?=$field['form-custom-popup-fields-type']==='tel'?'js-tel-input':' '?>  js-feedback-input"
                                                         type="<?= $field['form-custom-popup-fields-type'] ?>"
                                                         name="custom_field[<?= $field['form-custom-popup-fields-name'] ?>][value]">
@@ -67,6 +68,7 @@ $form_id = get_field_block('form-custom-popup-id', $block)
                                         <div class="main-select">
                                             <input type="hidden"  name="custom_field[<?= $field['form-custom-popup-fields-name'] ?>][title]" value="<?= $field['form-custom-popup-fields-placeholder'] ?>">
                                             <select
+                                                    data-validate="select"
                                                     class="js-select js-select-custom-field"
                                                 <?= $field['form-custom-popup-fields-required']?"data-required" : "" ?>
                                                     name="custom_field[<?= $field['form-custom-popup-fields-name'] ?>][value]">

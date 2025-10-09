@@ -64,6 +64,7 @@ $form_id = md5(json_encode([$anim_enabled,$anim_delay,$title,$title_form,$fields
                                     <div class="main-select main-select--transparent">
                                         <input type="hidden" name="custom_field[<?= $field['form-custom-fields-name'] ?>][title]" value="<?= $field['form-custom-fields-placeholder'] ?>">
                                         <select
+                                                data-validate="select"
                                                 class="js-select js-select-custom-field"
                                             <?= $field['form-custom-fields-required']?"data-required" : "" ?>
                                                 name="custom_field[<?= $field['form-custom-fields-name'] ?>][value]">
@@ -125,6 +126,7 @@ $form_id = md5(json_encode([$anim_enabled,$anim_delay,$title,$title_form,$fields
 
                                                 <input
                                                        <?= $field['form-custom-fields-required']?"data-required" : "" ?>
+                                                       data-validate="empty"
                                                        class="js-form-input <?=$field['form-custom-fields-type']==='tel'?'js-tel-input':' '?>  js-feedback-input"
                                                        type="<?= $field['form-custom-fields-type'] ?>"
                                                        name="custom_field[<?= $field['form-custom-fields-name'] ?>][value]">
@@ -155,6 +157,7 @@ $form_id = md5(json_encode([$anim_enabled,$anim_delay,$title,$title_form,$fields
                                             <input type="hidden"  name="custom_field[<?= $field['form-custom-fields-name'] ?>][title]" value="<?= $field['form-custom-fields-placeholder'] ?>">
                                             <select
                                                     class="js-select js-select-custom-field"
+                                                    data-validate="select"
                                                     <?= $field['form-custom-fields-required']?"data-required" : "" ?>
                                                     name="custom_field[<?= $field['form-custom-fields-name'] ?>][value]">
                                                 <option value="0">&nbsp;</option>
