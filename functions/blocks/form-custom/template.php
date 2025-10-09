@@ -5,16 +5,15 @@ $block = $args['block'] ?? null;
 $id = isset($block) ? (array_key_exists('anchor', $block) && $block['anchor'] ? $block['anchor'] : $block['id']) : 'form-custom';
 $class = isset($block['className']) ? $block['className'] : 'default';
 $anim_enabled = get_field_block('form-custom-anim-enabled', $block);
-$anim_delay = get_field_block('form-custom--anim-delay', $block);
+$anim_delay = get_field_block('form-custom-anim-delay', $block);
 $title = get_field_block('form-custom-title', $block);
 $title_form = get_field_block('form-custom-title-form', $block);
 $fields = get_field_block('form-custom-fields', $block);
-$is_popup =get_field_block('form-custom-is-popup', $block);
 
-$form_id = md5(json_encode([$anim_enabled,$anim_delay,$title,$title_form,$fields,$is_popup]))
+$form_id = md5(json_encode([$anim_enabled,$anim_delay,$title,$title_form,$fields]))
 ?>
 
-<section class="product-feedback section <?= $class ?> " <?= ($anim_enabled) ? (' data-aos="fade-up" ') : ' ' ?>  <?= ($anim_enabled && !empty($anim_delay)) ? (' data-aos-delay="' . $anim_delay . '"') : '' ?>">
+<section class="product-feedback section <?= $class ?> " <?= ($anim_enabled) ? (' data-aos="fade-up" ') : ' ' ?>  <?= ($anim_enabled && !empty($anim_delay)) ? (' data-aos-delay="' . $anim_delay . '"') : '' ?>>
     <div class="container">
         <div class="product-feedback__wrap" data-aos="fade-up">
             <div class="product-feedback__bg">
@@ -24,8 +23,6 @@ $form_id = md5(json_encode([$anim_enabled,$anim_delay,$title,$title_form,$fields
             <?php if ($title): ?>
                 <h2 class="product-feedback__title"><?= $title; ?></h2>
             <?php endif; ?>
-
-            <?php if (!$is_popup): ?>
             <form class="product-feedback__form ajax-wrap js-form-custom">
                 <div class="product-feedback__row ajax-wrap__item">
                     <?php foreach ($fields as $field): ?>
@@ -41,7 +38,7 @@ $form_id = md5(json_encode([$anim_enabled,$anim_delay,$title,$title_form,$fields
                                                 <input
                                                         class="js-form-input <?=$field['form-custom-fields-type']==='tel'?'js-tel-input':' '?>  js-feedback-input"
                                                        <?= $field['form-custom-fields-required']?"data-required" : "" ?>
-                                                       type="<?= $field['form-custom-fields-type'] ?>"
+                                                       type="<?= $field['form-custom-fields-type'] ?>" data-validate="empty"
                                                        name="custom_field[<?= $field['form-custom-fields-name'] ?>][value]">
                                                 <span><?= $field['form-custom-fields-placeholder'] ?></span>
                                             </label>
@@ -66,19 +63,22 @@ $form_id = md5(json_encode([$anim_enabled,$anim_delay,$title,$title_form,$fields
                                 <div class="product-feedback__col">
                                     <div class="main-select main-select--transparent">
                                         <input type="hidden" name="custom_field[<?= $field['form-custom-fields-name'] ?>][title]" value="<?= $field['form-custom-fields-placeholder'] ?>">
-
                                         <select
-                                            class="js-select js-feedback-input"
+                                                class="js-select js-select-custom-field"
                                             <?= $field['form-custom-fields-required']?"data-required" : "" ?>
-                                            name="custom_field[<?= $field['form-custom-fields-name'] ?>][value]">
+                                                name="custom_field[<?= $field['form-custom-fields-name'] ?>][value]">
                                             <option value="0">&nbsp;</option>
                                             <?php foreach ($field['form-custom-fields-variants'] as $variant): ?>
-                                                <option value="<?= $variant['form-custom-fields-variants-text'] ?>"><?= $variant['form-custom-fields-variants-text'] ?></option>
+                                                <option <?= !empty($variant['form-custom-fields-variants-email'])? ('data-email="'. $variant['form-custom-fields-variants-email'].'"'):''?> value="<?= $variant['form-custom-fields-variants-text'] ?>"><?= $variant['form-custom-fields-variants-text'] ?></option>
                                             <?php endforeach; ?>
                                         </select>
                                         <span class="js-select-toggle"><?= $field['form-custom-fields-placeholder'] ?> </span>
+                                        <?php if(!empty($variant['form-custom-fields-variants-email'])):?>
+                                            <input type="hidden" name="custom_field[to][value]">
+                                        <?php endif;?>
                                     </div>
                                 </div>
+                               
                                 <?php break; ?>
 
                             <?php } ?>
@@ -96,8 +96,7 @@ $form_id = md5(json_encode([$anim_enabled,$anim_delay,$title,$title_form,$fields
                     <input type="hidden" name="to" value="<?= $site_feedback_main_email; ?>">
                 </div>
             </form>
-            <?php endif; ?>
-            <div class="<?=!$is_popup?'product-feedback__mob-btn':'product-feedback__btnn'?>">
+            <div class="product-feedback__mob-btn">
                 <a class="btn btn-white" href="#popup-<?=$form_id?>" data-fancybox="" data-touch="false">Продолжить</a>
             </div>
         </div>
@@ -112,8 +111,6 @@ $form_id = md5(json_encode([$anim_enabled,$anim_delay,$title,$title_form,$fields
                 <form class="main-popup__form ajax-wrap js-form-custom">
                     <div class="main-popup__form-title"><?=$title?></div>
                     <div class="main-popup__form-list ajax-wrap__item">
-
-
                         <?php foreach ($fields as $field): ?>
 
                             <?php switch ($field['form-custom-fields-type']) {
@@ -153,21 +150,22 @@ $form_id = md5(json_encode([$anim_enabled,$anim_delay,$title,$title_form,$fields
                                     </div>
                                     <?php break; ?>
                                 <?php case 'select': ?>
-
                                     <div class="main-popup__form-col">
                                         <div class="main-select">
-                                            <input type="hidden" name="custom_field[<?= $field['form-custom-fields-name'] ?>][title]" value="<?= $field['form-custom-fields-placeholder'] ?>">
-
+                                            <input type="hidden"  name="custom_field[<?= $field['form-custom-fields-name'] ?>][title]" value="<?= $field['form-custom-fields-placeholder'] ?>">
                                             <select
-                                                    class="js-select js-feedback-input"
+                                                    class="js-select js-select-custom-field"
                                                     <?= $field['form-custom-fields-required']?"data-required" : "" ?>
                                                     name="custom_field[<?= $field['form-custom-fields-name'] ?>][value]">
                                                 <option value="0">&nbsp;</option>
                                                 <?php foreach ($field['form-custom-fields-variants'] as $variant): ?>
-                                                    <option value="<?= $variant['form-custom-fields-variants-text'] ?>"><?= $variant['form-custom-fields-variants-text'] ?></option>
+                                                    <option <?= !empty($variant['form-custom-fields-variants-email'])? ('data-email="'. $variant['form-custom-fields-variants-email'].'"'):''?> value="<?= $variant['form-custom-fields-variants-text'] ?>"><?= $variant['form-custom-fields-variants-text'] ?></option>
                                                 <?php endforeach; ?>
                                             </select>
                                             <span class="js-select-toggle"><?= $field['form-custom-fields-placeholder'] ?> </span>
+                                            <?php if(!empty($variant['form-custom-fields-variants-email'])):?>
+                                                <input type="hidden" name="custom_field[to][value]">
+                                            <?php endif;?>
                                         </div>
                                     </div>
 

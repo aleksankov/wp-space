@@ -1,207 +1,207 @@
 <?php
 
-if( !defined('ABSPATH') ){
+if (!defined('ABSPATH')) {
     exit;
 }
 
 add_action('wp_ajax_nopriv_feedback_form', 'ajax_feedback_form');
 add_action('wp_ajax_feedback_form', 'ajax_feedback_form');
 
-function ajax_feedback_form(){
+function ajax_feedback_form()
+{
     $result = ['status' => false];
 
-    if( isset($_POST['product']) ){
+    if (isset($_POST['product'])) {
         $product = sanitize_text_field($_POST['product']);
-    }else{
+    } else {
         $product = false;
     }
 
-    if( isset($_POST['partner']) ){
+    if (isset($_POST['partner'])) {
         $partner = sanitize_text_field($_POST['partner']);
-    }else{
+    } else {
         $partner = false;
     }
 
-    if( isset($_POST['name']) ){
+    if (isset($_POST['name'])) {
         $name = sanitize_text_field($_POST['name']);
-    }else{
+    } else {
         $name = false;
     }
 
-    if( isset($_POST['specialization']) ){
+    if (isset($_POST['specialization'])) {
         $specialization = sanitize_text_field($_POST['specialization']);
-    }else{
+    } else {
         $specialization = false;
     }
 
-    if( isset($_POST['company']) ){
+    if (isset($_POST['company'])) {
         $company = sanitize_text_field($_POST['company']);
-    }else{
+    } else {
         $company = false;
     }
 
-    if( isset($_POST['phone']) ){
+    if (isset($_POST['phone'])) {
         $phone = sanitize_text_field($_POST['phone']);
-    }else{
+    } else {
         $phone = false;
     }
 
-    if( isset($_POST['email']) ){
+    if (isset($_POST['email'])) {
         $email = sanitize_text_field($_POST['email']);
-    }else{
+    } else {
         $email = false;
     }
-    
-    if( isset($_POST['production']) ){
+
+    if (isset($_POST['production'])) {
         $production = sanitize_text_field($_POST['production']);
-    }else{
+    } else {
         $production = false;
     }
 
-    if( isset($_POST['msg']) ){
+    if (isset($_POST['msg'])) {
         $msg = sanitize_textarea_field($_POST['msg']);
-    }else{
+    } else {
         $msg = false;
     }
 
-    if( isset($_POST['form_name']) ){
+    if (isset($_POST['form_name'])) {
         $form_name = sanitize_text_field($_POST['form_name']);
-    }else{
+    } else {
         $form_name = 'Заявка';
     }
 
-    if( isset($_POST['to']) ){
+    if (isset($_POST['to'])) {
         $to = sanitize_text_field($_POST['to']);
-    }else{
+    } else {
         $to = get_option('admin_email');
     }
 
-    if( isset($_POST['url']) ){
+    if (isset($_POST['url'])) {
         $url = sanitize_text_field($_POST['url']);
-    }else{
+    } else {
         $url = false;
     }
 
-    if( isset($_FILES['file']) && !empty($_FILES['file']['name']) ){
+    if (isset($_FILES['file']) && !empty($_FILES['file']['name'])) {
         add_filter('upload_dir', 'custom_upload_directory');
 
         $uploaded_file = $_FILES['file'];
         $upload_overrides = array('test_form' => false);
         $movefile = wp_handle_upload($uploaded_file, $upload_overrides);
 
-        if( $movefile && !isset($movefile['error']) ){
+        if ($movefile && !isset($movefile['error'])) {
             $file_url = $movefile['url'];
-        }else{
+        } else {
             $file_url = '';
         }
 
         remove_filter('upload_dir', 'custom_upload_directory');
-    }else{
+    } else {
         $file_url = '';
     }
-    
+
     $to = explode(',', $to);
-    $to = array_map('trim', $to);
     $subject = $form_name . ' с сайта Space';
     $headers = array('Content-Type: text/html; charset=UTF-8', 'From: ' . 'Space' . ' <info@spacevm.ru>');
 
     $message = '<p style="font-size: 22px; text-align: center; padding-bottom: 30px; margin: 0;"><b>Детали заявки:</b></p><table>';
 
-    if( $product ){
+    if ($product) {
         $message .= '<tr>
             <td><b>Продукт</b></td>
             <td>' . $product . '</td>
         </tr>';
     }
-    if( $partner ){
+    if ($partner) {
         $message .= '<tr>
             <td><b>Партнер</b></td>
             <td>' . $partner . '</td>
         </tr>';
     }
-    if( $name ){
+    if ($name) {
         $message .= '<tr>
             <td><b>Имя</b></td>
             <td>' . $name . '</td>
         </tr>';
     }
-    if( $specialization ){
+    if ($specialization) {
         $message .= '<tr>
             <td><b>Специализация</b></td>
             <td>' . $specialization . '</td>
         </tr>';
     }
-    if( $company ){
+    if ($company) {
         $message .= '<tr>
             <td><b>Организация</b></td>
             <td>' . $company . '</td>
         </tr>';
     }
-    if( $phone ){
+    if ($phone) {
         $message .= '<tr>
             <td><b>Номер телефона</b></td>
             <td><a href="tel:' . str_replace(array(' ', '-', '(', ')'), '', $phone) . '">' . $phone . '</a></td>
         </tr>';
     }
-    if( $email ){
+    if ($email) {
         $message .= '<tr>
             <td><b>E-mail</b></td>
             <td><a href="mailto:' . $email . '">' . $email . '</a></td>
         </tr>';
     }
-    if( $production ){
+    if ($production) {
         $message .= '<tr>
             <td><b>Выпускаемая продукция</b></td>
             <td>' . $production . '</td>
         </tr>';
     }
-    if( $file_url ){
+    if ($file_url) {
         $message .= '<tr>
             <td><b>Резюме</b></td>
             <td><a href="' . $file_url . '" target="_blank">' . $file_url . '</a></td>
         </tr>';
     }
-    if( $msg ){
+    if ($msg) {
         $message .= '<tr>
             <td><b>Комментарий</b></td>
             <td>' . $msg . '</td>
         </tr>';
     }
-    if( $form_name ){
+    if ($form_name) {
         $message .= '<tr>
             <td><b>Название формы</b></td>
             <td>' . $form_name . '</td>
         </tr>';
     }
-    if( $url ){
+    if ($url) {
         $message .= '<tr>
             <td><b>Страница отправки</b></td>
             <td><a href="' . $url . '" target="_blank">' . $url . '</a></td>
         </tr>';
     }
-    
+
     $message .= '</table>';
 
     $post_title = $form_name;
 
-    if( $product ){
+    if ($product) {
         $post_title .= ' ' . $product;
     }
-    if( $partner ){
+    if ($partner) {
         $post_title .= ' | ' . $partner;
     }
-    if( $name && $phone ){
+    if ($name && $phone) {
         $post_title .= ' - ' . $name . ' ' . $phone;
     }
 
     $post_data = array(
-        'post_title'    => $post_title,
-        'post_status'   => 'publish',
-        'post_author'   => 1,
-        'post_type'     => 'mail',
-        'post_content'  => $message,
+        'post_title' => $post_title,
+        'post_status' => 'publish',
+        'post_author' => 1,
+        'post_type' => 'mail',
+        'post_content' => $message,
     );
-    
+
     $messageMail = $message . '
     <style>
         table{
@@ -217,9 +217,11 @@ function ajax_feedback_form(){
         }
     </style>';
 
-    $mail = wp_mail($to, $subject, $messageMail, $headers);
+    foreach ($to as $mail) {
+        wp_mail(trim($mail), $subject, $messageMail, $headers);
+    }
 
-    if( $mail && wp_insert_post( $post_data ) ){
+    if (wp_insert_post($post_data)) {
         $result['status'] = true;
     }
 
@@ -227,46 +229,45 @@ function ajax_feedback_form(){
 
     die();
 }
+
 add_action('wp_ajax_nopriv_feedback_form_custom', 'ajax_feedback_form_custom');
 add_action('wp_ajax_feedback_form_custom', 'ajax_feedback_form_custom');
 
-function ajax_feedback_form_custom(){
+function ajax_feedback_form_custom()
+{
     $result = ['status' => false];
 
-    var_dump($_POST['custom_field']);
     $message = '<p style="font-size: 22px; text-align: center; padding-bottom: 30px; margin: 0;"><b>Детали заявки:</b></p><table>';
-     foreach ($_POST['custom_field'] as $item){
-         $message .= '<tr>
-            <td><b>'.$item['title'].'</b></td>
+    foreach ($_POST['custom_field'] as $item) {
+        $message .= '<tr>
+            <td><b>' . $item['title'] . '</b></td>
             <td>' . $item['value'] . '</td>
         </tr>';
-     }
-    if( $_POST['form_name'] ){
+    }
+    if ($_POST['form_name']) {
         $message .= '<tr>
             <td><b>Название формы</b></td>
-            <td>' .  $_POST['form_name'] . '</td>
+            <td>' . $_POST['form_name'] . '</td>
         </tr>';
     }
-     if ($_POST['url']){
-         $message .= '<tr>
+    if ($_POST['url']) {
+        $message .= '<tr>
             <td><b>Страница отправки</b></td>
             <td><a href="' . $_POST['url'] . '" target="_blank">' . $_POST['url'] . '</a></td>
         </tr>';
-     }
-
-    $to = explode(',', $_POST['to']);
-    $to = array_map('trim', $to);
-    $subject =  $_POST['form_name'] . ' с сайта Space';
-    $headers = array('Content-Type: text/html; charset=UTF-8', 'From: ' . 'Space' . ' <info@spacevm.ru>');
-    $mail = wp_mail($to, $subject, $message, $headers);
-
-
-    if( $mail ){
-        $result['status'] = true;
     }
 
-
-
+    $to = explode(',', $_POST['to']);
+    $subject = $_POST['form_name'] . ' с сайта Space';
+    $headers = array('Content-Type: text/html; charset=UTF-8', 'From: ' . 'Space' . ' <info@spacevm.ru>');
+    foreach ($to as $mail) {
+        wp_mail(trim($mail), $subject, $message, $headers);
+    }
+    $mails = explode(',', $_POST['custom_field']['to']['value']);
+    foreach ($mails as $mail) {
+        wp_mail(trim($mail), $subject, $message, $headers);
+    }
+    $result['status'] = true;
     echo json_encode($result);
 
     die();

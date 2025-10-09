@@ -1,11 +1,32 @@
 {
-    "key": "group_68cbcaaa635b7",
-    "title": "Пользовательская форма",
+    "key": "group_68e777907b682",
+    "title": "Пользовательская форма popup",
     "fields": [
         {
-            "key": "field_68d0edea9a4c7",
+            "key": "field_68e778bbfce0a",
+            "label": "ID формы(для связи)",
+            "name": "form-custom-popup-id",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_68e777908bab5",
             "label": "Заголовок формы",
-            "name": "form-custom-title",
+            "name": "form-custom-popup-title",
             "aria-label": "",
             "type": "text",
             "instructions": "",
@@ -24,9 +45,9 @@
             "append": ""
         },
         {
-            "key": "field_68d0fc5740267",
+            "key": "field_68e777908baf2",
             "label": "Заголовок для отправки формы",
-            "name": "form-custom-title-form",
+            "name": "form-custom-popup-title-form",
             "aria-label": "",
             "type": "text",
             "instructions": "",
@@ -45,9 +66,9 @@
             "append": ""
         },
         {
-            "key": "field_68cbcaac4f107",
+            "key": "field_68e777908bb2c",
             "label": "Поля",
-            "name": "form-custom-fields",
+            "name": "form-custom-popup-fields",
             "aria-label": "",
             "type": "repeater",
             "instructions": "",
@@ -67,9 +88,9 @@
             "rows_per_page": 20,
             "sub_fields": [
                 {
-                    "key": "field_68cbcae24f108",
+                    "key": "field_68e77790a5ffd",
                     "label": "Тип поля",
-                    "name": "form-custom-fields-type",
+                    "name": "form-custom-popup-fields-type",
                     "aria-label": "",
                     "type": "radio",
                     "instructions": "",
@@ -94,12 +115,12 @@
                     "allow_in_bindings": 1,
                     "layout": "vertical",
                     "save_other_choice": 0,
-                    "parent_repeater": "field_68cbcaac4f107"
+                    "parent_repeater": "field_68e777908bb2c"
                 },
                 {
-                    "key": "field_68d11461c5771",
+                    "key": "field_68e77790a6045",
                     "label": "Обязательное поле?",
-                    "name": "form-custom-fields-required",
+                    "name": "form-custom-fields-popup-required",
                     "aria-label": "",
                     "type": "true_false",
                     "instructions": "",
@@ -116,12 +137,12 @@
                     "ui": 0,
                     "ui_on_text": "",
                     "ui_off_text": "",
-                    "parent_repeater": "field_68cbcaac4f107"
+                    "parent_repeater": "field_68e777908bb2c"
                 },
                 {
-                    "key": "field_68d114aac5772",
+                    "key": "field_68e77790a608d",
                     "label": "Название поля",
-                    "name": "form-custom-fields-name",
+                    "name": "form-custom-popup-fields-name",
                     "aria-label": "",
                     "type": "text",
                     "instructions": "",
@@ -138,12 +159,12 @@
                     "placeholder": "",
                     "prepend": "",
                     "append": "",
-                    "parent_repeater": "field_68cbcaac4f107"
+                    "parent_repeater": "field_68e777908bb2c"
                 },
                 {
-                    "key": "field_68cbcb444f109",
+                    "key": "field_68e77790a60d3",
                     "label": "Подпись поля",
-                    "name": "form-custom-fields-placeholder",
+                    "name": "form-custom-popup-fields-placeholder",
                     "aria-label": "",
                     "type": "text",
                     "instructions": "",
@@ -160,12 +181,12 @@
                     "placeholder": "",
                     "prepend": "",
                     "append": "",
-                    "parent_repeater": "field_68cbcaac4f107"
+                    "parent_repeater": "field_68e777908bb2c"
                 },
                 {
-                    "key": "field_68cbcb6c4f10a",
+                    "key": "field_68e77790a611a",
                     "label": "Варианты",
-                    "name": "form-custom-fields-variants",
+                    "name": "form-custom-popup-fields-variants",
                     "aria-label": "",
                     "type": "repeater",
                     "instructions": "",
@@ -173,7 +194,7 @@
                     "conditional_logic": [
                         [
                             {
-                                "field": "field_68cbcae24f108",
+                                "field": "field_68e77790a5ffd",
                                 "operator": "==",
                                 "value": "select"
                             }
@@ -192,9 +213,9 @@
                     "rows_per_page": 20,
                     "sub_fields": [
                         {
-                            "key": "field_68cbcb904f10b",
+                            "key": "field_68e77790d2e39",
                             "label": "Текст",
-                            "name": "form-custom-fields-variants-text",
+                            "name": "form-custom-popup-fields-variants-text",
                             "aria-label": "",
                             "type": "text",
                             "instructions": "",
@@ -202,7 +223,7 @@
                             "conditional_logic": [
                                 [
                                     {
-                                        "field": "field_68cbcae24f108",
+                                        "field": "field_68e77790a5ffd",
                                         "operator": "==",
                                         "value": "select"
                                     }
@@ -219,12 +240,12 @@
                             "placeholder": "",
                             "prepend": "",
                             "append": "",
-                            "parent_repeater": "field_68cbcb6c4f10a"
+                            "parent_repeater": "field_68e77790a611a"
                         },
                         {
-                            "key": "field_68e66a8477735",
+                            "key": "field_68e77790d2e84",
                             "label": "Нужен email",
-                            "name": "form-custom-fields-variants-need-email",
+                            "name": "form-custom-popup-fields-variants-need-email",
                             "aria-label": "",
                             "type": "true_false",
                             "instructions": "",
@@ -241,12 +262,12 @@
                             "ui": 0,
                             "ui_on_text": "",
                             "ui_off_text": "",
-                            "parent_repeater": "field_68cbcb6c4f10a"
+                            "parent_repeater": "field_68e77790a611a"
                         },
                         {
-                            "key": "field_68e6698b77734",
+                            "key": "field_68e77790d2eb4",
                             "label": "Email",
-                            "name": "form-custom-fields-variants-email",
+                            "name": "form-custom-popup-fields-variants-email",
                             "aria-label": "",
                             "type": "text",
                             "instructions": "",
@@ -254,7 +275,7 @@
                             "conditional_logic": [
                                 [
                                     {
-                                        "field": "field_68e66a8477735",
+                                        "field": "field_68e77790d2e84",
                                         "operator": "==",
                                         "value": "1"
                                     }
@@ -271,17 +292,17 @@
                             "placeholder": "",
                             "prepend": "",
                             "append": "",
-                            "parent_repeater": "field_68cbcb6c4f10a"
+                            "parent_repeater": "field_68e77790a611a"
                         }
                     ],
-                    "parent_repeater": "field_68cbcaac4f107"
+                    "parent_repeater": "field_68e777908bb2c"
                 }
             ]
         },
         {
-            "key": "field_68d0eeb09a4c8",
+            "key": "field_68e777908bb68",
             "label": "Анимация",
-            "name": "form-custom-anim-enabled",
+            "name": "form-custom-popup-anim-enabled",
             "aria-label": "",
             "type": "true_false",
             "instructions": "",
@@ -300,9 +321,9 @@
             "ui_off_text": ""
         },
         {
-            "key": "field_68d0ef0d9a4c9",
+            "key": "field_68e777908bba3",
             "label": "Задержка анимации",
-            "name": "form-custom-anim-delay",
+            "name": "form-custom-popup-anim-delay",
             "aria-label": "",
             "type": "number",
             "instructions": "",
@@ -328,7 +349,7 @@
             {
                 "param": "block",
                 "operator": "==",
-                "value": "acf\/form-custom"
+                "value": "acf\/form-custom-popup"
             }
         ]
     ],
@@ -341,5 +362,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1760000169
+    "modified": 1760001013
 }

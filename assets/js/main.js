@@ -764,6 +764,8 @@ $(document).ready(function() {
         wrap.removeClass('active');
     })
 
+
+
     $(document).click(function(e) {
         const wrap = $('.js-about-team-popup');
         if( !wrap.is(e.target) && wrap.has(e.target).length === 0 ){
@@ -1081,7 +1083,6 @@ $(document).ready(function() {
             form = select.closest('form'),
             to = form.find('[name="to"]')
             email = select.find('option:checked').attr('data-email');
-
         to.val(email);
     })
     $(document).on('change input', '.js-feedback-input:not([data-required])', function(){
@@ -1090,6 +1091,24 @@ $(document).ready(function() {
             toggleErrorLabel($(this), false);
         }
     })
+
+    const selects = document.querySelectorAll('.js-select-custom-field .jq-selectbox__dropdown li');
+    selects.forEach((item)=>{
+
+        item.addEventListener('click',function () {
+            if(item.hasAttribute('data-email')){
+                const wrapper = item.closest('.main-select');
+                if (wrapper){
+                    const inputmail = wrapper.querySelector('[name="custom_field[to][value]"]');
+                    if (inputmail){
+                        inputmail.value = item.getAttribute('data-email');
+                    }
+                }
+            }
+        })
+
+    })
+
 
     $(document).on('submit', '.js-form', function(e){
         e.preventDefault();

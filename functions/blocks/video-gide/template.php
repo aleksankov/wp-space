@@ -21,14 +21,14 @@ if (!empty($title) && !empty($videos)) : ?>
                                     type="button" disabled="" tabindex="-1" aria-label="Previous slide"
                                     aria-controls="swiper-wrapper-123cd2b6c8d39e9f" aria-disabled="true">
                                 <img decoding="async"
-                                     src="https://178.141.246.84:16048/wp-content/themes/wp-space/assets/img/slider-prev.svg"
+                                     src="/wp-content/themes/wp-space/assets/img/slider-prev.svg"
                                      alt="Prev">
                             </button>
                             <button class="video-gide__next slider-controls__next slider-controls__btn" type="button"
                                     tabindex="0" aria-label="Next slide" aria-controls="swiper-wrapper-123cd2b6c8d39e9f"
                                     aria-disabled="false">
                                 <img decoding="async"
-                                     src="https://178.141.246.84:16048/wp-content/themes/wp-space/assets/img/slider-next.svg"
+                                     src="/wp-content/themes/wp-space/assets/img/slider-next.svg"
                                      alt="Next">
                             </button>
                         </div>

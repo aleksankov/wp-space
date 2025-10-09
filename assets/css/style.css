@@ -426,21 +426,7 @@ html {
   height: 100%;
 }
 
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0 30px #9A73D5 inset !important;
-  -webkit-text-fill-color: #fff !important;
-  -webkit-transition: background-color 5000s ease-in-out 0s;
-  transition: background-color 5000s ease-in-out 0s;
-}
 
-input:-moz-autofill {
-  filter: none;
-  background-color: #9A73D5;
-  color: #fff;
-}
 
 html * {
   max-height: 999999px;
@@ -2815,7 +2801,7 @@ h6,
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
-  padding: 12px 16px;
+  padding: 12px 0px;
 }
 
 .header-submenu > ul {
@@ -13027,4 +13013,29 @@ div.partners-distributors__item-link {
   .vacancy__form-desc a:hover {
     text-decoration: none;
   }
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #9A73D5 inset !important;
+  -webkit-text-fill-color: #fff !important;
+}
+
+.main-input.main-input--aqua input:-webkit-autofill,
+.main-input.main-input--aqua input:-webkit-autofill:hover,
+.main-input.main-input--aqua input:-webkit-autofill:focus,
+.main-input.main-input--aqua input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #4CB8C3 inset !important;
+  -webkit-text-fill-color: #fff !important;
+}
+input:-moz-autofill {
+  filter: none;
+  background-color: #9A73D5;
+  color: #fff;
+}
+.main-input.main-input--aqua input:-moz-autofill {
+  filter: none;
+  background-color: #4CB8C3;
+  color: #fff;
 }

@@ -165,13 +165,13 @@
                 <!-- </div> -->
             <!-- </div> -->
             <div class="main-popup__right">
-                <form class="main-popup__form main-popup__form--aqua ajax-wrap js-form">
+                <form class="main-popup__form main-popup__form--aqua ajax-wrap js-form" >
                     <div class="main-popup__form-title">Заполните информацию ниже и&nbsp;мы свяжемся с&nbsp;вами</div>
                     <div class="main-popup__form-list ajax-wrap__item">
                         <?php if( $form_partner_options ): ?>
                             <div class="main-popup__form-col main-popup__form-col--lg">
                                 <div class="main-select main-select--aqua">
-                                    <select class="js-select js-feedback-input js-partner-select" name="partner"><?= $form_partner_options; ?></select>
+                                    <select data-validate="select"  class="js-select js-feedback-input js-partner-select" name="partner"><?= $form_partner_options; ?></select>
                                     <span class="js-select-toggle">Выберите дистрибьютора</span>
                                 </div>
                             </div>
@@ -179,7 +179,7 @@
                         <div class="main-popup__form-col">
                             <div class="main-input main-input--aqua">
                                 <label>
-                                    <input class="js-form-input js-feedback-input" type="text" name="name">
+                                    <input data-validate="empty"  type="text" class="js-form-input js-feedback-input"  name="name">
                                     <span>Имя и фамилия</span>
                                 </label>
                             </div>
@@ -187,7 +187,7 @@
                         <div class="main-popup__form-col">
                             <div class="main-input main-input--aqua">
                                 <label>
-                                    <input class="js-form-input js-feedback-input" type="text" name="company">
+                                    <input data-validate="empty" type="text" class="js-form-input js-feedback-input"  name="company">
                                     <span>Организация</span>
                                 </label>
                             </div>
@@ -195,7 +195,7 @@
                         <div class="main-popup__form-col">
                             <div class="main-input main-input--aqua">
                                 <label>
-                                    <input class="js-form-input js-tel-input js-feedback-input" type="text" name="phone">
+                                    <input  data-validate="empty"  class="js-form-input js-tel-input js-feedback-input"  type="text" name="phone">
                                     <span>Номер телефона</span>
                                 </label>
                             </div>
@@ -203,7 +203,7 @@
                         <div class="main-popup__form-col">
                             <div class="main-input main-input--aqua">
                                 <label>
-                                    <input class="js-form-input js-feedback-input" type="text" name="email">
+                                    <input  data-validate="empty" type="email"  class="js-form-input js-feedback-input"  name="email">
                                     <span>E-mail</span>
                                 </label>
                             </div>
@@ -211,7 +211,7 @@
                         <div class="main-popup__form-col main-popup__form-col--lg">
                             <div class="main-input main-input--aqua">
                                 <label>
-                                    <textarea class="js-form-input js-feedback-input" name="msg"></textarea>
+                                    <textarea class="js-form-input js-feedback-input"   name="msg"></textarea>
                                     <span>Комментарий</span>
                                 </label>
                             </div>
@@ -242,13 +242,13 @@
                 <!-- </div> -->
             <!-- </div> -->
             <div class="main-popup__right">
-                <form class="main-popup__form main-popup__form--aqua ajax-wrap js-form">
+                <form class="main-popup__form main-popup__form--aqua ajax-wrap js-form" >
                     <div class="main-popup__form-title">Заполните информацию ниже и&nbsp;мы свяжемся с&nbsp;вами</div>
                     <div class="main-popup__form-list ajax-wrap__item">
                         <?php if( $form_partner_options ): ?>
                             <div class="main-popup__form-col main-popup__form-col--lg">
                                 <div class="main-select main-select--aqua">
-                                    <select class="js-select js-feedback-input js-partner-select" name="partner"><?= $form_partner_options; ?></select>
+                                    <select data-validate="select" class="js-select js-feedback-input js-partner-select" name="partner"><?= $form_partner_options; ?></select>
                                     <span class="js-select-toggle">Выберите дистрибьютора</span>
                                 </div>
                             </div>
@@ -256,7 +256,7 @@
                         <div class="main-popup__form-col">
                             <div class="main-input main-input--aqua">
                                 <label>
-                                    <input class="js-form-input js-feedback-input" type="text" name="name">
+                                    <input data-validate="empty" class="js-form-input js-feedback-input" type="text"   name="name">
                                     <span>Имя и фамилия</span>
                                 </label>
                             </div>
@@ -264,7 +264,7 @@
                         <div class="main-popup__form-col">
                             <div class="main-input main-input--aqua">
                                 <label>
-                                    <input class="js-form-input js-feedback-input" type="text" name="company">
+                                    <input data-validate="empty" class="js-form-input js-feedback-input" type="text"   name="company">
                                     <span>Организация</span>
                                 </label>
                             </div>
@@ -272,7 +272,7 @@
                         <div class="main-popup__form-col">
                             <div class="main-input main-input--aqua">
                                 <label>
-                                    <input class="js-form-input js-tel-input js-feedback-input" type="text" name="phone">
+                                    <input data-validate="empty" class="js-form-input js-tel-input js-feedback-input" type="text"   name="phone">
                                     <span>Номер телефона</span>
                                 </label>
                             </div>
@@ -280,7 +280,7 @@
                         <div class="main-popup__form-col">
                             <div class="main-input main-input--aqua">
                                 <label>
-                                    <input class="js-form-input js-feedback-input" type="text" name="email">
+                                    <input data-validate="empty" class="js-form-input js-feedback-input" type="text"   name="email">
                                     <span>E-mail</span>
                                 </label>
                             </div>
@@ -288,7 +288,7 @@
                         <div class="main-popup__form-col main-popup__form-col--lg">
                             <div class="main-input main-input--aqua">
                                 <label>
-                                    <textarea class="js-form-input js-feedback-input" name="msg"></textarea>
+                                    <textarea class="js-form-input js-feedback-input"   name="msg"></textarea>
                                     <span>Комментарий</span>
                                 </label>
                             </div>
