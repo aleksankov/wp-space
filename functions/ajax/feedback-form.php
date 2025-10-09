@@ -237,8 +237,27 @@ function ajax_feedback_form_custom()
 {
     $result = ['status' => false];
 
-    $message = '<p style="font-size: 22px; text-align: center; padding-bottom: 30px; margin: 0;"><b>Детали заявки:</b></p><table>';
-    foreach ($_POST['custom_field'] as $item) {
+    $message = '
+
+  <style>
+        table{
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table tr td{
+            border: 1px solid #000;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+    </style>
+        <p style="font-size: 22px; text-align: center; padding-bottom: 30px; margin: 0;"><b>Детали заявки:</b></p><table>';
+    foreach ($_POST['custom_field'] as  $key =>$item) {
+        if ($key==='to'){
+            continue;
+        }
+
         $message .= '<tr>
             <td><b>' . $item['title'] . '</b></td>
             <td>' . $item['value'] . '</td>

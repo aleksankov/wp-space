@@ -4,7 +4,7 @@
     "fields": [
         {
             "key": "field_68dbd489e8821",
-            "label": "Изображение",
+            "label": "Изображение(1200px)",
             "name": "banner-min-v2-background",
             "aria-label": "",
             "type": "image",
@@ -30,7 +30,7 @@
         },
         {
             "key": "field_68dbd546e8822",
-            "label": "Изображение мобильное",
+            "label": "Изображение мобильное(480px)",
             "name": "banner-min-v2-background-mobile",
             "aria-label": "",
             "type": "image",
@@ -146,5 +146,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1759239931
+    "modified": 1760007098
 }
