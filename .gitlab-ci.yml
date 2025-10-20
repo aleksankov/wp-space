@@ -1,0 +1,37 @@
+variables:
+  IMAGE_NAME: wp-space:latest
+  SERVER_ADDR: "192.168.68.1"
+
+stages:
+  - build
+  - deploy
+
+build:
+  tags:
+    - shell
+  stage: build
+  script:
+    - docker pull kuber-registry.space.team:5000/$IMAGE_NAME || true
+    - cd devops && docker build -f Dockerfile ../ -t kuber-registry.space.team:5000/$IMAGE_NAME
+    - docker push kuber-registry.space.team:5000/$IMAGE_NAME
+  only:
+    refs:
+      - master
+      - main
+
+deploy:
+  tags:
+    - shell
+  stage: deploy
+  script:
+    - sed -i -e "s/<time.Now()>/'$(date '+%H%M%S%d%m%y')'/g" devops/*.yaml
+    - "curl --insecure  --request PUT --header \"Authorization: Bearer $KUBER_NEW_TOKEN\" --data-binary @devops/wp-robots.yaml --header \"Content-Type: application/yaml\" https://$SERVER_ADDR:6443/api/v1/namespaces/bazalt/configmaps/wp-robots-config"
+    - "curl --insecure  --request PUT --header \"Authorization: Bearer $KUBER_NEW_TOKEN\" --data-binary @devops/wp-htaccess.yaml --header \"Content-Type: application/yaml\" https://$SERVER_ADDR:6443/api/v1/namespaces/bazalt/configmaps/wp-htaccess-config"
+    - "curl --insecure  --request PUT --header \"Authorization: Bearer $KUBER_NEW_TOKEN\" --data-binary @devops/wp-apache-conf.yaml --header \"Content-Type: application/yaml\" https://$SERVER_ADDR:6443/api/v1/namespaces/bazalt/configmaps/wp-space-apache-settings"
+    - "curl --insecure  --request PUT --header \"Authorization: Bearer $KUBER_NEW_TOKEN\" --data-binary @devops/wp-space.yaml --header \"Content-Type: application/yaml\" https://$SERVER_ADDR:6443/apis/apps/v1/namespaces/bazalt/deployments/wp-space-server"
+  only:
+    refs:
+      - master
+      - main
+
+
