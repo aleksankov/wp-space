@@ -21,21 +21,21 @@ if (!empty($title) && !empty($videos)) : ?>
                                     type="button" disabled="" tabindex="-1" aria-label="Previous slide"
                                     aria-controls="swiper-wrapper-123cd2b6c8d39e9f" aria-disabled="true">
                                 <img decoding="async"
-                                     src="/wp-content/themes/wp-space/assets/img/slider-prev.svg"
+                                     src="<?= get_template_directory_uri(); ?>/assets/img/slider-prev.svg"
                                      alt="Prev">
                             </button>
                             <button class="video-gide__next slider-controls__next slider-controls__btn" type="button"
                                     tabindex="0" aria-label="Next slide" aria-controls="swiper-wrapper-123cd2b6c8d39e9f"
                                     aria-disabled="false">
                                 <img decoding="async"
-                                     src="/wp-content/themes/wp-space/assets/img/slider-next.svg"
+                                     src="<?= get_template_directory_uri(); ?>/assets/img/slider-next.svg"
                                      alt="Next">
                             </button>
                         </div>
                     </div>
                     <div class="swiper-wrapper">
                         <?php foreach ($videos as $video) :
-                            $img = wp_get_attachment_image( $video['video-gide-videos-thumb'], 'medium', false, array('class' => 'video-gide__slide-img') );
+                            $img = wp_get_attachment_image( $video['video-gide-videos-thumb'], 'full', false, array('class' => 'video-gide__slide-img') );
                             ?>
                             <div class="swiper-slide">
                                 <a target="_blank" href="<?= $video['video-gide-videos-video']?>" class="video-gide__slide">

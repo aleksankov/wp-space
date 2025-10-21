@@ -69,7 +69,7 @@
                 },
                 {
                     "key": "field_68ca5115fd02a",
-                    "label": "Обложка",
+                    "label": "Обложка (758 × 426 px)",
                     "name": "video-gide-videos-thumb",
                     "aria-label": "",
                     "type": "image",
@@ -186,5 +186,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1758091629
+    "modified": 1761054887
 }
