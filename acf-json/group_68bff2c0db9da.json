@@ -46,7 +46,7 @@
         },
         {
             "key": "field_68c113386b7f0",
-            "label": "Изображение фона",
+            "label": "Изображение фона( ширина 1200px )",
             "name": "banner-min-background",
             "aria-label": "",
             "type": "image",
@@ -169,5 +169,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1757494255
+    "modified": 1761748014
 }

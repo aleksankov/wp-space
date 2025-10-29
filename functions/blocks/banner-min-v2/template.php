@@ -12,15 +12,23 @@ $img = wp_get_attachment_image_src( $background, 'full' );
 $img_mobile = wp_get_attachment_image_src( $background_mobile, 'full');
 $link = get_field_block('banner-min-v2-link', $block);
 
-if (!empty($background)&&!empty($background_mobile)&&!empty($link)) : ?>
+if (!empty($background)&&!empty($background_mobile)) : ?>
 <section class="banner-min-v2 <?= $class ?> " <?= ($anim_enabled)?(' data-aos="fade-up" '):' '?>  <?= ($anim_enabled&&!empty($anim_delay))?(' data-aos-delay="' . $anim_delay . '"'):'' ?>>
     <div class="container">
+        <?php  if (!empty($link)):?>
         <a target="_blank" href="<?=$link?>">
         <picture>
             <source media="(max-width: 768px)" srcset="<?=$img_mobile[0]?>">
             <img src="<?=$img[0]?>">
         </picture>
         </a>
+        <?php else :?>
+            <picture>
+                <source media="(max-width: 768px)" srcset="<?=$img_mobile[0]?>">
+                <img src="<?=$img[0]?>">
+            </picture>
+        <?php endif;?>
+
     </div>
 </section>
 <?php endif; ?>

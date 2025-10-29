@@ -68,6 +68,9 @@
 <?php
 get_template_part('functions/blocks/banner-min/template', null);
 ?>
+<?php
+get_template_part('functions/blocks/banner-min-v2/template', null);
+?>
 
 <?php
     $home_products_title = get_field('home_products_title');

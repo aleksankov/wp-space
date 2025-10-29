@@ -963,17 +963,19 @@ $(document).ready(function() {
     });
     var videoGideSlider = new Swiper('.video-gide__slider', {
         speed: 600,
-        slidesPerView: 3,
-        spaceBetween: 32,
+        slidesPerView: 1,
+        spaceBetween: 24,
         navigation: {
             prevEl: '.video-gide__controls .video-gide__prev',
             nextEl: '.video-gide__controls .video-gide__next',
         },
         breakpoints: {
-            0: {
+            575: {
+                slidesPerView: 2,
                 spaceBetween: 24
             },
             992: {
+                slidesPerView: 3,
                 spaceBetween: 32
             }
         }
