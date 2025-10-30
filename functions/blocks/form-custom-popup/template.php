@@ -37,7 +37,7 @@ $form_id = get_field_block('form-custom-popup-id', $block)
                                                 <input type="hidden" name="custom_field[<?= $field['form-custom-popup-fields-name'] ?>][title]" value="<?= $field['form-custom-popup-fields-placeholder'] ?>">
 
                                                 <input
-                                                    <?= $field['form-custom-popup-fields-required']?"data-required" : "" ?>
+                                                    <?= $field['form-custom-fields-popup-required']?"data-required" : "" ?>
                                                         data-validate="empty"
                                                         class="js-form-input <?=$field['form-custom-popup-fields-type']==='tel'?'js-tel-input':' '?>  js-feedback-input"
                                                         type="<?= $field['form-custom-popup-fields-type'] ?>"
@@ -56,7 +56,7 @@ $form_id = get_field_block('form-custom-popup-id', $block)
 
                                                 <textarea
                                                         class="js-form-input js-feedback-input"
-                                                        <?= $field['form-custom-popup-fields-required']?"data-required" : "" ?>
+                                                        <?= $field['form-custom-fields-popup-required']?"data-required" : "" ?>
                                                         name="custom_field[<?= $field['form-custom-popup-fields-name'] ?>]['value]"></textarea>
                                                 <span><?= $field['form-custom-popup-fields-placeholder'] ?></span>
                                             </label>
@@ -70,8 +70,8 @@ $form_id = get_field_block('form-custom-popup-id', $block)
                                             <select
                                                     data-validate="select"
                                                     class="js-select js-select-custom-field"
-                                                <?= $field['form-custom-popup-fields-required']?"data-required" : "" ?>
-                                                    name="custom_field[<?= $field['form-custom-popup-fields-name'] ?>][value]">
+                                                <?= $field['form-custom-fields-popup-required']?"data-required" : "" ?>
+                                                    name=" [<?= $field['form-custom-popup-fields-name'] ?>][value]">
                                                 <option value="0">&nbsp;</option>
                                                 <?php foreach ($field['form-custom-popup-fields-variants'] as $variant): ?>
                                                     <option <?= !empty($variant['form-custom-popup-fields-variants-email'])? ('data-email="'. $variant['form-custom-popup-fields-variants-email'].'"'):''?> value="<?= $variant['form-custom-popup-fields-variants-text'] ?>"><?= $variant['form-custom-popup-fields-variants-text'] ?></option>
