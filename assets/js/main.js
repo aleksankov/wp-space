@@ -20,6 +20,34 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
+document.addEventListener('DOMContentLoaded', function () {
+    const filterButtons = document.querySelectorAll('.partner-block-filter__btn');
+    const partnerCards = document.querySelectorAll('.partner-card');
+
+    if (!filterButtons.length || !partnerCards.length) return;
+
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            // Убираем active у всех кнопок
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            // Добавляем active текущей
+            this.classList.add('active');
+
+            const filterValue = this.getAttribute('data-filter');
+
+            partnerCards.forEach(card => {
+                const cardStatus = card.getAttribute('data-status');
+
+                if (filterValue === 'all' || cardStatus === filterValue) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    });
+});
+
 // Функция debounce для оптимизации
 function debounce(func, wait) {
     let timeout;
@@ -981,6 +1009,26 @@ $(document).ready(function() {
         }
     });
 
+    var productSlider = new Swiper('.product-slider__slider', {
+        speed: 600,
+        slidesPerView: 1,
+        spaceBetween: 24,
+        navigation: {
+            prevEl: '.product-slider .video-gide__prev',
+            nextEl: '.product-slider .video-gide__next',
+        },
+        breakpoints: {
+            575: {
+                slidesPerView: 2,
+                spaceBetween: 24
+            },
+            992: {
+                slidesPerView: 3,
+                spaceBetween: 32
+            }
+        }
+    });
+
     $(document).on('click', '.js-platform-video-tag', function(){
         if( !$(this).hasClass('active') ){
             const index = $(this).index();
@@ -1111,10 +1159,53 @@ $(document).ready(function() {
 
     })
 
+    // document.addEventListener('DOMContentLoaded', function () {
+    //     const submenuItems = document.querySelectorAll('.js-submenu-toggle');
+    //
+    //     submenuItems.forEach(item => {
+    //         const trigger = item.querySelector('span'); // клик по span
+    //         const dropdown = item.querySelector('.header-submenu__dropdown');
+    //
+    //         trigger.addEventListener('click', function (e) {
+    //             e.preventDefault();
+    //
+    //             // Закрываем все другие подменю
+    //             document.querySelectorAll('.header-submenu__dropdown').forEach(d => {
+    //                 d.classList.remove('active');
+    //             });
+    //
+    //             // Переключаем текущее подменю
+    //             dropdown.classList.toggle('active');
+    //         });
+    //     });
+    //
+    //     // Закрываем подменю при клике вне его
+    //     document.addEventListener('click', function (e) {
+    //         if (!e.target.closest('.js-submenu-toggle')) {
+    //             document.querySelectorAll('.header-submenu__dropdown').forEach(d => {
+    //                 d.classList.remove('active');
+    //             });
+    //         }
+    //     });
+    // });
+
+    $(document).on('click', '.header-submenu-mobile .js-submenu-toggle span', function(e) {
+        e.preventDefault();
+
+        $('.header-submenu-mobile .header-submenu__dropdown').removeClass('active');
+
+        $(this).closest('.js-submenu-toggle').find('.header-submenu__dropdown').addClass('active');
+    });
+
+    $(document).on('click', function(e) {
+        // Проверяем, клик был **вне** .js-submenu-toggle
+        if (!$(e.target).closest('.js-submenu-toggle').length) {
+            $('.header-submenu-mobile .header-submenu__dropdown').removeClass('active');
+        }
+    });
 
     $(document).on('submit', '.js-form', function(e){
         e.preventDefault();
-
 
         const form = $(this),
             product = form.find('select[name="product"]'),

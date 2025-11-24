@@ -3,6 +3,7 @@
 
     $card_id = get_the_ID();
 
+
     $title = get_the_title($card_id);
     $permalink = get_the_permalink($card_id);
     
@@ -26,7 +27,16 @@
         $category_id = false;
     }
 
+    switch( $category->slug ){
+        case 'news': $category_link = get_home_url() . '/news/'; break;
+        default: $category_link = get_term_link($category_id);
+    }
+
+    //var_dump($category_link);
+
     $content = get_the_content($card_id);
+
+    //var_dump($content);
 ?>
 
     <section class="breadcrumbs-wrap">
@@ -43,7 +53,7 @@
     <div class="container">
         <div class="article__wrap">
             <div class="article__back">
-                <a class="back-btn" href="<?= $category_link; ?>">
+                <a class="back-btn" href="<?= $category_link ? $category_link : '/news/'; ?>">
                     <img src="<?= get_template_directory_uri(); ?>/assets/img/back-btn-icon.svg" alt="Back">
                     <span>Ко всем новостям</span>
                 </a>

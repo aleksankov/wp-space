@@ -1,79 +1,102 @@
 <?php
-    get_header();
+get_header();
 
-    $taxonomy = 'blog_category';
-    $is_tax = is_tax();
-    $post_found_count = 15;
-    $paged = get_query_var('paged', 1);
+$taxonomy = 'blog_category';
+$is_tax = is_tax();
+$post_found_count = 15;
+$paged = get_query_var('paged', 1);
 
-    $terms = get_terms( array(
+$terms = get_terms( array(
+    'taxonomy' => $taxonomy,
+    'hide_empty' => true,
+    'orderby' => 'term_taxonomy_id',
+    'order' => 'ASC'
+) );
+
+if( $is_tax ){
+    $term_slug = get_query_var( 'term' );
+    $cur_term = get_term_by( 'slug', $term_slug, $taxonomy );
+}else{
+    $cur_term = false;
+}
+
+$sort = isset($_GET['sort']) ? sanitize_text_field($_GET['sort']) : '';
+
+$args = array(
+    'post_type' => 'blog',
+    'post_status' => 'publish',
+    'posts_per_page' => $post_found_count,
+    'paged' => $paged
+);
+
+switch ($sort) {
+    case 'popularity':
+        $args['meta_key'] = '_post_views_count';
+        $args['orderby'] = 'meta_value_num';
+        $args['order'] = 'DESC';
+        break;
+
+    case 'alphabet':
+        $args['orderby'] = 'title';
+        $args['order'] = 'ASC';
+        break;
+
+    default:
+        $args['orderby'] = 'date';
+        $args['order'] = 'DESC';
+        break;
+}
+
+// Получаем ID категории 'news'
+$news_term = get_term_by('slug', 'news', $taxonomy);
+$news_term_id = $news_term ? $news_term->term_id : 0;
+
+// Формируем tax_query
+$tax_query = array();
+
+// Исключаем категорию news
+if ($news_term_id) {
+    $tax_query[] = array(
         'taxonomy' => $taxonomy,
-        'hide_empty' => true,
-        'orderby' => 'term_taxonomy_id',
-        'order' => 'ASC'
-    ) );
-
-    if( $is_tax ){
-        $term_slug = get_query_var( 'term' );
-        $cur_term = get_term_by( 'slug', $term_slug, $taxonomy );
-    }else{
-        $cur_term = false;
-    }
-
-    $sort = isset($_GET['sort']) ? sanitize_text_field($_GET['sort']) : '';
-
-    $args = array(
-        'post_type' => 'blog',
-        'post_status' => 'publish',
-        'posts_per_page' => $post_found_count,
-        'paged' => $paged
+        'field' => 'slug',
+        'terms' => 'news',
+        'operator' => 'NOT IN'
     );
+}
 
-    switch ($sort) {
-        case 'popularity':
-            $args['meta_key'] = '_post_views_count';
-            $args['orderby'] = 'meta_value_num';
-            $args['order'] = 'DESC';
-            break;
+// Добавляем текущую категорию, если есть
+if( $cur_term ){
+    $tax_query[] = array(
+        'taxonomy' => $taxonomy,
+        'field' => 'term_id',
+        'terms' => $cur_term->term_id,
+    );
+}
 
-        case 'alphabet':
-            $args['orderby'] = 'title';
-            $args['order'] = 'ASC';
-            break;
-
-        default:
-            $args['orderby'] = 'date';
-            $args['order'] = 'DESC';
-            break;
+// Если есть условия для tax_query, добавляем в аргументы
+if (!empty($tax_query)) {
+    // Если больше одного условия, добавляем relation
+    if (count($tax_query) > 1) {
+        $tax_query['relation'] = 'AND';
     }
+    $args['tax_query'] = $tax_query;
+}
 
-    if( $cur_term ){
-        $args['tax_query'] = array(
-            array(
-                'taxonomy' => $taxonomy,
-                'field' => 'term_id',
-                'terms' => $cur_term->term_id,
-            ),
-        );
-    }
+$query = new WP_Query( $args );
 
-    $query = new WP_Query( $args );
+// Статистика
+$from = 1;
+$to = $post_found_count;
+$post_found = $query->found_posts;
 
-    // Статистика
-    $from = 1;
-    $to = $post_found_count;
-    $post_found = $query->found_posts;
+if ($paged > 1) {
+    $from = ($paged * $post_found_count) - $post_found_count + 1;
+    $to = $paged * $post_found_count;
+}
 
-    if ($paged > 1) {
-        $from = ($paged * $post_found_count) - $post_found_count + 1;
-        $to = $paged * $post_found_count;
-    }
-
-    if ($to > $post_found) {
-        $to = $post_found;
-    }
-
-
+if ($to > $post_found) {
+    $to = $post_found;
+}
 ?>
 
     <section class="breadcrumbs-wrap">
@@ -98,9 +121,6 @@
             <?php if( $terms ): ?>
                 <div class="news__left" data-aos="fade-up" data-aos-delay="400">
                     <div class="news__tabs">
-                        <a href="<?= home_url('/news/'); ?>" class="news__tabs-item<?= !$is_tax ?>">
-                            Новости
-                        </a>
                         <?php foreach( $terms as $term ): ?>
                             <?php if($term->slug == 'news') continue; ?>
                             <a href="<?= get_term_link( $term->term_id ); ?>" class="news__tabs-item<?= $term->term_id == $cur_term->term_id ? ' active' : ''; ?>"><?= $term->name; ?></a>
@@ -129,8 +149,8 @@
                     </div>
                     <div class="news__row row-lg">
                         <?php while( $query->have_posts() ): $query->the_post(); ?>
-                            <div class="news__col col-lg">
-                                <?php get_template_part( 'templates/parts/news-card' ); ?>
+                            <div class="news__col-blog col-lg">
+                                <?php get_template_part( 'templates/parts/blog-card' ); ?>
                             </div>
                         <?php endwhile; wp_reset_postdata(); ?>
                     </div>

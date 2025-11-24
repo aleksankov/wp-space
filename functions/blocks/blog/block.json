@@ -1,0 +1,24 @@
+{
+    "name": "acf/blog",
+    "title": "Блог",
+    "description": "",
+    "category": "media",
+    "icon": "star-filled",
+    "keywords": ["Блог"],
+    "acf": {
+        "mode": "preview",
+        "renderTemplate": "template.php",
+        "renderCallback": "block_render"
+    },
+    "example": {
+        "attributes": {
+            "mode": "preview",
+            "data": {
+                "space_field": "value"
+            }
+        }
+    },
+    "supports": {
+        "anchor": false
+    }
+}

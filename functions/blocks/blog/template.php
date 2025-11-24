@@ -1,6 +1,6 @@
 <?php
 $taxonomy = 'blog_category';
-$is_page_news = is_page('news');
+$is_page_news = is_page('blog');
 $is_tax = is_tax();
 $post_found_count = 15;
 $paged = get_query_var('paged', 1);
@@ -12,12 +12,6 @@ $terms = get_terms( array(
     'order' => 'ASC',
 ) );
 
-if( $is_tax ){
-    $term_slug = get_query_var( 'term' );
-    $cur_term = get_term_by( 'slug', $term_slug, $taxonomy );
-}else{
-    $cur_term = false;
-}
 
 $sort = isset($_GET['sort']) ? sanitize_text_field($_GET['sort']) : '';
 
@@ -31,7 +25,7 @@ $args = array(
             'taxonomy' => $taxonomy,
             'field'    => 'slug',
             'terms'    => 'news',
-            'operator' => 'IN'
+            'operator' => 'NOT IN'
         )
     )
 );
@@ -63,17 +57,17 @@ if( $cur_term ){
         ),
     );
 }
-if ($is_page_news) {
-    $args['tax_query'] = [
-        [
-            'taxonomy' => $taxonomy,
-            'field' => 'slug',
-            'terms' => 'news',
-        ]
-    ];
-}
 
-//var_dump($args);
+//var_dump($cur_term);
+//if( $is_page_news ){
+//    $args['tax_query']= [
+//        [
+//            'taxonomy' => $taxonomy,
+//            'field' => 'slug',
+//            'terms' => 'blogs1',
+//        ]
+//    ];
+//}
 
 $query = new WP_Query( $args );
 
@@ -94,26 +88,21 @@ if ($to > $post_found) {
 
 <section class="news">
     <div class="container">
-        <?php if( $is_page_news ): ?>
-            <div class="news__header">
-                <h1 class="news__title" data-aos="fade-up">Новости</h1>
-                <div class="news__desc" data-aos="fade-up" data-aos-delay="200"><?= $cur_term->description; ?></div>
-            </div>
-        <?php endif; ?>
+        <div class="news__header">
+            <h1 class="news__title" data-aos="fade-up"><?= $cur_term ? $cur_term->name : get_the_title(); ?></h1>
+            <div class="news__desc" data-aos="fade-up" data-aos-delay="200"><?= $cur_term->description; ?></div>
+        </div>
         <div class="news__wrap">
-            <?php //if( $terms ): ?>
-            <!--    <div class="news__left" data-aos="fade-up" data-aos-delay="400">-->
-            <!--        <div class="news__tabs">-->
-            <!--            <a href="--><?php //= home_url('/news/'); ?><!--" class="news__tabs-item--><?php //= !$is_tax && $is_page_news ? ' active' : ''; ?><!--">-->
-            <!--                Новости-->
-            <!--            </a>-->
-            <!--            --><?php //foreach( $terms as $term ): ?>
-            <!--                --><?php //if($term->slug == 'news') continue; ?>
-            <!--                <a href="--><?php //= get_term_link( $term->term_id ); ?><!--" class="news__tabs-item--><?php //= $term->term_id == $cur_term->term_id ? ' active' : ''; ?><!--">--><?php //= $term->name; ?><!--</a>-->
-            <!--            --><?php //endforeach; ?>
-            <!--        </div>-->
-            <!--    </div>-->
-            <?php //endif; ?>
+            <?php if( $terms ): ?>
+                <div class="news__left" data-aos="fade-up" data-aos-delay="400">
+                    <div class="news__tabs">
+                        <?php foreach( $terms as $term ): ?>
+                            <?php if($term->slug == 'news') continue; ?>
+                            <a href="<?= get_term_link( $term->term_id ); ?>" class="news__tabs-item<?= $term->term_id == $cur_term->term_id ? ' active' : ''; ?>"><?= $term->name; ?></a>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            <?php endif; ?>
             <div class="news__right" data-aos="fade-up" data-aos-delay="600">
                 <?php if( $post_found ): ?>
                     <?php
@@ -135,8 +124,8 @@ if ($to > $post_found) {
                     </div>
                     <div class="news__row row-lg">
                         <?php while( $query->have_posts() ): $query->the_post(); ?>
-                            <div class="news__col col-lg">
-                                <?php get_template_part( 'templates/parts/news-card' ); ?>
+                            <div class="news__col-blog col-lg">
+                                <?php get_template_part( 'templates/parts/blog-card' ); ?>
                             </div>
                         <?php endwhile; wp_reset_postdata(); ?>
                     </div>

@@ -136,11 +136,13 @@ if( $about_regions_title ):
     $about_gallery_title = get_field('about_gallery_title');
     $about_gallery_items = get_field('about_gallery_items');
 
-    $about_gallery_items_size = ceil(count($about_gallery_items) / 2);
-    $about_gallery_items_cols = [
-        array_slice($about_gallery_items, 0, $about_gallery_items_size),
-        array_slice($about_gallery_items, $about_gallery_items_size)
-    ];
+    if ($about_gallery_items){
+        $about_gallery_items_size = ceil(count($about_gallery_items) / 2);
+        $about_gallery_items_cols = [
+            array_slice($about_gallery_items, 0, $about_gallery_items_size),
+            array_slice($about_gallery_items, $about_gallery_items_size)
+        ];
+    }
 
     if( $about_gallery_items && $about_gallery_items_cols ):
 ?>
@@ -377,10 +379,10 @@ if( $about_clients_title ):
                 <div class="about-contacts__left" data-aos="fade-up">
                     <div class="about-contacts__tabs">
                         <?php $counter = 1; foreach( $site_contacts_addresses as $site_contacts_address ): ?>
-                            <button class="about-contacts__tab js-about-map-tab<?= $counter == 1 ? ' active' : ''; ?>" type="button">
+                            <div class="about-contacts__tab js-about-map-tab<?= $counter == 1 ? ' active' : ''; ?>" role="button">
                                 <div class="about-contacts__tab-sub h5">Офис в г. <span><?= $site_contacts_address['city']; ?></span></div>
                                 <div class="about-contacts__tab-desc"><?= $site_contacts_address['address']; ?></div>
-                            </button>
+                            </div>
                         <?php $counter++; endforeach; ?>
                     </div>
                 </div>

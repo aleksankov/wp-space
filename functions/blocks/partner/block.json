@@ -1,0 +1,24 @@
+{
+    "name": "acf/partner",
+    "title": "Блок партнеры",
+    "description": "",
+    "category": "media",
+    "icon": "universal-access-alt",
+    "keywords": ["Партнеры"],
+    "acf": {
+        "mode": "preview",
+        "renderTemplate": "template.php",
+        "renderCallback": "block_render"
+    },
+    "example": {
+        "attributes": {
+            "mode": "preview",
+            "data": {
+                "space_field": "value"
+            }
+        }
+    },
+    "supports": {
+        "anchor": false
+    }
+}

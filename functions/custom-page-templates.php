@@ -6,6 +6,8 @@ function add_page_templates_to_dropdown( $templates ) {
     $templates['templates/space/vdi.php'] = 'Space VDI';
     $templates['templates/space/client.php'] = 'Space Client';
     $templates['templates/about/about.php'] = 'О компании';
+    $templates['templates/cases/cases.php'] = 'Кейсы';
+    $templates['templates/contacts/contacts.php'] = 'Контакты';
     $templates['templates/partners/partners.php'] = 'Партнеры';
     $templates['templates/support/support.php'] = 'Сервисные центры';
     $templates['templates/education/education.php'] = 'Обучение';

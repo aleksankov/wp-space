@@ -1,0 +1,11 @@
+.partner-block{
+  &-filter{
+    display: flex;
+    gap: 24px;
+    button{
+      padding: 3px 15px;
+      border-radius: 12px;
+      border:1px solid #D9D7DA;
+    }
+  }
+}

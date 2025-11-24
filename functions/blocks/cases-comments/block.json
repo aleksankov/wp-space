@@ -1,0 +1,24 @@
+{
+  "name": "acf/cases-comments",
+  "title": "16. Комментарии к кейсу",
+  "description": "",
+  "category": "media",
+  "icon": "email-alt",
+  "keywords": ["Комментарии к кейсу"],
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "template.php",
+    "renderCallback": "block_render"
+  },
+  "example": {
+    "attributes": {
+      "mode": "preview",
+      "data": {
+        "space_field": "value"
+      }
+    }
+  },
+  "supports": {
+    "anchor": false
+  }
+}

@@ -112,6 +112,18 @@
             width: 100%;
         }
     }
+
+    &__col-blog{
+        width: 50%;
+        margin-bottom: 32px;
+        @include lg {
+            margin-bottom: 24px;
+        }
+        @include sm {
+            width: 100%;
+        }
+    }
+
     &__pagination{
         margin-top: 56px;
         @include lg {
@@ -131,6 +143,14 @@
             .news-card__sub{
                 color: $violet;
             }
+        }
+    }
+    &-blog{
+        padding: 32px 24px 24px;
+        border-radius: 24px;
+        background: linear-gradient(90deg, #F7F7F8 0%, #F7F7F8 39.5%, #F2F3F8 79.5%, #F1F3F8 100%);
+        @media (max-width: 1023px) {
+            padding: 24px 16px 16px;
         }
     }
     &__img{
