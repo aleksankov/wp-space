@@ -19,7 +19,7 @@ $result = get_field_block('cases_results', $block);
                     <div class="cases__results-stats">
                         <?php foreach ($result['result_number'] as $stat): ?>
                             <div class="cases__results-stat-item">
-                                <div class="cases__results-value h4"><?= $stat['value']; ?></div>
+                                <div class="cases__results-value h3"><?= $stat['value']; ?></div>
                                 <div class="cases__results-label h7"><?= $stat['result_text']; ?></div>
                             </div>
                         <?php endforeach; ?>

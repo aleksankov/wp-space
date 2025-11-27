@@ -48,6 +48,33 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
+document.addEventListener('DOMContentLoaded', function () {
+    const submenuToggles = document.querySelectorAll('.header-submenu-mobile .js-submenu-toggle');
+
+    submenuToggles.forEach(function (toggleItem) {
+        // Найдём переключаемый dropdown внутри этого элемента
+        const dropdown = toggleItem.querySelector('.header-submenu-mobile__dropdown');
+
+        if (!dropdown) return;
+
+        // Добавляем обработчик клика на весь <li> (включая span)
+        toggleItem.addEventListener('click', function (e) {
+            // Предотвращаем переход по ссылке, если вдруг span кликабелен
+            if (e.target.tagName === 'A') return;
+
+            // Закрываем все другие открытые подменю (опционально — для single-open поведения)
+            document.querySelectorAll('.header-submenu-mobile .header-submenu-mobile__dropdown.active').forEach(function (openDropdown) {
+                if (openDropdown !== dropdown) {
+                    openDropdown.classList.remove('active');
+                }
+            });
+
+            // Переключаем текущее подменю
+            dropdown.classList.toggle('active');
+        });
+    });
+});
+
 // Функция debounce для оптимизации
 function debounce(func, wait) {
     let timeout;

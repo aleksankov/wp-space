@@ -117,7 +117,7 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      gap: 32px;
+      gap: 12px;
       position: fixed;
       top: 0;
       left: 0;
@@ -568,6 +568,15 @@
     border-radius: 16px;
     padding: 12px;
     gap: 12px;
+    .header-submenu__item-img {
+      display: flex;
+      flex-shrink: 0;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+    }
 
     @include hover {
       transition: background-color .25s;
@@ -577,6 +586,7 @@
 
         .header-submenu__item-img {
           background-color: $violet;
+          border-radius: 12px;
 
           svg {
             path {
@@ -599,20 +609,43 @@
 
   & > ul {
     display: flex;
+    flex-direction: column;
     align-items: start;
     gap: 12px; // отступы между элементами
     flex-wrap: wrap;
     width: 100%;
+    padding: 0 24px;
   }
 
   & > ul > li {
     position: relative;
+    width: 100%;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #F7F7F8;
+    span{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 12px;
+      min-height: 40px;
+    }
+    & > span{
+      justify-content: space-between;
+      &::after {
+        content: '';
+        display: block;
+        flex-shrink: 0;
+        width: 40px;
+        height: 40px;
+        background: url(../img/mob-menu-dropdown-icon.svg) center center no-repeat;
+        background-size: contain;
+      }
+    }
 
     // Подменю (изначально скрыто)
-    .header-submenu__dropdown {
+    .header-submenu-mobile__dropdown {
       position: static; // не абсолютно
       opacity: 100;
-      //visibility: hidden;
       display: none;
       margin-top: 8px;
       width: 100%;
@@ -628,11 +661,11 @@
       }
     }
 
-    .header-submenu__dropdown-list {
+    .header-submenu-mobile__dropdown-list {
       width: 100%;
       max-width: 408px;
       padding: 0px;
-      border-radius: 24px;
+      border-radius: 12px;
       background-color: $white;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 
@@ -641,16 +674,23 @@
       }
     }
 
-    .header-submenu__item {
+    .header-submenu-mobile__item {
       display: flex;
+      justify-content: space-between;
+      gap: 12px;
       align-items: center;
       border-radius: 16px;
       padding: 12px;
 
+      & > span{
+        display: flex;
+        gap: 12px;
+      }
+
       &:hover {
         background-color: #FBFAFD;
 
-        .header-submenu__item-img {
+        .header-submenu-mobile__item-img {
           background-color: $violet;
 
           svg {
@@ -660,7 +700,7 @@
           }
         }
 
-        .header-submenu__item-sub {
+        .header-submenu-mobile__item-sub {
           color: $violet;
         }
       }
@@ -670,11 +710,7 @@
   // Показываем только на мобильных
   @include lg {
     display: block;
-    margin-top: 8px;
-    padding: 8px 12px;
-    width: fit-content;
-    border: 1px solid #D9D7DA;
-    border-radius: 32px;
+    width: 100%;
 
     & > ul {
       display: flex;

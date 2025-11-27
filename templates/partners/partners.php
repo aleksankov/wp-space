@@ -180,6 +180,6 @@
     </section>
 <?php endif; ?>
 
-<?php the_content(); ?>
+<?php include get_template_directory() . '/functions/blocks/partner/template.php'; ?>
 
 <?php get_footer(); ?>
