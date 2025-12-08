@@ -4,7 +4,23 @@ $id = isset($block) ? (array_key_exists('anchor', $block) && $block['anchor'] ? 
 $class = isset($block['className']) ? $block['className'] : 'default';
 
 $cases = get_field_block('slider', $block);
-//var_dump($cases);
+
+$args = array(
+    'post_type' => 'cases',
+    'post_status' => 'publish',
+    'posts_per_page' => -1,
+);
+
+$args['meta_query'] = array(
+    array(
+        'key' => 'product',
+        'compare' => 'LIKE',
+        'value' => get_the_ID(),
+    )
+);
+$query = new WP_Query($args);
+$cases = $query->posts;
+
 if (empty($cases)) {
     return;
 }
@@ -34,10 +50,17 @@ if (empty($cases)) {
 
         <div class="product-slider__slider swiper-container">
             <div class="swiper-wrapper">
-                <?php foreach ($cases as $case): ?>
+                <?php foreach ($cases as $case):
+                    ?>
                     <a href="<?= get_permalink($case->ID) ?>" class="swiper-slide product-slider__slider-slide">
                         <div class="">
                             <h3 class="product-slider__slider-title"><?= esc_html($case->post_title) ?></h3>
+                            <?php if ($case->cart_logo) : ?>
+                                <div class="cases-card__logo">
+                                    <img src="<?php echo esc_url($case->cart_logo['url']); ?>"
+                                         alt="<?php echo esc_attr($case->cart_logo['alt']); ?>">
+                                </div>
+                            <?php endif; ?>
                             <div class="product-slider__slider-content">
                                 <?= apply_filters('the_content', $case->text) ?>
                             </div>

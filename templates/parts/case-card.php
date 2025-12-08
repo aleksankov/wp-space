@@ -1,12 +1,27 @@
 <?php
 $card_id = get_the_ID();
-
 $cart_short_text = get_field('text', $card_id);
-//var_dump($cart_short_text);
+$cart_logo = get_field('logo', $card_id);
+$cart_labels = wp_get_post_terms($card_id, 'case_tags');
 ?>
-<div class="cases__col">
-    <a class="cases-card" href="<?php the_permalink(); ?>">
+<a class="cases-card" href="<?php the_permalink(); ?>">
+    <?php if ($cart_logo) : ?>
+        <div class="cases-card__logo">
+            <img src="<?php echo esc_url($cart_logo['url']); ?>"
+                 alt="<?php echo esc_attr($cart_logo['alt']); ?>">
+        </div>
+    <?php endif; ?>
+
+    <div class="cases-card__content">
         <div class="cases-card__sub h3"><?php the_title(); ?></div>
         <div class="cases-card__sub h7"><?= $cart_short_text; ?></div>
-    </a>
-</div>
+
+        <?php if (!empty($cart_labels) && !is_wp_error($cart_labels)) : ?>
+            <div class="cases-card__labels">
+                <?php foreach ($cart_labels as $label) : ?>
+                    <span class="cases-card__label"><?php echo esc_html($label->name); ?></span>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
+    </div>
+</a>

@@ -22,16 +22,16 @@ get_header();
         <div class="contacts__addresses" data-aos="fade-up" data-aos-delay="400">
             <?php foreach ($site_contacts_addresses as $site_contacts_address): ?>
                 <div class="contacts__addresses-item">
-                    <h5>Офис:</h5><span> <?= htmlspecialchars($site_contacts_address['city']) ?> </span>
-                    <h5>Адрес:</h5><span> <?= htmlspecialchars($site_contacts_address['address']) ?> </span>
-                    <h5>Координаты на карте:</h5><span>  (<?= $site_contacts_address['position_x'] ?>, <?= $site_contacts_address['position_y'] ?>)</span>
+                    <span>Офис: </span><span class="contacts__addresses-value"><?= htmlspecialchars($site_contacts_address['city']) ?></span>
+                    <span>Адрес:</span><p class="contacts__addresses-value"> <?= htmlspecialchars($site_contacts_address['address']) ?> </p>
+                    <span>Телефон:</span><p class="contacts__addresses-value"> <?= $site_contacts_address['phone'] ?> </p>
                 </div>
             <?php endforeach; ?>
             <?php foreach ($site_contacts_department as $department): ?>
                 <div class="contacts__addresses-item">
-                    <h5><?= htmlspecialchars($department['name']) ?> </h5>
+                    <span class="contacts__addresses-value"><?= htmlspecialchars($department['name']) ?> </span>
                     <p> <?= htmlspecialchars($department['text']) ?> </p>
-                    <h5>E-mail:</h5><span> <?= htmlspecialchars($department['email']) ?> </span>
+                    <span>E-mail: </span><span class="contacts__addresses-value"><?= htmlspecialchars($department['email']) ?></span>
                 </div>
             <?php endforeach; ?>
             <div class="contacts__addresses-item">

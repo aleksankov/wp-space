@@ -22,8 +22,22 @@
   gap: 8px;
   padding: 32px 24px 24px;
   border-radius: 24px;
+  border: 1px solid #F0F0F0;
   background: -webkit-gradient(linear, left top, right top, from(#F7F7F8), color-stop(39.5%, #F7F7F8), color-stop(79.5%, #F2F3F8), to(#F1F3F8));
   background: linear-gradient(90deg, #F7F7F8 0%, #F7F7F8 39.5%, #F2F3F8 79.5%, #F1F3F8 100%);
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+
+.contacts__addresses-item:hover {
+  background: -webkit-gradient(linear, left top, right top, from(#F8F8F9), color-stop(39.5%, #F0F1F5), color-stop(79.5%, #EAECEE), to(#E9EBEE));
+  background: linear-gradient(90deg, #F8F8F9 0%, #F0F1F5 39.5%, #EAECEE 79.5%, #E9EBEE 100%);
+  border: 1px solid #665F6D;
+}
+
+.contacts__addresses-value {
+  font-size: 20px;
+  font-weight: 600;
 }
 
 @media (max-width: 1023px) {

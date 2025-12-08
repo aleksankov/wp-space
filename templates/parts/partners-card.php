@@ -41,7 +41,13 @@ $status_slug = $card_status ? sanitize_title($card_status) : 'other';
     <div class="partner-card__contacts">
         <?php if ($card_phone): ?>
             <div class="partner-card__phone">
-                <?= esc_html($card_phone); ?>
+                Телефон: <?= esc_html($card_phone); ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if ($card_phone): ?>
+            <div class="partner-card__site">
+                Сайт партнера: <?= esc_html($card_website); ?>
             </div>
         <?php endif; ?>
     </div>

@@ -270,4 +270,17 @@ function register_post_types(){
         'template_item'       => '/templates/cases/cases-single.php',
         'template_archive'    => '/templates/cases/cases.php',
     ] );
+
+    register_taxonomy('case_tags', ['cases'], [
+        'label'        => 'Теги кейсов',
+        'labels'       => [
+            'name'          => 'Теги кейсов',
+            'singular_name' => 'Тег кейса',
+            'menu_name'     => 'Теги',
+        ],
+        'public'       => true,
+        "exclude_from_search" => true,
+        'hierarchical' => false,
+        'show_in_rest' => true,
+    ]);
 }
