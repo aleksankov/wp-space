@@ -22,6 +22,35 @@ $all_tags = get_terms([
     'orderby' => 'name',
     'order' => 'ASC',
 ]);
+
+$product_ids = array();
+
+if ($query->have_posts()) {
+    while ($query->have_posts()) {
+        $query->the_post();
+        $product_id = get_field('product', get_the_ID()); // Получаем ID продукта из ACF
+
+        if ($product_id && !in_array($product_id, $product_ids)) {
+            $product_ids[] = $product_id;
+        }
+    }
+    wp_reset_postdata();
+}
+
+// Теперь получаем объекты продуктов
+$product_posts = array();
+if (!empty($product_ids)) {
+    $product_posts = get_posts(array(
+        'post_type' => 'page', // или какой у вас тип записи для продуктов
+        'post__in' => $product_ids,
+        'post_status' => 'publish',
+        'posts_per_page' => -1,
+        'orderby' => 'post__in', // сохраняем порядок как в массиве product_ids
+    ));
+}
+
+var_dump($product_posts);
+
 ?>
 
     <section class="breadcrumbs-wrap">
@@ -41,7 +70,7 @@ $all_tags = get_terms([
                 <!-- Кнопка "Все кейсы" -->
                 <a href="?filter=all" class="cases-filter <?php echo $current_filter === 'all' ? 'cases-filter--active' : ''; ?>">
                     <span class="cases-filter__text">Все кейсы</span>
-                    <span class="cases-filter__count"><?php echo esc_html($post_found); ?></span>
+<!--                    <span class="cases-filter__count">--><?php //echo esc_html($post_found); ?><!--</span>-->
                 </a>
                 <!-- Кнопки для каждого лейбла -->
                 <?php foreach ($all_tags as $key => $tag) : ?>

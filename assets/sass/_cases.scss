@@ -221,6 +221,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
+    margin-bottom: 8px;
 
     @media (max-width: 768px) {
       justify-content: flex-start;
