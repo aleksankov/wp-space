@@ -30,6 +30,7 @@
 
   &-card {
     border: 1px solid #D9D7DA;
+    position: relative;
     border-radius: 32px;
     padding: 24px;
     display: flex;
@@ -42,6 +43,14 @@
     &:hover {
       border: 1px solid $violet;
       transform: translateY(-4px);
+    }
+    &__link{
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
     }
     &__logo {
       width: 100%;
@@ -84,6 +93,8 @@
       font-size: 12px;
       font-weight: 500;
       line-height: 1.2;
+      position: relative;
+      z-index: 10;
 
       &:hover {
         background: rgba(146, 104, 255, 0.2);
@@ -216,6 +227,10 @@
 .cases-filters {
   margin-bottom: 40px;
   padding: 20px 0;
+
+  &__title-filters{
+    margin-bottom: 12px;
+  }
 
   &__wrapper {
     display: flex;

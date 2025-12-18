@@ -2,6 +2,8 @@
 get_header();
 
 $current_filter = isset($_GET['filter']) ? sanitize_text_field($_GET['filter']) : 'all';
+$current_product = isset($_GET['product']) ? sanitize_text_field($_GET['product']) : 'all';
+
 $args = array(
     'post_type' => 'cases',
     'post_status' => 'publish',
@@ -10,6 +12,19 @@ $args = array(
 
 if($current_filter !== 'all') {
     $args['tax_query'] = array(array('taxonomy' => 'case_tags', 'field' => 'term_id', 'terms' => $current_filter));
+}
+
+if ($current_product !== 'all') {
+    $args['meta_query'] = array(
+        array(
+            'key' => 'product',
+            'value' => $current_product,
+            'compare' => '=',
+        )
+    );
+}
+if ($current_filter !== 'all' && $current_product !== 'all') {
+    $args['tax_query']['relation'] = 'AND';
 }
 
 $query = new WP_Query($args);
@@ -23,34 +38,81 @@ $all_tags = get_terms([
     'order' => 'ASC',
 ]);
 
-$product_ids = array();
+// Функция для подсчета кейсов с учетом обоих фильтров
+function get_case_count_with_filters($filter = 'all', $product = 'all') {
+    $count_args = array(
+        'post_type' => 'cases',
+        'post_status' => 'publish',
+        'posts_per_page' => -1,
+        'fields' => 'ids',
+    );
 
-if ($query->have_posts()) {
-    while ($query->have_posts()) {
-        $query->the_post();
-        $product_id = get_field('product', get_the_ID()); // Получаем ID продукта из ACF
+    if ($filter !== 'all') {
+        $count_args['tax_query'] = array(array(
+            'taxonomy' => 'case_tags',
+            'field' => 'term_id',
+            'terms' => $filter,
+        ));
+    }
 
-        if ($product_id && !in_array($product_id, $product_ids)) {
-            $product_ids[] = $product_id;
+    if ($product !== 'all') {
+        $count_args['meta_query'] = array(array(
+            'key' => 'product',
+            'value' => $product,
+            'compare' => '=',
+        ));
+    }
+
+    $count_query = new WP_Query($count_args);
+    $count = $count_query->found_posts;
+    wp_reset_postdata();
+
+    return $count;
+}
+
+// Получаем все продукты из ВСЕХ кейсов (не только отфильтрованных)
+$all_product_ids = array();
+$all_cases_query = new WP_Query(array(
+    'post_type' => 'cases',
+    'post_status' => 'publish',
+    'posts_per_page' => -1,
+));
+
+if ($all_cases_query->have_posts()) {
+    while ($all_cases_query->have_posts()) {
+        $all_cases_query->the_post();
+        $product_id = get_field('product', get_the_ID());
+        if ($product_id && !in_array($product_id, $all_product_ids)) {
+            $all_product_ids[] = $product_id;
         }
     }
     wp_reset_postdata();
 }
 
-// Теперь получаем объекты продуктов
+// Получаем объекты продуктов
 $product_posts = array();
-if (!empty($product_ids)) {
+if (!empty($all_product_ids)) {
     $product_posts = get_posts(array(
-        'post_type' => 'page', // или какой у вас тип записи для продуктов
-        'post__in' => $product_ids,
+        'post_type' => 'page',
+        'post__in' => $all_product_ids,
         'post_status' => 'publish',
         'posts_per_page' => -1,
-        'orderby' => 'post__in', // сохраняем порядок как в массиве product_ids
+        'orderby' => 'title',
+        'order' => 'ASC',
     ));
 }
 
-var_dump($product_posts);
+// Считаем количество кейсов для каждого продукта с учетом текущего фильтра по тегам
+$product_counts = array();
+foreach ($product_posts as $product_post) {
+    $product_counts[$product_post->ID] = get_case_count_with_filters($current_filter, $product_post->ID);
+}
 
+// Считаем количество кейсов для каждого тега с учетом текущего фильтра по продукту
+$tag_counts = array();
+foreach ($all_tags as $tag) {
+    $tag_counts[$tag->term_id] = get_case_count_with_filters($tag->term_id, $current_product);
+}
 ?>
 
     <section class="breadcrumbs-wrap">
@@ -66,6 +128,7 @@ var_dump($product_posts);
 <?php if (!empty($all_tags)) : ?>
     <section class="cases-filters">
         <div class="container">
+            <div class="cases-filters__title-filters h5">Фильтр по тегам</div>
             <div class="cases-filters__wrapper">
                 <!-- Кнопка "Все кейсы" -->
                 <a href="?filter=all" class="cases-filter <?php echo $current_filter === 'all' ? 'cases-filter--active' : ''; ?>">
@@ -80,6 +143,25 @@ var_dump($product_posts);
                         <span class="cases-filter__count"><?= esc_html($tag->count); ?></span>
                     </a>
                 <?php endforeach; ?>
+            </div>
+            <div class="cases-filters__title-filters h5">Фильтр по продуктам</div>
+            <div class="cases-filters__wrapper">
+                <?php if (!empty($product_posts)) : ?>
+
+                    <?php foreach ($product_posts as $product_post) :
+                        $product_id = $product_post->ID;
+                        $product_title = get_the_title($product_post);
+                        $product_count = isset($product_counts[$product_id]) ? $product_counts[$product_id] : 0;
+                        ?>
+                        <?php if ($product_count > 0): ?>
+                        <a href="<?= get_the_permalink(); ?>?filter=<?php echo esc_attr($current_filter); ?>&product=<?php echo esc_attr($product_id); ?>"
+                           class="cases-filter cases-filter--product <?= ($current_product == $product_id) ? 'cases-filter--active' : ''; ?>">
+                            <span class="cases-filter__text"><?= esc_html($product_title); ?></span>
+                            <span class="cases-filter__count"><?= esc_html($product_count); ?></span>
+                        </a>
+                    <?php endif; ?>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </div>
         </div>
     </section>

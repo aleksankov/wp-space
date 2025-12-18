@@ -8732,6 +8732,7 @@ div.partners-distributors__item-link {
 
 .cases-card {
   border: 1px solid #D9D7DA;
+  position: relative;
   border-radius: 32px;
   padding: 24px;
   display: -webkit-box;
@@ -8758,6 +8759,15 @@ div.partners-distributors__item-link {
   border: 1px solid #946AD2;
   -webkit-transform: translateY(-4px);
   transform: translateY(-4px);
+}
+
+.cases-card__link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
 }
 
 .cases-card__logo {
@@ -8819,6 +8829,8 @@ div.partners-distributors__item-link {
   font-size: 12px;
   font-weight: 500;
   line-height: 1.2;
+  position: relative;
+  z-index: 10;
 }
 
 .cases-card__label:hover {
@@ -8962,6 +8974,10 @@ div.partners-distributors__item-link {
 .cases-filters {
   margin-bottom: 40px;
   padding: 20px 0;
+}
+
+.cases-filters__title-filters {
+  margin-bottom: 12px;
 }
 
 .cases-filters__wrapper {
@@ -9267,6 +9283,8 @@ div.partners-distributors__item-link {
 
 .partner-card__phone {
   direction: ltr;
+  position: relative;
+  z-index: 31;
 }
 
 .partner-card__site {

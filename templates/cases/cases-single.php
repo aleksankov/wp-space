@@ -29,6 +29,9 @@ $case_product = get_field('product', $post_id);
                             <?php echo esc_html($tag->name); ?>
                         </span>
                     <?php endforeach; ?>
+                    <span class="case-label">
+                            <?php echo get_the_title($case_product) ?>
+                        </span>
                 </div>
             </div>
         <?php endif; ?>

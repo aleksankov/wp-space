@@ -127,6 +127,8 @@
 
   &__phone {
     direction: ltr;
+    position: relative;
+    z-index: 31;
   }
   &__site {
     z-index: 30;
