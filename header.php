@@ -72,7 +72,7 @@
     <meta charset="<?php bloginfo('charset'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<meta name="yandex-verification" content="b48de33d72252a4a" />
+    <meta name="yandex-verification" content="39a96daaf7e85c21" />
 	<meta name="google-site-verification" content="5AK4SPWcJ-6lGjnU0gOse6pFLM-aaQvQtf3vhzYIW6M" />
 
     <link rel="preload" href="<?= get_template_directory_uri(); ?>/assets/css/fonts/Manrope/manrope-v15-cyrillic_cyrillic-ext_latin_latin-ext-regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
