@@ -21,9 +21,9 @@
     if( $category ){
         $category = array_shift($category);
         $category_id = $category->term_id;
-        $category_link = get_term_link($category_id);
+        $category_link = get_term_link($category->term_id, $category->taxonomy);
     }else{
-        $category_link = get_home_url() . '/blog/category/news/';
+        $category_link = get_page_by_path('news');
         $category_id = false;
     }
 
