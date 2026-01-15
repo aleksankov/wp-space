@@ -1,6 +1,6 @@
 <?php
 $taxonomy = 'blog_category';
-$is_page_news = is_page('news');
+$is_page_news = is_page('news_page');
 $is_tax = is_tax();
 $post_found_count = 15;
 $paged = get_query_var('paged', 1);

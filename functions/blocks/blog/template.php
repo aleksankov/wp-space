@@ -1,6 +1,7 @@
 <?php
+get_header();
+
 $taxonomy = 'blog_category';
-$is_page_news = is_page('blog');
 $is_tax = is_tax();
 $post_found_count = 15;
 $paged = get_query_var('paged', 1);
@@ -9,7 +10,7 @@ $terms = get_terms( array(
     'taxonomy' => $taxonomy,
     'hide_empty' => true,
     'orderby' => 'term_taxonomy_id',
-    'order' => 'ASC',
+    'order' => 'ASC'
 ) );
 
 if( $is_tax ){
@@ -25,15 +26,7 @@ $args = array(
     'post_type' => 'blog',
     'post_status' => 'publish',
     'posts_per_page' => $post_found_count,
-    'paged' => $paged,
-    'tax_query' => array(
-        array(
-            'taxonomy' => $taxonomy,
-            'field'    => 'slug',
-            'terms'    => 'news',
-            'operator' => 'NOT IN'
-        )
-    )
+    'paged' => $paged
 );
 
 switch ($sort) {
@@ -54,26 +47,79 @@ switch ($sort) {
         break;
 }
 
-if( $cur_term ){
-    $args['tax_query'] = array(
-        array(
-            'taxonomy' => $taxonomy,
-            'field' => 'term_id',
-            'terms' => $cur_term->term_id,
-        ),
+// Получаем ID категории 'news'
+$news_term = get_term_by('slug', 'news', $taxonomy);
+$news_term_id = $news_term ? $news_term->term_id : 0;
+
+// Функция для получения постов, привязанных ТОЛЬКО к news
+function get_posts_only_in_news($taxonomy, $news_term_id) {
+    global $wpdb;
+
+    $query = $wpdb->prepare(
+        "SELECT DISTINCT tr.object_id 
+        FROM {$wpdb->term_relationships} tr
+        INNER JOIN {$wpdb->term_taxonomy} tt ON tr.term_taxonomy_id = tt.term_taxonomy_id
+        WHERE tt.taxonomy = %s 
+        AND tt.term_id = %d
+        AND NOT EXISTS (
+            SELECT 1 
+            FROM {$wpdb->term_relationships} tr2
+            INNER JOIN {$wpdb->term_taxonomy} tt2 ON tr2.term_taxonomy_id = tt2.term_taxonomy_id
+            WHERE tr2.object_id = tr.object_id 
+            AND tt2.taxonomy = %s
+            AND tt2.term_id != %d
+        )",
+        $taxonomy,
+        $news_term_id,
+        $taxonomy,
+        $news_term_id
     );
+
+    $results = $wpdb->get_col($query);
+    return $results ?: array();
 }
 
-//var_dump($cur_term);
-//if( $is_page_news ){
-//    $args['tax_query']= [
-//        [
-//            'taxonomy' => $taxonomy,
-//            'field' => 'slug',
-//            'terms' => 'blogs1',
-//        ]
-//    ];
-//}
+if( $cur_term ){
+    // Если есть текущий термин
+    if ($news_term_id) {
+        // Получаем посты, которые привязаны ТОЛЬКО к news
+        $posts_only_news = get_posts_only_in_news($taxonomy, $news_term_id);
+
+        // Исключаем эти посты из результатов
+        if (!empty($posts_only_news)) {
+            $args['post__not_in'] = $posts_only_news;
+        }
+
+        // Основной tax_query для текущего термина
+        $args['tax_query'] = array(
+            array(
+                'taxonomy' => $taxonomy,
+                'field' => 'term_id',
+                'terms' => $cur_term->term_id,
+            )
+        );
+    } else {
+        // Если нет категории news, просто фильтруем по текущему термину
+        $args['tax_query'] = array(
+            array(
+                'taxonomy' => $taxonomy,
+                'field' => 'term_id',
+                'terms' => $cur_term->term_id,
+            )
+        );
+    }
+} else {
+    // Если нет текущего термина (общий архив)
+    if ($news_term_id) {
+        // Получаем посты, которые привязаны ТОЛЬКО к news
+        $posts_only_news = get_posts_only_in_news($taxonomy, $news_term_id);
+
+        // Исключаем эти посты из результатов
+        if (!empty($posts_only_news)) {
+            $args['post__not_in'] = $posts_only_news;
+        }
+    }
+}
 
 $query = new WP_Query( $args );
 
