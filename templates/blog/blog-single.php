@@ -41,11 +41,48 @@
 
     <section class="breadcrumbs-wrap">
         <div class="container">
-            <?php if (function_exists('yoast_breadcrumb')): ?>
-                <div class="breadcrumbs-wrapper">
-                    <?php yoast_breadcrumb('<nav class="breadcrumbs">', '</nav>'); ?>
-                </div>
-            <?php endif; ?>
+            <div class="breadcrumbs-wrapper">
+                <nav class="breadcrumbs">
+                    <?php
+                    $categories = get_the_terms(get_the_ID(), 'blog_category');
+                    $is_news_category = false;
+
+                    if ($categories && !is_wp_error($categories)) {
+                        foreach ($categories as $category) {
+                            if ($category->slug == 'news') {
+                                $is_news_category = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if ($is_news_category) {
+                        ?>
+                        <nav class="breadcrumbs">
+                            <span class="">
+                                <a href="<?= home_url('/'); ?>">Главная</a>
+                                <?php
+                                $news_page = get_page_by_path('news_page');
+                                if ($news_page):
+                                    ?>
+                                    <span> » </span>
+                                    <a href="<?= get_permalink($news_page->ID); ?>">
+                                        <?= get_the_title($news_page); ?>
+                                    </a>
+                                <?php endif; ?>
+                                <span> » </span>
+                                <span><?php the_title(); ?></span>
+                            </span>
+                        </nav>
+                        <?php
+                    } else {
+                        if (function_exists('yoast_breadcrumb')) {
+                            yoast_breadcrumb('<nav class="breadcrumbs">', '</nav>');
+                        }
+                    }
+                    ?>
+                </nav>
+            </div>
         </div>
     </section>
 

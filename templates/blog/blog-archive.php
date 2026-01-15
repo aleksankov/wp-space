@@ -51,38 +51,78 @@ switch ($sort) {
 $news_term = get_term_by('slug', 'news', $taxonomy);
 $news_term_id = $news_term ? $news_term->term_id : 0;
 
-// Формируем tax_query
-$tax_query = array();
+// Функция для получения постов, привязанных ТОЛЬКО к news
+function get_posts_only_in_news($taxonomy, $news_term_id) {
+    global $wpdb;
 
-// Исключаем категорию news
-if ($news_term_id) {
-    $tax_query[] = array(
-        'taxonomy' => $taxonomy,
-        'field' => 'slug',
-        'terms' => 'news',
-        'operator' => 'NOT IN'
+    $query = $wpdb->prepare(
+        "SELECT DISTINCT tr.object_id 
+        FROM {$wpdb->term_relationships} tr
+        INNER JOIN {$wpdb->term_taxonomy} tt ON tr.term_taxonomy_id = tt.term_taxonomy_id
+        WHERE tt.taxonomy = %s 
+        AND tt.term_id = %d
+        AND NOT EXISTS (
+            SELECT 1 
+            FROM {$wpdb->term_relationships} tr2
+            INNER JOIN {$wpdb->term_taxonomy} tt2 ON tr2.term_taxonomy_id = tt2.term_taxonomy_id
+            WHERE tr2.object_id = tr.object_id 
+            AND tt2.taxonomy = %s
+            AND tt2.term_id != %d
+        )",
+        $taxonomy,
+        $news_term_id,
+        $taxonomy,
+        $news_term_id
     );
+
+    $results = $wpdb->get_col($query);
+    return $results ?: array();
 }
 
-// Добавляем текущую категорию, если есть
 if( $cur_term ){
-    $tax_query[] = array(
-        'taxonomy' => $taxonomy,
-        'field' => 'term_id',
-        'terms' => $cur_term->term_id,
-    );
-}
+    // Если есть текущий термин
+    if ($news_term_id) {
+        // Получаем посты, которые привязаны ТОЛЬКО к news
+        $posts_only_news = get_posts_only_in_news($taxonomy, $news_term_id);
 
-// Если есть условия для tax_query, добавляем в аргументы
-if (!empty($tax_query)) {
-    // Если больше одного условия, добавляем relation
-    if (count($tax_query) > 1) {
-        $tax_query['relation'] = 'AND';
+        // Исключаем эти посты из результатов
+        if (!empty($posts_only_news)) {
+            $args['post__not_in'] = $posts_only_news;
+        }
+
+        // Основной tax_query для текущего термина
+        $args['tax_query'] = array(
+            array(
+                'taxonomy' => $taxonomy,
+                'field' => 'term_id',
+                'terms' => $cur_term->term_id,
+            )
+        );
+    } else {
+        // Если нет категории news, просто фильтруем по текущему термину
+        $args['tax_query'] = array(
+            array(
+                'taxonomy' => $taxonomy,
+                'field' => 'term_id',
+                'terms' => $cur_term->term_id,
+            )
+        );
     }
-    $args['tax_query'] = $tax_query;
+} else {
+    // Если нет текущего термина (общий архив)
+    if ($news_term_id) {
+        // Получаем посты, которые привязаны ТОЛЬКО к news
+        $posts_only_news = get_posts_only_in_news($taxonomy, $news_term_id);
+
+        // Исключаем эти посты из результатов
+        if (!empty($posts_only_news)) {
+            $args['post__not_in'] = $posts_only_news;
+        }
+    }
 }
 
 $query = new WP_Query( $args );
+
 
 // Статистика
 $from = 1;
@@ -109,55 +149,55 @@ if ($to > $post_found) {
         </div>
     </section>
 
-<section class="news">
-    <div class="container">
-        <?php if( $cur_term ): ?>
-            <div class="news__header">
-                <h1 class="news__title" data-aos="fade-up"><?= $cur_term->name; ?></h1>
-                <div class="news__desc" data-aos="fade-up" data-aos-delay="200"><?= $cur_term->description; ?></div>
-            </div>
-        <?php endif; ?>
-        <div class="news__wrap">
-            <?php if( $terms ): ?>
-                <div class="news__left" data-aos="fade-up" data-aos-delay="400">
-                    <div class="news__tabs">
-                        <?php foreach( $terms as $term ): ?>
-                            <?php if($term->slug == 'news') continue; ?>
-                            <a href="<?= get_term_link( $term->term_id ); ?>" class="news__tabs-item<?= $term->term_id == $cur_term->term_id ? ' active' : ''; ?>"><?= $term->name; ?></a>
-                        <?php endforeach; ?>
-                    </div>
+    <section class="news">
+        <div class="container">
+            <?php if( $cur_term ): ?>
+                <div class="news__header">
+                    <h1 class="news__title" data-aos="fade-up"><?= $cur_term->name; ?></h1>
+                    <div class="news__desc" data-aos="fade-up" data-aos-delay="200"><?= $cur_term->description; ?></div>
                 </div>
             <?php endif; ?>
-            <div class="news__right" data-aos="fade-up" data-aos-delay="600">
-                <?php if( $post_found ): ?>
-                    <?php
+            <div class="news__wrap">
+                <?php if( $terms ): ?>
+                    <div class="news__left" data-aos="fade-up" data-aos-delay="400">
+                        <div class="news__tabs">
+                            <?php foreach( $terms as $term ): ?>
+                                <?php if($term->slug == 'news') continue; ?>
+                                <a href="<?= get_term_link( $term->term_id ); ?>" class="news__tabs-item<?= $term->term_id == $cur_term->term_id ? ' active' : ''; ?>"><?= $term->name; ?></a>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                <?php endif; ?>
+                <div class="news__right" data-aos="fade-up" data-aos-delay="600">
+                    <?php if( $post_found ): ?>
+                        <?php
                         if( $post_found < $post_found_count){
                             $post_found_count = $post_found;
                         }
-                    ?>
-                    <div class="news__controls">
-                        <div class="news__count"><?= $from ?>-<?= $to; ?> из <?= $post_found; ?></div>
-                        <div class="news__sort">
-                            <div class="sort-select">
-                                <select class="js-select" onchange="location.href=this.value;">
-                                    <option value="<?= add_query_arg('sort', '', remove_query_arg('sort')); ?>" <?= empty($sort) ? "selected" : ""; ?>>По дате</option>
-                                    <option value="<?= add_query_arg('sort', 'popularity', remove_query_arg('paged')); ?>" <?= ($sort === "popularity") ? "selected" : ""; ?>>По популярности</option>
-                                    <option value="<?= add_query_arg('sort', 'alphabet', remove_query_arg('paged')); ?>" <?= ($sort === "alphabet") ? "selected" : ""; ?>>По алфавиту</option>
-                                </select>
+                        ?>
+                        <div class="news__controls">
+                            <div class="news__count"><?= $from ?>-<?= $to; ?> из <?= $post_found; ?></div>
+                            <div class="news__sort">
+                                <div class="sort-select">
+                                    <select class="js-select" onchange="location.href=this.value;">
+                                        <option value="<?= add_query_arg('sort', '', remove_query_arg('sort')); ?>" <?= empty($sort) ? "selected" : ""; ?>>По дате</option>
+                                        <option value="<?= add_query_arg('sort', 'popularity', remove_query_arg('paged')); ?>" <?= ($sort === "popularity") ? "selected" : ""; ?>>По популярности</option>
+                                        <option value="<?= add_query_arg('sort', 'alphabet', remove_query_arg('paged')); ?>" <?= ($sort === "alphabet") ? "selected" : ""; ?>>По алфавиту</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="news__row row-lg">
-                        <?php while( $query->have_posts() ): $query->the_post(); ?>
-                            <div class="news__col-blog col-lg">
-                                <?php get_template_part( 'templates/parts/blog-card' ); ?>
-                            </div>
-                        <?php endwhile; wp_reset_postdata(); ?>
-                    </div>
+                        <div class="news__row row-lg">
+                            <?php while( $query->have_posts() ): $query->the_post(); ?>
+                                <div class="news__col-blog col-lg">
+                                    <?php get_template_part( 'templates/parts/blog-card' ); ?>
+                                </div>
+                            <?php endwhile; wp_reset_postdata(); ?>
+                        </div>
 
-                    <?php if ($query->max_num_pages > 1) : ?>
-                        <div class="news__pagination main-pagination">
-                            <?php
+                        <?php if ($query->max_num_pages > 1) : ?>
+                            <div class="news__pagination main-pagination">
+                                <?php
                                 echo paginate_links( array(
                                     'base'         => str_replace( 999999999, '%#%', esc_url( get_pagenum_link( 999999999 ) ) ),
                                     'total'        => $query->max_num_pages,
@@ -173,33 +213,15 @@ if ($to > $post_found) {
                                     'add_args'     => false,
                                     'add_fragment' => '',
                                 ) );
-                            ?>
-                        </div>
+                                ?>
+                            </div>
+                        <?php endif; ?>
+                    <?php else: ?>
+                        <p>По данному запросу ничего не найдено...</p>
                     <?php endif; ?>
-
-                    <?php //if ( false ) : ?>
-                    <!--    <div class="news__pagination main-pagination">-->
-                    <!--        <span>1</span>-->
-                    <!--        <a href="news.html">2</a>-->
-                    <!--        <a href="news.html">3</a>-->
-                    <!--        <a href="news.html">4</a>-->
-                    <!--        <a href="news.html">5</a>-->
-                    <!--        <a class="main-pagination__btn" href="news.html">Дальше</a>-->
-                    <!--    </div>-->
-                    <!--    <div class="news__pagination main-pagination-mob">-->
-                    <!--        <span>1</span>-->
-                    <!--        <a href="news.html">2</a>-->
-                    <!--        <a href="news.html">3</a>-->
-                    <!--        <a href="news.html">4</a><i>...</i>-->
-                    <!--        <a href="news.html">124</a>-->
-                    <!--    </div>-->
-                    <?php //endif; ?>
-                <?php else: ?>
-                    <p>По данному запросу ничего не найдено...</p>
-                <?php endif; ?>
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
 <?php get_footer(); ?>
