@@ -12,6 +12,12 @@ $terms = get_terms( array(
     'order' => 'ASC',
 ) );
 
+if( $is_tax ){
+    $term_slug = get_query_var( 'term' );
+    $cur_term = get_term_by( 'slug', $term_slug, $taxonomy );
+}else{
+    $cur_term = false;
+}
 
 $sort = isset($_GET['sort']) ? sanitize_text_field($_GET['sort']) : '';
 

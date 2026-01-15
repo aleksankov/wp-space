@@ -23,12 +23,12 @@
         $category_id = $category->term_id;
         $category_link = get_term_link($category->term_id, $category->taxonomy);
     }else{
-        $category_link = get_page_by_path('news');
+        $category_link = get_page_by_path('news_page');
         $category_id = false;
     }
 
     switch( $category->slug ){
-        case 'news': $category_link = get_home_url() . '/news/'; break;
+        case 'news': $category_link = get_home_url() . '/news_page/'; break;
         default: $category_link = get_term_link($category_id);
     }
 
@@ -53,7 +53,7 @@
     <div class="container">
         <div class="article__wrap">
             <div class="article__back">
-                <a class="back-btn" href="<?= $category_link ? $category_link : '/news/'; ?>">
+                <a class="back-btn" href="<?= $category_link ? $category_link : '/news_page/'; ?>">
                     <img src="<?= get_template_directory_uri(); ?>/assets/img/back-btn-icon.svg" alt="Back">
                     <span>Ко всем новостям</span>
                 </a>
