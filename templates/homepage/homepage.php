@@ -109,6 +109,7 @@ get_template_part('functions/blocks/banner-min-v2/template', null);
                         </div>
                     <?php $counter++; endforeach; ?>
                 </div>
+				 <div class="swiper-scrollbar"></div>
             </div>
         </div>
     </section>
