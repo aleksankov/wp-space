@@ -877,7 +877,10 @@ $(document).ready(function() {
                 slidesPerView: 3,
                 spaceBetween: 32
             }
-        }
+	  },
+          scrollbar: {
+            el: '.swiper-scrollbar',
+          },
     });
 
     var aboutClientsSlider = new Swiper('.about-clients__slider', {
@@ -1693,3 +1696,40 @@ $(document).ready(function() {
 //         new FramePlayer(document.querySelector('[data-hero-video]'), 150, 60)
 //     }
 // })
+
+// запуск видео на главном экране в Opera
+
+const video = document.getElementById("hero-video-canvas");
+
+video.muted = true;
+video.playsInline = true;
+
+function tryPlay(){
+  video.play().catch(()=>{});
+}
+
+/* когда видео реально готово */
+video.addEventListener("canplay", tryPlay);
+
+/* после загрузки страницы */
+window.addEventListener("load", tryPlay);
+
+/* при появлении видео в viewport */
+const observer = new IntersectionObserver(entries=>{
+  if(entries[0].isIntersecting){
+    tryPlay();
+  }
+});
+observer.observe(video);
+
+/* любой пользовательский жест */
+["touchstart","touchend","click","scroll"].forEach(evt=>{
+  document.addEventListener(evt, tryPlay, {once:true});
+});
+
+/* запасная попытка */
+setInterval(()=>{
+  if(video.paused){
+    tryPlay();
+  }
+},2000);

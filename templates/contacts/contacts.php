@@ -12,7 +12,7 @@ get_header();
     </div>
 </section>
 
-<?php $site_contacts_addresses = get_field('site_contacts_addresses', 'option'); ?>
+<?php $site_contacts_addresses = get_field('site_contacts_addresses_contacts_page', 'option'); ?>
 <?php $site_contacts_department = get_field('site_contacts_department', 'option'); ?>
 <?php $site_contacts_department_title = get_field('site_contacts_department_title', 'option'); ?>
 
@@ -23,22 +23,22 @@ get_header();
             <div class="contacts__addresses" data-aos="fade-up" data-aos-delay="400">
                 <?php foreach ($site_contacts_addresses as $site_contacts_address): ?>
                     <div class="contacts__addresses-item">
-                        <?php if (!empty($site_contacts_address['city'])): ?>
-                            <span>Офис: </span><span class="contacts__addresses-value"><?= htmlspecialchars($site_contacts_address['city']) ?></span>
-                        <?php endif; ?>
+    <?php if (!empty($site_contacts_address['city_contacts_page']) && $site_contacts_address['city_contacts_page'] !== ' '): ?>
+        <span>Офис: </span><span class="contacts__addresses-value"><?= htmlspecialchars($site_contacts_address['city_contacts_page']) ?></span>
+    <?php endif; ?>
 
-                        <?php if (!empty($site_contacts_address['address'])): ?>
-                            <span>Адрес:</span><span class="contacts__addresses-value"><?= htmlspecialchars($site_contacts_address['address']) ?></span>
-                        <?php endif; ?>
+    <?php if (!empty($site_contacts_address['address_contacts_page']) && $site_contacts_address['address_contacts_page'] !== ' '): ?>
+        <span>Адрес:</span><span class="contacts__addresses-value"><?= htmlspecialchars($site_contacts_address['address_contacts_page']) ?></span>
+    <?php endif; ?>
 
-                        <?php if (!empty($site_contacts_address['email'])): ?>
-                            <span>Email:</span><a href="mailto:<?= htmlspecialchars($site_contacts_address['email']) ?>" class="contacts__addresses-value"><?= htmlspecialchars($site_contacts_address['email']) ?></a>
-                        <?php endif; ?>
+    <?php if (!empty($site_contacts_address['email_contacts_page']) && $site_contacts_address['email_contacts_page'] !== ' '): ?>
+        <span>Email:</span><a href="mailto:<?= htmlspecialchars($site_contacts_address['email_contacts_page']) ?>" class="contacts__addresses-value"><?= htmlspecialchars($site_contacts_address['email_contacts_page']) ?></a>
+    <?php endif; ?>
 
-                        <?php if (!empty($site_contacts_address['phone'])): ?>
-                            <span>Телефон:</span><a href="tel:<?= preg_replace('/[^0-9+]/', '', $site_contacts_address['phone']) ?>" class="contacts__addresses-value"><?= htmlspecialchars($site_contacts_address['phone']) ?></a>
-                        <?php endif; ?>
-                    </div>
+    <?php if (!empty($site_contacts_address['phone_contacts_page']) && $site_contacts_address['phone_contacts_page'] !== ' '): ?>
+        <span>Телефон:</span><a href="tel:<?= preg_replace('/[^0-9+]/', '', $site_contacts_address['phone_contacts_page']) ?>" class="contacts__addresses-value"><?= htmlspecialchars($site_contacts_address['phone_contacts_page']) ?></a>
+    <?php endif; ?>
+</div>
                 <?php endforeach; ?>
             </div>
         </div>

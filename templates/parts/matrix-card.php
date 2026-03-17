@@ -89,7 +89,7 @@
                     [
                         'key' => 'matrix_product_version',
                         'value' => $versions_item,
-                        'compare' => '='
+                        'compare' => 'REGEXP'
                     ]]
                 );
             }
@@ -149,12 +149,31 @@
             <?php if( $versions_arr ): ?>
                 <div class="matrix-popup__select">
                     <div class="filter-select main-scroll">
-                        <select class="js-select js-select-scroll js-matrix-version">
-                            <option value="0">&nbsp;</option>
-                            <?php $counter = 1; foreach( $versions_arr as $versions_item ): ?>
-                                <option value="<?= $counter; ?>"<?= $card_product_version == $versions_item ? ' selected' : ''; ?>><?= $card_product; ?> <?= $versions_item; ?></option>
-                            <?php $counter++; endforeach; ?>
-                        </select>
+                    <?$normalized_versions = []; //удаляем дубли версий
+						foreach ($versions_arr as $version) {
+							foreach (explode(',', $version) as $v) {
+								$v = trim($v);
+								if ($v !== '') {
+									$normalized_versions[] = $v;
+								}
+							}
+						}
+
+						$versions_arr = array_values(array_unique($normalized_versions));
+
+						usort($versions_arr, function ($a, $b) {
+							return version_compare($b, $a);
+						});?>
+						<select class="js-select js-select-scroll js-matrix-version">
+							<option value="0">&nbsp;</option>
+
+							<?php $counter = 1; foreach ($versions_arr as $versions_item): ?>
+								<option value="<?= $counter; ?>" <?= $counter == 1 ? ' selected' : ''; ?>>
+									<?= $card_product; ?> <?= $versions_item; ?>
+								</option>
+							<?php $counter++; endforeach; ?>
+
+						</select>
                         <span class="js-select-toggle">Версия</span>
                     </div>
                 </div>
@@ -163,12 +182,36 @@
                 <div class="matrix-popup__models">
                     <div class="matrix-popup__models-sub">Список моделей оборудования</div>
                     <div class="matrix-popup__models-wrap">
-                        <?php foreach( $models_arr as $key => $models_list ): ?>
+                        <?php // делим множественные ключи
+						foreach ($models_arr as $key => $models_list) {
+
+							if (str_contains($key, ',')) {
+
+								$versions = explode(',', $key);
+
+								foreach ($versions as $version) {
+									$version = trim($version);
+
+									if (!isset($models_arr[$version])) {
+										$models_arr[$version] = $models_list;
+									} else {
+										$models_arr[$version] = array_values(
+											array_unique(array_merge($models_arr[$version], $models_list))
+										);
+									}
+								}
+
+							}
+
+						}
+						
+						foreach( $models_arr as $key => $models_list ): ?>
                             <div class="matrix-popup__models-list js-matrix-list<?= $key == $card_product_version ? ' active' : ''; ?>">
                                 <ul>
-                                    <?php foreach( $models_list as $models_item ): ?>
-                                        <li><?= $models_item; ?></li>
-                                    <?php endforeach; ?>
+                                    <?php
+										foreach( $models_list as $models_item ): ?>
+										<li><?= $models_item; ?></li>
+									<?php endforeach;?>
                                 </ul>
                             </div>
                         <?php endforeach; ?>

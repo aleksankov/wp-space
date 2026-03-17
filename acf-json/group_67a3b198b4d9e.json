@@ -337,6 +337,28 @@
                     "prepend": "",
                     "append": "",
                     "parent_repeater": "field_67a3b3d304ed9"
+                },
+                {
+                    "key": "field_69b035230029c",
+                    "label": "Адрес сайта",
+                    "name": "service_site",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "allow_in_bindings": 0,
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_67a3b3d304ed9"
                 }
             ]
         },
@@ -893,5 +915,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1739525164
+    "modified": 1773156133
 }

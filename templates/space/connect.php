@@ -98,6 +98,53 @@
                 $filter_products_arr[$key] = $filter_products[$key];
             }
         }
+		//получаем версии всех матриц
+		global $wpdb;
+		$matrix_versions = $wpdb->get_col($wpdb->prepare("
+			SELECT DISTINCT pm.meta_value 
+			FROM {$wpdb->postmeta} pm
+			INNER JOIN {$wpdb->posts} p ON p.ID = pm.post_id
+			WHERE pm.meta_key = %s
+			AND p.post_type = 'matrix'
+			AND p.post_status = 'publish'
+		", 'matrix_product_version'));
+		
+		//добавляем ключ 'Все совместимости'
+		$filter_products_arr['Все совместимости'] = $matrix_versions;
+		arsort($filter_products_arr);
+		
+		//множественное значение версии продукта
+		foreach ($filter_products_arr as &$versions) {
+
+			$result = [];
+
+			foreach ($versions as $version) {
+
+				// разбиваем строки с несколькими версиями
+				$parts = explode(',', $version);
+
+				foreach ($parts as $v) {
+					$result[] = trim($v);
+				}
+
+			}
+
+			// удаляем дубликаты и переиндексируем
+			$versions = array_values(array_unique($result));
+			
+			//сортируем результат
+			usort($versions, function($a, $b) {
+			// 'Все версии' всегда первым
+			if ($a === 'Все версии') return -1;
+			if ($b === 'Все версии') return 1;
+
+			// Остальные по убыванию версий
+			return version_compare($b, $a);
+		});
+
+		}
+
+		unset($versions);
     }
 
     if( empty($selected_product) ){
@@ -105,7 +152,7 @@
     }
     
     if( empty($selected_version) && !empty($filter_products_arr[$selected_product]) ){
-        $selected_version = $filter_products_arr[$selected_product][0];
+        $selected_version = '';
     }
 
     $args = array(
@@ -114,16 +161,24 @@
         'posts_per_page' => -1
     );
 
-    if( $selected_product ){
-        $args['meta_query'][] = array(
-            'key' => 'matrix_product',
-            'value' => $selected_product,
-            'compare' => '='
-        );
-    }
+if ($selected_product !== 'Все совместимости') {
+    $args['meta_query'][] = array(
+        'key' => 'matrix_product',
+        'value' => $selected_product,
+        'compare' => 'LIKE'
+    );
+	
+}
 
-    if( $selected_version ){
+
+
+
+    if( $selected_version && $selected_version !== 'Все версии'){
         $parts = explode('.', $selected_version);
+		
+// 		echo '<pre>';
+// 		print_r($parts);
+// 		echo '</pre>';
 
         if (isset($parts[2]) && $parts[2] == 'X') {
             $args['meta_query'][] = array(
@@ -135,10 +190,10 @@
             $args['meta_query'][] = array(
                 'key' => 'matrix_product_version',
                 'value' => $selected_version,
-                'compare' => '='
+                'compare' => 'LIKE'
             );
         }
-    }
+    } 
 
     $query = new WP_Query( $args );
 
@@ -276,13 +331,13 @@
                                     <span class="js-select-toggle">Совместимость</span>
                                 </div>
                             </div>
+
                         </div>
                         <div class="matrix__filter-col">
                             <div class="matrix__filter-item">
                                 <div class="filter-select filter-select--full">
                                     <select class="js-select js-select-scroll js-matrix-filter-select" name="version">
-
-                                        
+										<? $filter_products_arr[$selected_product][0] = 'Все версии';?>
                                         <?php foreach( $filter_products_arr[$selected_product] as $filter_products_item_val ): ?>
                                             <option value="<?= $filter_products_item_val; ?>"<?= $selected_version === $filter_products_item_val ? ' selected' : ''; ?>><?= $filter_products_item_val; ?></option>
                                         <?php endforeach; ?>
@@ -292,7 +347,9 @@
                             </div>
                         </div>
                     <?php endif; ?>
-                    <?php if( $filter_vendors ): ?>
+                    <?php if( $filter_vendors ): 
+					//сортируем вендоров по алфавиту
+					asort($filter_vendors);?>
                         <div class="matrix__filter-col">
                             <div class="matrix__filter-item">
                                 <div class="filter-select filter-select--full">

@@ -170,6 +170,24 @@
             "append": ""
         },
         {
+            "key": "field_69b00f0fc9509",
+            "label": "Страница О компании",
+            "name": "",
+            "aria-label": "",
+            "type": "message",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "new_lines": "wpautop",
+            "esc_html": 0
+        },
+        {
             "key": "field_67a30b4910e77",
             "label": "Адреса",
             "name": "site_contacts_addresses",
@@ -322,6 +340,136 @@
                     "prepend": "",
                     "append": "",
                     "parent_repeater": "field_67a30b4910e77"
+                }
+            ]
+        },
+        {
+            "key": "field_69b00ff8fd83b",
+            "label": "Старница Контакты",
+            "name": "",
+            "aria-label": "",
+            "type": "message",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "new_lines": "wpautop",
+            "esc_html": 0
+        },
+        {
+            "key": "field_69b01028fd83c",
+            "label": "Адреса",
+            "name": "site_contacts_addresses_contacts_page",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "table",
+            "pagination": 0,
+            "min": 0,
+            "max": 0,
+            "collapsed": "",
+            "button_label": "Добавить",
+            "rows_per_page": 20,
+            "sub_fields": [
+                {
+                    "key": "field_69b01029fd83d",
+                    "label": "Город",
+                    "name": "city_contacts_page",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "allow_in_bindings": 0,
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_69b01028fd83c"
+                },
+                {
+                    "key": "field_69b01029fd83e",
+                    "label": "Адрес",
+                    "name": "address_contacts_page",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "allow_in_bindings": 0,
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_69b01028fd83c"
+                },
+                {
+                    "key": "field_69b01029fd841",
+                    "label": "Телефон",
+                    "name": "phone_contacts_page",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "allow_in_bindings": 0,
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_69b01028fd83c"
+                },
+                {
+                    "key": "field_69b01029fd842",
+                    "label": "Почта",
+                    "name": "email_contacts_page",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "allow_in_bindings": 0,
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_69b01028fd83c"
                 }
             ]
         },
@@ -604,5 +752,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1765966479
+    "modified": 1773500655
 }

@@ -13916,3 +13916,12 @@ div.partners-distributors__item-link {
     text-decoration: none;
   }
 }
+
+.home-products__slider {
+	    position: relative;
+    padding-bottom: 20px;
+}
+
+.swiper-scrollbar-drag {
+    background: rgb(178 186 235 / 60%);
+}

@@ -134,7 +134,7 @@
             "name": "matrix_product_version",
             "aria-label": "",
             "type": "text",
-            "instructions": "",
+            "instructions": "Версии можно добавлять через запятую",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -168,5 +168,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1740112999
+    "modified": 1773311035
 }
