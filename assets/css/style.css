@@ -12122,7 +12122,7 @@ div.partners-distributors__item-link {
   }
 
   .partners-distributors__item:not(.partners-distributors__item--file) .partners-distributors__item-link:last-child {
-    display: none;
+/*     display: none; */
   }
 
   .partners-distributors__item-link.partners-distributors__item-link--file::before {
