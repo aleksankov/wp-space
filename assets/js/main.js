@@ -878,9 +878,9 @@ $(document).ready(function() {
                 spaceBetween: 32
             }
 	  },
-          scrollbar: {
-            el: '.swiper-scrollbar',
-          },
+//           scrollbar: {
+//             el: '.swiper-scrollbar',
+//           },
     });
 
     var aboutClientsSlider = new Swiper('.about-clients__slider', {
