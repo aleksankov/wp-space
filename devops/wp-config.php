@@ -115,7 +115,8 @@ define ('WP_REDIS_PORT', getenv("WP_REDIS_PORT") );
 define ('WP_REDIS_PREFIX', getenv("WP_REDIS_PREFIX") );
 
 /* Add ssl config */
-define('FORCE_SSL_ADMIN', true);
+$force_ssl_admin = getenv('WP_FORCE_SSL_ADMIN') === 'true';
+define('FORCE_SSL_ADMIN', $force_ssl_admin);
 if ($_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
     $_SERVER['HTTPS']='on';
 }
