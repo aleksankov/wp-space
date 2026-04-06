@@ -24,9 +24,9 @@ docker compose down
 ```bash
 docker compose exec web bash
 su -s /bin/bash www-data
-wp option update home http://localhost/
-wp option update siteurl http://localhost/
-wp search-replace https://spacevm.ru http://localhost --all-tables
+wp option update home http://10.2.137.74/
+wp option update siteurl http://10.2.137.74/
+wp search-replace https://spacevm.ru http://10.2.137.74 --all-tables
 ```
 
 ## Импорт дампа БД
@@ -43,3 +43,5 @@ docker compose exec web bash
 chown -R www-data:www-data /var/www/wp-space
 chmod -R +x /var/www/wp-space
 ```
+
+10.2.137.74
