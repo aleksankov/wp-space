@@ -82,10 +82,10 @@
                                             <span><?= $support_centers_item['email']; ?></span>
                                         </a>
                                     <?php endif; ?>
-									     <?php if( $support_centers_item['service_site'] ): ?>
-                                        <a class="partners-distributors__item-link" href="http://<?= $support_centers_item['service_site']; ?>" target="_blank">
+									     <?php if( $support_centers_item['service_url'] ): ?>
+                                        <a class="partners-distributors__item-link" href="<?= $support_centers_item['service_url']; ?>" target="_blank">
                                             <img src="<?= get_template_directory_uri(); ?>/assets/img/partners-distributors-icon-3.svg" alt="Email">
-                                            <span><?= $support_centers_item['service_site']; ?></span>
+                                            <span><?= !empty($support_centers_item['service_site'])? $support_centers_item['service_site']:$support_centers_item['service_url'] ?></span>
                                         </a>
                                     <?php endif; ?>
                                     <?php if( $support_centers_item['file'] && $support_centers_item['file_name'] ): ?>
