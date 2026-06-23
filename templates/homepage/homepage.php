@@ -898,6 +898,7 @@ $home_news_btn_label = get_field('home_news_btn_label');
 $home_news_btn_url = get_field('home_news_btn_url');
 
 $news_arr = [];
+$news_term_ids = space_get_blog_category_term_ids( SPACE_BLOG_CATEGORY_SECTION_NEWS );
 $args = array(
         'post_type' => 'blog',
         'post_status' => 'publish',
@@ -907,8 +908,8 @@ $args = array(
         'tax_query' => array(
                 array(
                         'taxonomy' => 'blog_category',
-                        'field' => 'slug',
-                        'terms' => 'news'
+                        'field' => 'term_id',
+                        'terms' => $news_term_ids ?: [0]
                 )
         )
 );
