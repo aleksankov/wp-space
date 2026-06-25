@@ -200,7 +200,7 @@
         },
         {
             "key": "field_6a3d0932dc88a",
-            "label": "Продукты",
+            "label": "Баннер малый",
             "name": "",
             "aria-label": "",
             "type": "tab",
@@ -219,7 +219,7 @@
         {
             "key": "field_6a3d0932f002",
             "label": "Показывать секцию",
-            "name": "service_products_show",
+            "name": "service_banner_min_show",
             "type": "true_false",
             "instructions": "",
             "required": 0,
@@ -240,7 +240,7 @@
         {
             "key": "field_6a3d0932e0332",
             "label": "Заголовок",
-            "name": "service_products_title",
+            "name": "banner-min-title",
             "aria-label": "",
             "type": "text",
             "instructions": "",
@@ -260,10 +260,57 @@
         },
         {
             "key": "field_6a3d0932e3dcd",
-            "label": "Описание",
-            "name": "service_products_desc",
+            "label": "Текст банера",
+            "name": "banner-min-text",
             "aria-label": "",
-            "type": "textarea",
+            "type": "wysiwyg",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "allow_in_bindings": 0,
+            "default_value": "",
+            "tabs": "all",
+            "toolbar": "full",
+            "media_upload": 1,
+            "delay": 0
+        },
+        {
+            "key": "field_6a3d0932e7848",
+            "label": "Изображение фона( ширина 1200px )",
+            "name": "banner-min-background",
+            "aria-label": "",
+            "type": "image",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "id",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": "",
+            "allow_in_bindings": 0,
+            "preview_size": "medium"
+        },
+        {
+            "key": "field_6a3d0933bef65",
+            "label": "Ссылка",
+            "name": "banner-min-link",
+            "aria-label": "",
+            "type": "text",
             "instructions": "",
             "required": 0,
             "conditional_logic": 0,
@@ -274,17 +321,17 @@
             },
             "default_value": "",
             "maxlength": "",
-            "allow_in_bindings": 0,
-            "rows": 3,
+            "allow_in_bindings": 1,
             "placeholder": "",
-            "new_lines": "br"
+            "prepend": "",
+            "append": ""
         },
         {
-            "key": "field_6a3d0932e7848",
-            "label": "Карточки",
-            "name": "service_products_items",
+            "key": "field_6a3d0933c2b17",
+            "label": "Анимация",
+            "name": "banner-min-anim-enabled",
             "aria-label": "",
-            "type": "repeater",
+            "type": "true_false",
             "instructions": "",
             "required": 0,
             "conditional_logic": 0,
@@ -293,128 +340,43 @@
                 "class": "",
                 "id": ""
             },
-            "layout": "table",
-            "pagination": 0,
-            "min": 0,
-            "max": 0,
-            "collapsed": "",
-            "button_label": "Добавить",
-            "rows_per_page": 20,
-            "sub_fields": [
-                {
-                    "key": "field_6a3d0933bef65",
-                    "label": "Фоновое изображение",
-                    "name": "bg",
-                    "aria-label": "",
-                    "type": "image",
-                    "instructions": "",
-                    "required": 1,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "return_format": "url",
-                    "library": "all",
-                    "min_width": "",
-                    "min_height": "",
-                    "min_size": "",
-                    "max_width": "",
-                    "max_height": "",
-                    "max_size": "",
-                    "mime_types": "svg",
-                    "allow_in_bindings": 0,
-                    "preview_size": "medium",
-                    "parent_repeater": "field_6a3d0932e7848"
-                },
-                {
-                    "key": "field_6a3d0933c2b17",
-                    "label": "Цвет карточки",
-                    "name": "color",
-                    "aria-label": "",
-                    "type": "color_picker",
-                    "instructions": "",
-                    "required": 1,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "default_value": "#10041b",
-                    "enable_opacity": 0,
-                    "return_format": "string",
-                    "allow_in_bindings": 0,
-                    "parent_repeater": "field_6a3d0932e7848"
-                },
-                {
-                    "key": "field_6a3d0933c6647",
-                    "label": "Название",
-                    "name": "label",
-                    "aria-label": "",
-                    "type": "text",
-                    "instructions": "",
-                    "required": 1,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "default_value": "",
-                    "maxlength": "",
-                    "allow_in_bindings": 0,
-                    "placeholder": "",
-                    "prepend": "",
-                    "append": "",
-                    "parent_repeater": "field_6a3d0932e7848"
-                },
-                {
-                    "key": "field_6a3d0933ca0f7",
-                    "label": "Описание",
-                    "name": "desc",
-                    "aria-label": "",
-                    "type": "text",
-                    "instructions": "",
-                    "required": 1,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "default_value": "",
-                    "maxlength": "",
-                    "allow_in_bindings": 0,
-                    "placeholder": "",
-                    "prepend": "",
-                    "append": "",
-                    "parent_repeater": "field_6a3d0932e7848"
-                },
-                {
-                    "key": "field_6a3d0933cdbcd",
-                    "label": "Адрес ссылки",
-                    "name": "url",
-                    "aria-label": "",
-                    "type": "text",
-                    "instructions": "",
-                    "required": 1,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "default_value": "",
-                    "maxlength": "",
-                    "allow_in_bindings": 0,
-                    "placeholder": "",
-                    "prepend": "",
-                    "append": "",
-                    "parent_repeater": "field_6a3d0932e7848"
-                }
-            ]
+            "message": "Использовать анимацию?",
+            "default_value": 1,
+            "allow_in_bindings": 1,
+            "ui": 0,
+            "ui_on_text": "",
+            "ui_off_text": ""
+        },
+        {
+            "key": "field_6a3d0933c6647",
+            "label": "Задержка анимации",
+            "name": "banner-min-anim-delay",
+            "aria-label": "",
+            "type": "number",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_6a3d0933c2b17",
+                        "operator": "==",
+                        "value": "1"
+                    }
+                ]
+            ],
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "min": "",
+            "max": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "step": "",
+            "prepend": "",
+            "append": ""
         },
         {
             "key": "field_6a3d0932eb1c9",

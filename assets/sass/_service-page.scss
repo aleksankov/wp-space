@@ -191,48 +191,6 @@
         }
     }
 }
-.service-page-products{
-    &__header{
-        margin-bottom: 72px;
-        flex-direction: row-reverse;
-        @include lg {
-            display: block;
-            margin-bottom: 40px;
-        }
-    }
-    &__title{
-        width: 66.6666666%;
-        @include lg {
-            width: 100%;
-            transition-delay: 0s !important;
-        }
-    }
-    &__desc{
-        width: 33.3333333%;
-        @include lg {
-            margin-top: 16px;
-            width: 100%;
-            transition-delay: 0s !important;
-        }
-    }
-    &__desc-item{
-        max-width: 276px;
-        color: #665F6D;
-        @include lg {
-            max-width: 100%;
-        }
-    }
-    &__slide{
-        height: auto;
-        @include lg {
-            width: 40%;
-            transition-delay: 0s !important;
-        }
-        @include md {
-            width: 86.5%;
-        }
-    }
-}
 .service-page-why{
     &__title{
         text-align: center;

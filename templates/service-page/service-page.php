@@ -28,43 +28,12 @@ $service_default_fields = array (
       'desc' => '<span>CNEWS Awards 2025:</span> Разработчик года в области корпоративной виртуализации',
     ),
   ),
-  'service_products_title' => 'Решения для построения корпоративного облака',
-  'service_products_desc' => 'Экосистема продуктов для&nbsp;виртуализации и VDI уровня&nbsp;Enterprise',
-  'service_products_items' => 
-  array (
-    0 => 
-    array (
-      'bg' => '/wp-content/uploads/2025/02/product-card-bg-1.svg',
-      'color' => '#41b4bf',
-      'label' => 'SpaceVM',
-      'desc' => 'Платформа серверной виртуализации',
-      'url' => '/space-vm/',
-    ),
-    1 => 
-    array (
-      'bg' => '/wp-content/uploads/2025/09/space-vdi-card-2.svg',
-      'color' => '#946ad2',
-      'label' => 'Space VDI',
-      'desc' => 'Управление виртуальными рабочими столами',
-      'url' => '/space-vdi/',
-    ),
-    2 => 
-    array (
-      'bg' => '/wp-content/uploads/2025/09/space-cloud-card-1.svg',
-      'color' => '#4182cc',
-      'label' => 'Space Cloud',
-      'desc' => 'Управление облачной инфраструктурой',
-      'url' => '/space-cloud/',
-    ),
-    3 => 
-    array (
-      'bg' => '/wp-content/uploads/2025/02/product-card-bg-3.svg',
-      'color' => '#ff8c53',
-      'label' => 'Space Client',
-      'desc' => 'Подключение клиентских устройств к VDI',
-      'url' => '/space-client/',
-    ),
-  ),
+  'banner-min-title' => 'Протестируйте решения Space',
+  'banner-min-text' => '<p>Оставьте заявку, и мы поможем подобрать конфигурацию под вашу инфраструктуру.</p>',
+  'banner-min-background' => 226,
+  'banner-min-link' => '/contacts/',
+  'banner-min-anim-enabled' => true,
+  'banner-min-anim-delay' => 150,
   'service_why_title' => 'Почему выбирают решения Space',
   'service_why_items' => 
   array (
@@ -638,6 +607,29 @@ $service_get_field = static function ($field_name) use ($service_default_fields,
     return $service_value;
 };
 
+$service_get_banner_min_field = static function ($field_name) use ($service_default_fields, $service_field_has_value, $service_debug_log) {
+    $post_id = get_the_ID();
+    $service_value = get_field($field_name);
+
+    if ('banner-min-anim-enabled' === $field_name && $post_id && metadata_exists('post', $post_id, $field_name)) {
+        return (bool) $service_value;
+    }
+
+    if ($service_field_has_value($service_value)) {
+        return $service_value;
+    }
+
+    if (array_key_exists($field_name, $service_default_fields) && $service_field_has_value($service_default_fields[$field_name])) {
+        $service_debug_log('Static fallback applied.', [
+            'service_field' => $field_name,
+        ]);
+
+        return $service_default_fields[$field_name];
+    }
+
+    return $service_value;
+};
+
 $service_section_is_visible = static function ($field_name) {
     $post_id = get_the_ID();
 
@@ -652,7 +644,7 @@ $service_visible_sections = [];
 
 foreach ([
     'service_hero',
-    'service_products',
+    'service_banner_min',
     'service_why',
     'service_gallery',
     'service_tech',
@@ -729,54 +721,21 @@ if ($service_visible_sections['service_hero'] && $service_hero_title):
 <?php endif; ?>
 
 <?php
-$service_products_title = $service_get_field('service_products_title');
-$service_products_desc = $service_get_field('service_products_desc');
-$service_products_items = $service_get_field('service_products_items');
+if ($service_visible_sections['service_banner_min']):
+    $service_banner_min_fields = [
+        'banner-min-title' => $service_get_banner_min_field('banner-min-title'),
+        'banner-min-text' => $service_get_banner_min_field('banner-min-text'),
+        'banner-min-background' => $service_get_banner_min_field('banner-min-background'),
+        'banner-min-link' => $service_get_banner_min_field('banner-min-link'),
+        'banner-min-anim-enabled' => $service_get_banner_min_field('banner-min-anim-enabled'),
+        'banner-min-anim-delay' => $service_get_banner_min_field('banner-min-anim-delay'),
+    ];
 
-if ($service_visible_sections['service_products'] && $service_products_title && $service_products_items):
-    ?>
-    <section class="service-page-products section">
-        <div class="container">
-            <div class="service-page-products__header row-lg">
-                <h2 class="service-page-products__title col-lg" data-aos="fade-up"
-                    data-aos-delay="150"><?= $service_products_title; ?></h2>
-                <?php if ($service_products_desc): ?>
-                    <div class="service-page-products__desc col-lg" data-aos="fade-up">
-                        <div class="service-page-products__desc-item"><b><?= $service_products_desc; ?></b></div>
-                    </div>
-                <?php endif; ?>
-            </div>
-            <div class="service-page-products__slider swiper-container">
-                <div class="swiper-wrapper">
-                    <?php $counter = 0;
-                    foreach ($service_products_items as $service_products_item): ?>
-                        <div class="service-page-products__slide swiper-slide" data-aos="fade-up"
-                             data-aos-delay="<?= $counter * 200; ?>">
-                            <a class="product-card" href="<?= $service_products_item['url']; ?>">
-                                <div class="product-card__bg">
-                                    <img src="<?= $service_products_item['bg']; ?>"
-                                         alt="<?= $service_products_item['label']; ?>">
-                                </div>
-                                <div class="product-card__sub h5"><?= $service_products_item['desc']; ?></div>
-                                <h3 class="product-card__title">
-                                    <span><?= $service_products_item['label']; ?></span>
-                                    <svg width="56" height="56" viewBox="0 0 56 56" fill="none"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                        <rect width="56" height="56" rx="28" fill="#FBFAFD"/>
-                                        <path d="M23 33L33 23M33 23H23M33 23V33"
-                                              stroke="<?= $service_products_item['color']; ?>" stroke-width="2"
-                                              stroke-linecap="round" stroke-linejoin="round"/>
-                                    </svg>
-                                </h3>
-                            </a>
-                        </div>
-                        <?php $counter++; endforeach; ?>
-                </div>
-                <div class="swiper-scrollbar"></div>
-            </div>
-        </div>
-    </section>
-<?php endif; ?>
+    get_template_part('functions/blocks/banner-min/template', null, [
+        'fields' => $service_banner_min_fields,
+    ]);
+endif;
+?>
 
 <?php
 $service_why_title = $service_get_field('service_why_title');

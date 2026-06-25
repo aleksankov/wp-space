@@ -864,7 +864,7 @@ $(document).ready(function() {
     })
 
     //sliders
-    document.querySelectorAll('.home-products__slider, .service-page-products__slider').forEach(function(slider) {
+    document.querySelectorAll('.home-products__slider').forEach(function(slider) {
         new Swiper(slider, {
             speed: 600,
             slidesPerView: 3,
