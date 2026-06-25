@@ -14,16 +14,8 @@ if ( has_post_thumbnail( $card_id ) ) {
 $date = get_the_date( 'd F Y', $card_id );
 $post_section = space_get_post_blog_section( $card_id );
 $is_news_category = SPACE_BLOG_CATEGORY_SECTION_NEWS === $post_section;
-$category = space_get_post_blog_category_by_section( $card_id, $post_section );
-
-if ( $category ) {
-    $category_id = $category->term_id;
-    $category_link = $is_news_category ? space_get_news_category_url( $category ) : space_get_blog_category_url( $category );
-} else {
-    $category_id = false;
-    $category_link = $is_news_category ? space_get_news_page_url() : space_get_blog_page_url();
-}
-
+$section_label = $is_news_category ? 'Новости' : 'Блог';
+$section_link = $is_news_category ? space_get_news_page_url() : space_get_blog_page_url();
 $section_term_ids = space_get_blog_category_term_ids( $post_section );
 $back_text = $is_news_category ? 'Ко всем новостям' : 'Ко всем статьям';
 $related_title = $is_news_category ? 'Последние новости' : 'Последние статьи';
@@ -34,23 +26,15 @@ $content = apply_filters( 'the_content', get_the_content( null, false, $card_id 
 <section class="breadcrumbs-wrap">
     <div class="container">
         <div class="breadcrumbs-wrapper">
-            <?php if ( $is_news_category ): ?>
-                <nav class="breadcrumbs">
-                    <span>
-                        <a href="<?= esc_url( home_url( '/' ) ); ?>">Главная</a>
-                        <span> » </span>
-                        <a href="<?= esc_url( space_get_news_page_url() ); ?>">Новости</a>
-                        <?php if ( $category ): ?>
-                            <span> » </span>
-                            <a href="<?= esc_url( $category_link ); ?>"><?= esc_html( $category->name ); ?></a>
-                        <?php endif; ?>
-                        <span> » </span>
-                        <span><?php the_title(); ?></span>
-                    </span>
-                </nav>
-            <?php elseif ( function_exists( 'yoast_breadcrumb' ) ): ?>
-                <?php yoast_breadcrumb( '<nav class="breadcrumbs">', '</nav>' ); ?>
-            <?php endif; ?>
+            <nav class="breadcrumbs">
+                <span>
+                    <a href="<?= esc_url( home_url( '/' ) ); ?>">Главная</a>
+                    <span> » </span>
+                    <a href="<?= esc_url( $section_link ); ?>"><?= esc_html( $section_label ); ?></a>
+                    <span> » </span>
+                    <span><?= esc_html( $title ); ?></span>
+                </span>
+            </nav>
         </div>
     </div>
 </section>
@@ -59,7 +43,7 @@ $content = apply_filters( 'the_content', get_the_content( null, false, $card_id 
     <div class="container">
         <div class="article__wrap">
             <div class="article__back">
-                <a class="back-btn" href="<?= esc_url( $category_link ); ?>">
+                <a class="back-btn" href="<?= esc_url( $section_link ); ?>">
                     <img src="<?= esc_url( get_template_directory_uri() ); ?>/assets/img/back-btn-icon.svg" alt="Back">
                     <span><?= esc_html( $back_text ); ?></span>
                 </a>

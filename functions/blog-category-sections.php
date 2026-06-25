@@ -93,6 +93,46 @@ function space_get_post_blog_section( $post_id ) {
     return SPACE_BLOG_CATEGORY_SECTION_BLOG;
 }
 
+function space_filter_blog_single_schema_breadcrumb( $data ) {
+    if ( ! is_singular( 'blog' ) ) {
+        return $data;
+    }
+
+    $post_id = get_queried_object_id();
+
+    if ( ! $post_id ) {
+        return $data;
+    }
+
+    $post_section = space_get_post_blog_section( $post_id );
+    $is_news_section = SPACE_BLOG_CATEGORY_SECTION_NEWS === $post_section;
+    $section_label = $is_news_section ? 'Новости' : 'Блог';
+    $section_link = $is_news_section ? space_get_news_page_url() : space_get_blog_page_url();
+
+    $data['itemListElement'] = [
+        [
+            '@type'    => 'ListItem',
+            'position' => 1,
+            'name'     => 'Главная страница',
+            'item'     => esc_url_raw( home_url( '/' ) ),
+        ],
+        [
+            '@type'    => 'ListItem',
+            'position' => 2,
+            'name'     => $section_label,
+            'item'     => esc_url_raw( $section_link ),
+        ],
+        [
+            '@type'    => 'ListItem',
+            'position' => 3,
+            'name'     => wp_strip_all_tags( get_the_title( $post_id ) ),
+        ],
+    ];
+
+    return $data;
+}
+add_filter( 'wpseo_schema_breadcrumb', 'space_filter_blog_single_schema_breadcrumb' );
+
 function space_get_news_page_url() {
     $page = get_page_by_path( 'news_page' );
 
