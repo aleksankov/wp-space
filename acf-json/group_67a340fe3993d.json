@@ -1166,7 +1166,7 @@
         },
         {
             "key": "field_67a35b2f0fdf0",
-            "label": "Описание для YouTube",
+            "label": "Описание для YouTube (Fallback)",
             "name": "home_demo_desc_yt",
             "aria-label": "",
             "type": "text",
@@ -1187,7 +1187,7 @@
         },
         {
             "key": "field_67a35b5d0fdf1",
-            "label": "Описание для RuTube",
+            "label": "Описание для RuTube (Fallback)",
             "name": "home_demo_desc_rutube",
             "aria-label": "",
             "type": "text",
@@ -1208,7 +1208,7 @@
         },
         {
             "key": "field_67a35b6c0fdf2",
-            "label": "Описание для Telegram",
+            "label": "Описание для Telegram (Fallback)",
             "name": "home_demo_desc_tg",
             "aria-label": "",
             "type": "text",
@@ -1229,7 +1229,7 @@
         },
         {
             "key": "field_67bd8302265dd",
-            "label": "Описание для Habr",
+            "label": "Описание для Habr (Fallback)",
             "name": "home_demo_desc_habr",
             "aria-label": "",
             "type": "text",
@@ -1255,6 +1255,126 @@
             "placeholder": "",
             "prepend": "",
             "append": ""
+        },
+        {
+            "key": "field_685a101d0a002",
+            "label": "Социальные сети",
+            "name": "home_demo_socials",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "Если список не заполнен, блок использует глобальные соцсети из настроек сайта.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "block",
+            "pagination": 0,
+            "min": 0,
+            "max": 0,
+            "collapsed": "",
+            "button_label": "Добавить соцсеть",
+            "rows_per_page": 20,
+            "sub_fields": [
+                {
+                    "key": "field_685a101d0a003",
+                    "label": "Иконка",
+                    "name": "icon",
+                    "aria-label": "",
+                    "type": "image",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "return_format": "id",
+                    "library": "all",
+                    "min_width": "",
+                    "min_height": "",
+                    "min_size": "",
+                    "max_width": "",
+                    "max_height": "",
+                    "max_size": "",
+                    "mime_types": "",
+                    "allow_in_bindings": 0,
+                    "preview_size": "medium",
+                    "parent_repeater": "field_685a101d0a002"
+                },
+                {
+                    "key": "field_685a101d0a006",
+                    "label": "Фоновое изображение при наведении",
+                    "name": "bg",
+                    "aria-label": "",
+                    "type": "image",
+                    "instructions": "Изображение выводится внутри hover-слоя карточки соцсети.",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "return_format": "id",
+                    "library": "all",
+                    "min_width": "",
+                    "min_height": "",
+                    "min_size": "",
+                    "max_width": "",
+                    "max_height": "",
+                    "max_size": "",
+                    "mime_types": "",
+                    "allow_in_bindings": 0,
+                    "preview_size": "medium",
+                    "parent_repeater": "field_685a101d0a002"
+                },
+                {
+                    "key": "field_685a101d0a004",
+                    "label": "Ссылка",
+                    "name": "url",
+                    "aria-label": "",
+                    "type": "url",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "allow_in_bindings": 0,
+                    "placeholder": "",
+                    "parent_repeater": "field_685a101d0a002"
+                },
+                {
+                    "key": "field_685a101d0a005",
+                    "label": "Текст",
+                    "name": "text",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "allow_in_bindings": 0,
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_685a101d0a002"
+                }
+            ]
         },
         {
             "key": "field_67a341949d225",
@@ -1983,5 +2103,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1740473225
+    "modified": 1782216577
 }

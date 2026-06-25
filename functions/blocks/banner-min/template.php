@@ -10,7 +10,8 @@ $title = get_field_block('banner-min-title', $block);
 $text = get_field_block('banner-min-text', $block);
 $link = get_field_block('banner-min-link', $block);
 $background_src = wp_get_attachment_image_src( $background, 'full' );
-if (!empty($background)&&!empty($title)&&!empty($text)) : ?>
+
+if (!empty($background)&&!empty($title)) : ?>
 <section class="banner-min <?= $class ?> " <?= ($anim_enabled)?(' data-aos="fade-up" '):' '?>  <?= ($anim_enabled&&!empty($anim_delay))?(' data-aos-delay="' . $anim_delay . '"'):'' ?>>
     <div class="container">
         <div class="banner-min__wrapper" style="background-image: url('<?= $background_src[0] ?>')">

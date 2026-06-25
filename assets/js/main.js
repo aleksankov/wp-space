@@ -1080,25 +1080,29 @@ $(document).ready(function() {
         }
     });
 
-    var distributorsSlider = new Swiper('.partners-distributors__slider', {
-        speed: 600,
-        slidesPerView: 4,
-        spaceBetween: 32,
-        pagination: {
-            el: '.partners-distributors__pagination',
-            clickable: true,
-            bulletActiveClass: 'active',
-        },
-        breakpoints: {
-            0: {
-                slidesPerView: 'auto',
-                spaceBetween: 20
+    document.querySelectorAll('.partners-distributors__slider').forEach(function(slider) {
+        var pagination = slider.querySelector('.partners-distributors__pagination');
+
+        new Swiper(slider, {
+            speed: 600,
+            slidesPerView: 4,
+            spaceBetween: 32,
+            pagination: {
+                el: pagination,
+                clickable: true,
+                bulletActiveClass: 'active',
             },
-            992: {
-                slidesPerView: 4,
-                spaceBetween: 32
+            breakpoints: {
+                0: {
+                    slidesPerView: 'auto',
+                    spaceBetween: 20
+                },
+                992: {
+                    slidesPerView: 4,
+                    spaceBetween: 32
+                }
             }
-        }
+        });
     });
 
     var partnersSlider = new Swiper('.partners-list__slider', {

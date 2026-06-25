@@ -1,0 +1,50 @@
+{
+    "key": "group_blog_category_section",
+    "title": "Раздел категории блога",
+    "fields": [
+        {
+            "key": "field_blog_category_section",
+            "label": "Принадлежность категории",
+            "name": "blog_category_section",
+            "aria-label": "",
+            "type": "radio",
+            "instructions": "Выберите, в каком разделе сайта должна отображаться категория.",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "news": "Принадлежит разделу Новости",
+                "blog": "Принадлежит разделу Блог"
+            },
+            "default_value": "blog",
+            "return_format": "value",
+            "allow_null": 0,
+            "other_choice": 0,
+            "layout": "vertical",
+            "save_other_choice": 0
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "taxonomy",
+                "operator": "==",
+                "value": "blog_category"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "modified": 1782172800
+}

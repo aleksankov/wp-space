@@ -45,15 +45,6 @@
                 background-color: #F9F6FD;
             }
         }
-        @include lg {
-            &:not(.partners-distributors__item--file){
-                .partners-distributors__item-link{
-                    &:last-child{
-                        display: none;
-                    }
-                }
-            }
-        }
     }
     &__item-info{
         display: flex;

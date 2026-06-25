@@ -4,12 +4,14 @@
     }
 
     global $site_soc_tg;
+    global $site_soc_max;
     global $site_soc_yt;
     global $site_soc_vk;
     global $site_soc_habr;
     global $site_soc_rutube;
 
     $site_soc_tg = get_field('site_soc_tg', 'option');
+    $site_soc_max = get_field('site_soc_max', 'option');
     $site_soc_yt = get_field('site_soc_yt', 'option');
     $site_soc_vk = get_field('site_soc_vk', 'option');
     $site_soc_habr = get_field('site_soc_habr', 'option');
@@ -385,6 +387,11 @@
                                 <?php if( $site_soc_tg ): ?>
                                     <a class="header__menu-soc-item" href="<?= $site_soc_tg; ?>" target="_blank">
                                         <img src="<?= get_template_directory_uri(); ?>/assets/img/h-menu-soc-item-1.svg" alt="Telegram">
+                                    </a>
+                                <?php endif; ?>
+                                <?php if( $site_soc_max ): ?>
+                                    <a class="header__menu-soc-item" href="<?= $site_soc_max; ?>" target="_blank">
+                                        <img src="<?= get_template_directory_uri(); ?>/assets/img/max-logo.svg" alt="Max">
                                     </a>
                                 <?php endif; ?>
                                 <?php if( $site_soc_yt ): ?>
