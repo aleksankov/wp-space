@@ -16,6 +16,7 @@ function add_page_templates_to_dropdown( $templates ) {
     $templates['templates/press-center/press-center.php'] = 'Пресс-Центр';
     $templates['templates/space/connect.php'] = 'Space Connect';
     $templates['templates/policy/privacy-policy.php'] = 'Политика конфиденциальности';
+    $templates['templates/service-page/service-page.php'] = 'Услуга';
 
 	return $templates;
 }
