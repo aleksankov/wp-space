@@ -3,13 +3,14 @@ $taxonomy = SPACE_BLOG_CATEGORY_TAXONOMY;
 $post_found_count = 15;
 $paged = get_query_var( 'paged', 1 );
 $terms = space_get_blog_category_terms( SPACE_BLOG_CATEGORY_SECTION_NEWS );
-$terms = array_values( array_filter( $terms, function ( $term ) {
-    return 'news' !== $term->slug;
-} ) );
 $cur_term = space_get_news_category_from_query();
 $news_category_requested = (bool) get_query_var( 'news_category' );
 $sort = isset( $_GET['sort'] ) ? sanitize_text_field( wp_unslash( $_GET['sort'] ) ) : '';
 $news_term_ids = $cur_term ? [ (int) $cur_term->term_id ] : space_get_blog_category_term_ids( SPACE_BLOG_CATEGORY_SECTION_NEWS );
+
+if ( defined( 'WP_DEBUG' ) && WP_DEBUG && isset( $_GET['debug_news_tabs'] ) ) {
+    error_log( '[FIX:news-tabs] Rendering news category tabs: ' . wp_json_encode( wp_list_pluck( $terms, 'slug' ) ) );
+}
 
 $args = array(
     'post_type' => 'blog',
@@ -76,8 +77,8 @@ if ( $to > $post_found ) {
         <div class="news__wrap">
             <div class="news__left" data-aos="fade-up" data-aos-delay="400">
                 <div class="news__tabs">
-                    <a href="<?= esc_url( space_get_news_page_url() ); ?>" class="news__tabs-item">
-                        Новости
+                    <a href="<?= esc_url( space_get_news_page_url() ); ?>" class="news__tabs-item<?= ! $news_category_requested ? ' active' : ''; ?>">
+                        Все
                     </a>
                     <?php foreach ( $terms as $term ): ?>
                         <a href="<?= esc_url( space_get_news_category_url( $term ) ); ?>" class="news__tabs-item<?= $cur_term && $term->term_id === $cur_term->term_id ? ' active' : ''; ?>"><?= esc_html( $term->name ); ?></a>

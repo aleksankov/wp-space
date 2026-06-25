@@ -100,6 +100,7 @@ if ( $to > $post_found ) {
             <?php if ( $terms ): ?>
                 <div class="news__left" data-aos="fade-up" data-aos-delay="400">
                     <div class="news__tabs">
+                        <a href="<?= esc_url( space_get_blog_page_url() ); ?>" class="news__tabs-item<?= ! $cur_term ? ' active' : ''; ?>">Все</a>
                         <?php foreach ( $terms as $term ): ?>
                             <a href="<?= esc_url( space_get_blog_category_url( $term ) ); ?>" class="news__tabs-item<?= $cur_term && $term->term_id === $cur_term->term_id ? ' active' : ''; ?>"><?= esc_html( $term->name ); ?></a>
                         <?php endforeach; ?>
