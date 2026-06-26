@@ -624,7 +624,7 @@ button::-moz-focus-inner {
   flex: 1 0 auto;
   overflow: hidden;
   width: 100%;
-  padding-top: 132px;
+  padding-top: 153px;
   padding-bottom: 120px;
 }
 
@@ -938,6 +938,20 @@ h6,
 .main-input.main-input--aqua label textarea:focus {
   background-color: #60C0C9;
   border-color: #60C0C9;
+}
+
+.main-input.main-input--aqua label input:-webkit-autofill,
+.main-input.main-input--aqua label input:-webkit-autofill:hover,
+.main-input.main-input--aqua label input:-webkit-autofill:focus,
+.main-input.main-input--aqua label input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #4CB8C3 inset !important;
+  -webkit-text-fill-color: #fff !important;
+}
+
+.main-input.main-input--aqua label input:-moz-autofill {
+  filter: none;
+  background-color: #4CB8C3;
+  color: #fff;
 }
 
 .main-input.main-input--transparent label input,

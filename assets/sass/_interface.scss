@@ -156,7 +156,7 @@ button::-moz-focus-inner {
     flex: 1 0 auto;
     overflow: hidden;
     width: 100%;
-    padding-top: 132px;
+    padding-top: 153px;
     padding-bottom: 120px;
     @include lg-u {
         &.submenu{
@@ -470,6 +470,21 @@ h6, .h6{
                 &:focus{
                     background-color: #60C0C9;
                     border-color: #60C0C9;
+                }
+            }
+            input{
+                &:-webkit-autofill,
+                &:-webkit-autofill:hover,
+                &:-webkit-autofill:focus,
+                &:-webkit-autofill:active {
+                    -webkit-box-shadow: 0 0 0 30px #4CB8C3 inset !important;
+                    -webkit-text-fill-color: #fff !important;
+                }
+
+                &:-moz-autofill {
+                    filter: none;
+                    background-color: #4CB8C3;
+                    color: #fff;
                 }
             }
         }
