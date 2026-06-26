@@ -29,6 +29,43 @@ $service_default_fields = array (
       'desc' => '<span>CNEWS Awards 2025:</span> Разработчик года в области корпоративной виртуализации',
     ),
   ),
+  'service_products_title' => 'Решения для построения корпоративного облака',
+  'service_products_desc' => 'Экосистема продуктов для&nbsp;виртуализации и VDI уровня&nbsp;Enterprise',
+  'service_products_items' => 
+  array (
+    0 => 
+    array (
+      'bg' => '/wp-content/uploads/2025/02/product-card-bg-1.svg',
+      'color' => '#41b4bf',
+      'label' => 'SpaceVM',
+      'desc' => 'Платформа серверной виртуализации',
+      'url' => '/space-vm/',
+    ),
+    1 => 
+    array (
+      'bg' => '/wp-content/uploads/2025/09/space-vdi-card-2.svg',
+      'color' => '#946ad2',
+      'label' => 'Space VDI',
+      'desc' => 'Управление виртуальными рабочими столами',
+      'url' => '/space-vdi/',
+    ),
+    2 => 
+    array (
+      'bg' => '/wp-content/uploads/2025/09/space-cloud-card-1.svg',
+      'color' => '#4182cc',
+      'label' => 'Space Cloud',
+      'desc' => 'Управление облачной инфраструктурой',
+      'url' => '/space-cloud/',
+    ),
+    3 => 
+    array (
+      'bg' => '/wp-content/uploads/2025/02/product-card-bg-3.svg',
+      'color' => '#ff8c53',
+      'label' => 'Space Client',
+      'desc' => 'Подключение клиентских устройств к VDI',
+      'url' => '/space-client/',
+    ),
+  ),
   'banner-min-title' => 'Протестируйте решения Space',
   'banner-min-text' => '<p>Оставьте заявку, и мы поможем подобрать конфигурацию под вашу инфраструктуру.</p>',
   'banner-min-background' => 226,
@@ -343,6 +380,7 @@ $service_visible_sections = [];
 
 foreach ([
     'service_hero',
+    'service_products',
     'service_banner_min',
     'service_callout',
     'service_why',
@@ -468,6 +506,58 @@ if ($service_visible_sections['service_callout'] && $service_callout_has_content
                         <?php endif; ?>
                     </div>
                 <?php endif; ?>
+            </div>
+        </div>
+    </section>
+<?php endif; ?>
+
+
+
+<?php
+$service_products_title = $service_get_field('service_products_title');
+$service_products_desc = $service_get_field('service_products_desc');
+$service_products_items = $service_get_field('service_products_items');
+
+if ($service_visible_sections['service_products'] && $service_products_title && $service_products_items):
+    ?>
+    <section class="service-page-products section">
+        <div class="container">
+            <div class="service-page-products__header row-lg">
+                <h2 class="service-page-products__title col-lg" data-aos="fade-up"
+                    data-aos-delay="150"><?= wp_kses_post($service_products_title); ?></h2>
+                <?php if ($service_products_desc): ?>
+                    <div class="service-page-products__desc col-lg" data-aos="fade-up">
+                        <div class="service-page-products__desc-item"><b><?= wp_kses_post($service_products_desc); ?></b></div>
+                    </div>
+                <?php endif; ?>
+            </div>
+            <div class="service-page-products__slider swiper-container">
+                <div class="swiper-wrapper">
+                    <?php $counter = 0;
+                    foreach ($service_products_items as $service_products_item): ?>
+                        <div class="service-page-products__slide swiper-slide" data-aos="fade-up"
+                             data-aos-delay="<?= esc_attr($counter * 200); ?>">
+                            <a class="product-card" href="<?= esc_url($service_products_item['url']); ?>">
+                                <div class="product-card__bg">
+                                    <img src="<?= esc_url($service_products_item['bg']); ?>"
+                                         alt="<?= esc_attr($service_products_item['label']); ?>">
+                                </div>
+                                <div class="product-card__sub h5"><?= wp_kses_post($service_products_item['desc']); ?></div>
+                                <h3 class="product-card__title">
+                                    <span><?= esc_html($service_products_item['label']); ?></span>
+                                    <svg width="56" height="56" viewBox="0 0 56 56" fill="none"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <rect width="56" height="56" rx="28" fill="#FBFAFD"/>
+                                        <path d="M23 33L33 23M33 23H23M33 23V33"
+                                              stroke="<?= esc_attr($service_products_item['color']); ?>" stroke-width="2"
+                                              stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </h3>
+                            </a>
+                        </div>
+                        <?php $counter++; endforeach; ?>
+                </div>
+                <div class="swiper-scrollbar"></div>
             </div>
         </div>
     </section>
