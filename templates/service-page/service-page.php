@@ -35,6 +35,12 @@ $service_default_fields = array (
   'banner-min-link' => '/contacts/',
   'banner-min-anim-enabled' => true,
   'banner-min-anim-delay' => 150,
+  'service_banner_min_after_news_title' => 'Протестируйте решения Space',
+  'service_banner_min_after_news_text' => '<p>Оставьте заявку, и мы поможем подобрать конфигурацию под вашу инфраструктуру.</p>',
+  'service_banner_min_after_news_background' => 226,
+  'service_banner_min_after_news_link' => '/contacts/',
+  'service_banner_min_after_news_anim_enabled' => true,
+  'service_banner_min_after_news_anim_delay' => 150,
   'service_callout_title' => 'Подберите решение Space под вашу инфраструктуру',
   'service_callout_text' => '<p>Расскажите о задачах вашей команды, и мы предложим конфигурацию, которая подойдет по масштабу, требованиям безопасности и сценарию внедрения.</p>',
   'service_callout_btn_label' => 'Обсудить проект',
@@ -70,16 +76,6 @@ $service_default_fields = array (
       'desc' => 'Находимся в тесном контакте с заказчиками и формируем дорожную карту исходя из их запросов ',
     ),
   ),
-  'service_gallery_title' => '<span>Space —</span>  российский разработчик ПО и R&D-центр',
-  'service_gallery_images' => 
-  array (
-    0 => 147,
-    1 => 847,
-    2 => 849,
-    3 => 850,
-  ),
-  'service_gallery_btn_label' => 'Узнать больше о нас',
-  'service_gallery_btn_url' => '/about/',
   'service_tech_title' => 'Проприетарные технологии Space',
   'service_tech_items' => 
   array (
@@ -180,147 +176,12 @@ $service_default_fields = array (
       'url' => '/vdi-docs/latest/broker/operator_guide/settings/system/gateway/',
     ),
   ),
-  'service_banner_bg' => false,
-  'service_banner_title' => '',
-  'service_banner_desc' => '',
-  'service_banner_btn_label' => '',
-  'service_banner_btn_url' => '',
-  'service_regions_title' => 'Присутствуем по всей России',
-  'service_regions_cards' => 
-  array (
-    0 => 
-    array (
-      'icon' => '/wp-content/uploads/2025/02/home-regions-icon-1.svg',
-      'sub' => 'Мы всегда на связи и готовы помочь независимо от вашего региона',
-    ),
-    1 => 
-    array (
-      'icon' => '/wp-content/uploads/2025/02/home-regions-icon-2.svg',
-      'sub' => 'По запросу поможем с запуском пилота на объекте заказчика',
-    ),
-  ),
-  'service_regions_items' => 
-  array (
-    0 => 
-    array (
-      'img' => 184,
-      'city' => 'Москва',
-      'address' => 'Волгоградский проспект, <br />
-дом 2, помещение 1/1',
-    ),
-    1 => 
-    array (
-      'img' => 185,
-      'city' => 'Санкт-Петербург',
-      'address' => 'Большой Сампсониевский проспект, д.61, корп.2, литер «А»',
-    ),
-    2 => 
-    array (
-      'img' => 188,
-      'city' => 'Новосибирск',
-      'address' => 'ул. Богдана Хмельницкого, д.56',
-    ),
-    3 => 
-    array (
-      'img' => 186,
-      'city' => 'Ростов-на-Дону',
-      'address' => '  <br />
-<br />
-',
-    ),
-    4 => 
-    array (
-      'img' => 187,
-      'city' => 'Самара',
-      'address' => ' <br />
-<br />
-',
-    ),
-    5 => 
-    array (
-      'img' => 2200,
-      'city' => 'Екатеринбург',
-      'address' => ' <br />
-<br />
-',
-    ),
-  ),
   'service_demo_title' => 'Оставьте заявку на&nbsp;демо-версию',
   'service_demo_desc_yt' => 'Показываем, как построить виртуальную ИТ-инфраструктуру',
   'service_demo_desc_rutube' => 'Показываем, как построить виртуальную ИТ-инфраструктуру',
   'service_demo_desc_tg' => 'Публикуем новости, полезные советы и обновления',
   'service_demo_desc_habr' => 'Статьи и гайды по работе с&nbsp;продуктами Space',
   'service_demo_socials' => false,
-  'service_portfolio_sub' => 'Портфолио',
-  'service_portfolio_title' => 'Нам доверяют лидеры отрасли',
-  'service_portfolio_items' => 
-  array (
-    0 => 
-    array (
-      'icon' => '/wp-content/uploads/2025/02/home-portfolio-icon-1.svg',
-      'label' => 'Энергетика',
-    ),
-    1 => 
-    array (
-      'icon' => '/wp-content/uploads/2025/02/home-portfolio-icon-4.svg',
-      'label' => 'Финансовый сектор',
-    ),
-    2 => 
-    array (
-      'icon' => '/wp-content/uploads/2025/02/home-portfolio-icon-2.svg',
-      'label' => 'Государственное управление',
-    ),
-    3 => 
-    array (
-      'icon' => '/wp-content/uploads/2025/02/home-portfolio-icon-3.svg',
-      'label' => 'Судостроение',
-    ),
-    4 => 
-    array (
-      'icon' => '/wp-content/uploads/2025/02/home-portfolio-icon-5.svg',
-      'label' => 'И другие отрасли',
-    ),
-  ),
-  'service_portfolio_desc' => '',
-  'service_portfolio_gallery' => 
-  array (
-    0 => 213,
-    1 => 211,
-    2 => 212,
-    3 => 3076,
-    4 => 3081,
-    5 => 215,
-    6 => 214,
-    7 => 3075,
-    8 => 3077,
-    9 => 3074,
-    10 => 217,
-    11 => 218,
-    12 => 3078,
-  ),
-  'service_video_items' => 
-  array (
-    0 => 
-    array (
-      'label' => 'SpaceVM',
-      'bg' => 226,
-      'video' => '/wp-content/uploads/2025/02/home-product-video.mp4',
-      'title' => 'SpaceVM — <br />
-Российская платформа <br />
-виртуализации',
-      'desc' => 'Простое и эффективное управление ИТ-инфраструктурой. ',
-    ),
-    1 => 
-    array (
-      'label' => 'Space VDI',
-      'bg' => 3385,
-      'video' => '/wp-content/uploads/2025/06/space-vdi_demo.mp4',
-      'title' => 'Space VDI — <br />
-Виртуализация рабочих столов <br />
-и приложений',
-      'desc' => 'Создание и администрирование инфраструктуры виртуальных рабочих мест',
-    ),
-  ),
   'service_faq_title' => 'Ответы на часто <br />
 задаваемые <br />
 вопросы',
@@ -357,221 +218,6 @@ $service_default_fields = array (
       'question' => 'Какие средства резервного копирования поддерживает SpaceVM?',
       'answer' => '<p>SpaceVM поддерживает систему резервного копирования Кибер Бэкап. Чтобы ее использовать, необходимо приобрести лицензию от КиберПротект</p>
 ',
-    ),
-  ),
-  'service_media_title' => 'О нас пишут в СМИ',
-  'service_media_desc' => 'Ведущие издания о российской экосистеме виртуализации Space',
-  'service_media_items' => 
-  array (
-    0 => 
-    array (
-      'text' => '"ДАКОМ М" представит российскую альтернативу VMware NSX<br />
-',
-      'logo' => 
-      array (
-        'ID' => 252,
-        'id' => 252,
-        'title' => 'tass-logo',
-        'filename' => 'home-media-logo-3.png',
-        'filesize' => 1058,
-        'url' => '/wp-content/uploads/2025/02/home-media-logo-3.png',
-        'link' => '/glavnaya-stranicza-2/home-media-logo-3/',
-        'alt' => '',
-        'author' => '1',
-        'description' => '',
-        'caption' => '',
-        'name' => 'home-media-logo-3',
-        'status' => 'inherit',
-        'uploaded_to' => 12,
-        'date' => '2025-02-05 13:34:02',
-        'modified' => '2025-07-02 15:54:24',
-        'menu_order' => 0,
-        'mime_type' => 'image/png',
-        'type' => 'image',
-        'subtype' => 'png',
-        'icon' => '/wp-includes/images/media/default.png',
-        'width' => 94,
-        'height' => 94,
-        'sizes' => 
-        array (
-          'thumbnail' => '/wp-content/uploads/2025/02/home-media-logo-3.png',
-          'thumbnail-width' => 94,
-          'thumbnail-height' => 94,
-          'medium' => '/wp-content/uploads/2025/02/home-media-logo-3.png',
-          'medium-width' => 94,
-          'medium-height' => 94,
-          'medium_large' => '/wp-content/uploads/2025/02/home-media-logo-3.png',
-          'medium_large-width' => 94,
-          'medium_large-height' => 94,
-          'large' => '/wp-content/uploads/2025/02/home-media-logo-3.png',
-          'large-width' => 94,
-          'large-height' => 94,
-          '1536x1536' => '/wp-content/uploads/2025/02/home-media-logo-3.png',
-          '1536x1536-width' => 94,
-          '1536x1536-height' => 94,
-          '2048x2048' => '/wp-content/uploads/2025/02/home-media-logo-3.png',
-          '2048x2048-width' => 94,
-          '2048x2048-height' => 94,
-        ),
-      ),
-      'url' => 'https://tass.ru/ekonomika/22637401',
-    ),
-    1 => 
-    array (
-      'text' => 'В России разработали аналог платформы для виртуализации VMware',
-      'logo' => 
-      array (
-        'ID' => 252,
-        'id' => 252,
-        'title' => 'tass-logo',
-        'filename' => 'home-media-logo-3.png',
-        'filesize' => 1058,
-        'url' => '/wp-content/uploads/2025/02/home-media-logo-3.png',
-        'link' => '/glavnaya-stranicza-2/home-media-logo-3/',
-        'alt' => '',
-        'author' => '1',
-        'description' => '',
-        'caption' => '',
-        'name' => 'home-media-logo-3',
-        'status' => 'inherit',
-        'uploaded_to' => 12,
-        'date' => '2025-02-05 13:34:02',
-        'modified' => '2025-07-02 15:54:24',
-        'menu_order' => 0,
-        'mime_type' => 'image/png',
-        'type' => 'image',
-        'subtype' => 'png',
-        'icon' => '/wp-includes/images/media/default.png',
-        'width' => 94,
-        'height' => 94,
-        'sizes' => 
-        array (
-          'thumbnail' => '/wp-content/uploads/2025/02/home-media-logo-3.png',
-          'thumbnail-width' => 94,
-          'thumbnail-height' => 94,
-          'medium' => '/wp-content/uploads/2025/02/home-media-logo-3.png',
-          'medium-width' => 94,
-          'medium-height' => 94,
-          'medium_large' => '/wp-content/uploads/2025/02/home-media-logo-3.png',
-          'medium_large-width' => 94,
-          'medium_large-height' => 94,
-          'large' => '/wp-content/uploads/2025/02/home-media-logo-3.png',
-          'large-width' => 94,
-          'large-height' => 94,
-          '1536x1536' => '/wp-content/uploads/2025/02/home-media-logo-3.png',
-          '1536x1536-width' => 94,
-          '1536x1536-height' => 94,
-          '2048x2048' => '/wp-content/uploads/2025/02/home-media-logo-3.png',
-          '2048x2048-width' => 94,
-          '2048x2048-height' => 94,
-        ),
-      ),
-      'url' => 'https://tass.ru/ekonomika/21997459',
-    ),
-    2 => 
-    array (
-      'text' => 'Почти треть российских компаний перешли на отечественные системы виртуализации<br />
-',
-      'logo' => 
-      array (
-        'ID' => 252,
-        'id' => 252,
-        'title' => 'tass-logo',
-        'filename' => 'home-media-logo-3.png',
-        'filesize' => 1058,
-        'url' => '/wp-content/uploads/2025/02/home-media-logo-3.png',
-        'link' => '/glavnaya-stranicza-2/home-media-logo-3/',
-        'alt' => '',
-        'author' => '1',
-        'description' => '',
-        'caption' => '',
-        'name' => 'home-media-logo-3',
-        'status' => 'inherit',
-        'uploaded_to' => 12,
-        'date' => '2025-02-05 13:34:02',
-        'modified' => '2025-07-02 15:54:24',
-        'menu_order' => 0,
-        'mime_type' => 'image/png',
-        'type' => 'image',
-        'subtype' => 'png',
-        'icon' => '/wp-includes/images/media/default.png',
-        'width' => 94,
-        'height' => 94,
-        'sizes' => 
-        array (
-          'thumbnail' => '/wp-content/uploads/2025/02/home-media-logo-3.png',
-          'thumbnail-width' => 94,
-          'thumbnail-height' => 94,
-          'medium' => '/wp-content/uploads/2025/02/home-media-logo-3.png',
-          'medium-width' => 94,
-          'medium-height' => 94,
-          'medium_large' => '/wp-content/uploads/2025/02/home-media-logo-3.png',
-          'medium_large-width' => 94,
-          'medium_large-height' => 94,
-          'large' => '/wp-content/uploads/2025/02/home-media-logo-3.png',
-          'large-width' => 94,
-          'large-height' => 94,
-          '1536x1536' => '/wp-content/uploads/2025/02/home-media-logo-3.png',
-          '1536x1536-width' => 94,
-          '1536x1536-height' => 94,
-          '2048x2048' => '/wp-content/uploads/2025/02/home-media-logo-3.png',
-          '2048x2048-width' => 94,
-          '2048x2048-height' => 94,
-        ),
-      ),
-      'url' => 'https://tass.ru/ekonomika/20909509',
-    ),
-    3 => 
-    array (
-      'text' => 'Денис Агеев рассказал, как быстро заместят иностранное ПО',
-      'logo' => 
-      array (
-        'ID' => 5214,
-        'id' => 5214,
-        'title' => 'ria',
-        'filename' => 'ria-1.png',
-        'filesize' => 6733,
-        'url' => '/wp-content/uploads/2025/12/ria-1.png',
-        'link' => '/glavnaya-stranicza-2/ria-2/',
-        'alt' => '',
-        'author' => '8',
-        'description' => '',
-        'caption' => '',
-        'name' => 'ria-2',
-        'status' => 'inherit',
-        'uploaded_to' => 12,
-        'date' => '2025-12-12 14:22:36',
-        'modified' => '2025-12-12 14:22:36',
-        'menu_order' => 0,
-        'mime_type' => 'image/png',
-        'type' => 'image',
-        'subtype' => 'png',
-        'icon' => '/wp-includes/images/media/default.png',
-        'width' => 94,
-        'height' => 89,
-        'sizes' => 
-        array (
-          'thumbnail' => '/wp-content/uploads/2025/12/ria-1.png',
-          'thumbnail-width' => 94,
-          'thumbnail-height' => 89,
-          'medium' => '/wp-content/uploads/2025/12/ria-1.png',
-          'medium-width' => 94,
-          'medium-height' => 89,
-          'medium_large' => '/wp-content/uploads/2025/12/ria-1.png',
-          'medium_large-width' => 94,
-          'medium_large-height' => 89,
-          'large' => '/wp-content/uploads/2025/12/ria-1.png',
-          'large-width' => 94,
-          'large-height' => 89,
-          '1536x1536' => '/wp-content/uploads/2025/12/ria-1.png',
-          '1536x1536-width' => 94,
-          '1536x1536-height' => 89,
-          '2048x2048' => '/wp-content/uploads/2025/12/ria-1.png',
-          '2048x2048-width' => 94,
-          '2048x2048-height' => 89,
-        ),
-      ),
-      'url' => 'https://ria.ru/20241205/zameschenie-1987439902.html ',
     ),
   ),
   'service_news_title' => 'Новости',
@@ -637,6 +283,29 @@ $service_get_banner_min_field = static function ($field_name) use ($service_defa
     return $service_value;
 };
 
+$service_get_banner_min_after_news_field = static function ($field_name) use ($service_default_fields, $service_field_has_value, $service_debug_log) {
+    $post_id = get_the_ID();
+    $service_value = get_field($field_name);
+
+    if ('service_banner_min_after_news_anim_enabled' === $field_name && $post_id && metadata_exists('post', $post_id, $field_name)) {
+        return (bool) $service_value;
+    }
+
+    if ($service_field_has_value($service_value)) {
+        return $service_value;
+    }
+
+    if (array_key_exists($field_name, $service_default_fields) && $service_field_has_value($service_default_fields[$field_name])) {
+        $service_debug_log('Static fallback applied.', [
+            'service_field' => $field_name,
+        ]);
+
+        return $service_default_fields[$field_name];
+    }
+
+    return $service_value;
+};
+
 $service_get_callout_field = static function ($field_name) use ($service_default_fields, $service_field_has_value, $service_debug_log) {
     $post_id = get_the_ID();
     $service_value = get_field($field_name);
@@ -677,16 +346,11 @@ foreach ([
     'service_banner_min',
     'service_callout',
     'service_why',
-    'service_gallery',
     'service_tech',
-    'service_banner',
-    'service_regions',
     'service_demo',
-    'service_portfolio',
-    'service_video',
     'service_faq',
-    'service_media',
     'service_news',
+    'service_banner_min_after_news',
 ] as $service_section_prefix) {
     $service_visible_sections[$service_section_prefix] = $service_section_is_visible($service_section_prefix . '_show');
 }
@@ -789,7 +453,7 @@ if ($service_visible_sections['service_callout'] && $service_callout_has_content
     <section class="service-page-callout section">
         <div class="container">
             <div class="service-page-callout__wrap"<?= $service_callout_anim_enabled ? ' data-aos="fade-up"' : ''; ?><?= $service_callout_anim_enabled && $service_callout_anim_delay ? ' data-aos-delay="' . esc_attr($service_callout_anim_delay) . '"' : ''; ?>>
-                <?php if ($service_callout_title || $service_callout_text): ?>
+                <?php if ($service_callout_title || $service_callout_text || $service_callout_has_button): ?>
                     <div class="service-page-callout__content">
                         <?php if ($service_callout_title): ?>
                             <h2 class="service-page-callout__title"><?= wp_kses_post($service_callout_title); ?></h2>
@@ -797,11 +461,11 @@ if ($service_visible_sections['service_callout'] && $service_callout_has_content
                         <?php if ($service_callout_text): ?>
                             <div class="service-page-callout__text"><?= wp_kses_post($service_callout_text); ?></div>
                         <?php endif; ?>
-                    </div>
-                <?php endif; ?>
-                <?php if ($service_callout_has_button): ?>
-                    <div class="service-page-callout__btn">
-                        <a class="btn" href="<?= esc_url($service_callout_btn_url); ?>"<?= $service_callout_btn_is_popup ? ' data-fancybox="" data-touch="false"' : ''; ?>><?= esc_html($service_callout_btn_label); ?></a>
+                        <?php if ($service_callout_has_button): ?>
+                            <div class="service-page-callout__btn">
+                                <a class="btn" href="<?= esc_url($service_callout_btn_url); ?>"<?= $service_callout_btn_is_popup ? ' data-fancybox="" data-touch="false"' : ''; ?>><?= esc_html($service_callout_btn_label); ?></a>
+                            </div>
+                        <?php endif; ?>
                     </div>
                 <?php endif; ?>
             </div>
@@ -1336,317 +1000,20 @@ if ($service_visible_sections['service_news'] && $news_arr && count($news_arr) =
 <?php endif; ?>
 
 <?php
-$service_gallery_title = $service_get_field('service_gallery_title');
-$service_gallery_images = $service_get_field('service_gallery_images');
-$service_gallery_btn_label = $service_get_field('service_gallery_btn_label');
-$service_gallery_btn_url = $service_get_field('service_gallery_btn_url');
-
-if ($service_visible_sections['service_gallery'] && $service_gallery_images):
-    ?>
-    <section class="service-page-gallery section">
-        <div class="service-page-bg-path service-page-bg-path--1">
-            <img src="<?= get_template_directory_uri(); ?>/assets/img/home-bg-part-1.svg" alt="#">
-        </div>
-        <div class="service-page-bg-path service-page-bg-path--2">
-            <img src="<?= get_template_directory_uri(); ?>/assets/img/home-bg-part-2.svg" alt="#">
-        </div>
-        <?php if ($service_gallery_title): ?>
-            <div class="container">
-                <h2 class="service-page-gallery__title h4" data-aos="fade-up"><?= $service_gallery_title; ?></h2>
-            </div>
-        <?php endif; ?>
-        <div class="service-page-gallery__slider swiper-container" data-aos="fade-up">
-            <div class="swiper-wrapper">
-                <?php $counter = 1;
-                foreach ($service_gallery_images as $service_gallery_image): ?>
-                    <div class="service-page-gallery__slide swiper-slide">
-                        <div class="service-page-gallery__item">
-                            <img src="<?= kama_thumb_src('wh=1168:776', $service_gallery_image); ?>"
-                                 alt="Gallery Image - <?= $counter; ?>">
-                        </div>
-                    </div>
-                    <?php $counter++; endforeach; ?>
-            </div>
-            <div class="service-page-gallery__pagination gallery-pagination"></div>
-        </div>
-        <?php if ($service_gallery_btn_label && $service_gallery_btn_url): ?>
-            <div class="container">
-                <div class="service-page-gallery__btn">
-                    <a class="btn" href="<?= $service_gallery_btn_url; ?>"><?= $service_gallery_btn_label; ?></a>
-                </div>
-            </div>
-        <?php endif; ?>
-    </section>
-<?php endif; ?>
-
-
-
-<?php
-$service_banner_bg = $service_get_field('service_banner_bg');
-$service_banner_title = $service_get_field('service_banner_title');
-$service_banner_desc = $service_get_field('service_banner_desc');
-$service_banner_btn_label = $service_get_field('service_banner_btn_label');
-$service_banner_btn_url = $service_get_field('service_banner_btn_url');
-
-if ($service_visible_sections['service_banner'] && $service_banner_bg && $service_banner_title):
-    ?>
-    <section class="service-page-connect section">
-        <div class="service-page-connect__wrap" data-aos="fade-up">
-            <div class="service-page-connect__bg">
-                <img src="<?= $service_banner_bg; ?>" alt="<?= $service_banner_title; ?>">
-            </div>
-            <div class="container">
-                <div class="service-page-connect__content">
-                    <h2 class="service-page-connect__title"><?= $service_banner_title; ?></h2>
-                    <div class="service-page-connect__info">
-                        <?php if ($service_banner_desc): ?>
-                            <div class="service-page-connect__desc"><?= $service_banner_desc; ?></div>
-                        <?php endif; ?>
-                        <?php if ($service_banner_btn_label && $service_banner_btn_url): ?>
-                            <div class="service-page-connect__btn">
-                                <a class="btn btn-white"
-                                   href="<?= $service_banner_btn_url; ?>"><?= $service_banner_btn_label; ?></a>
-                            </div>
-                        <?php endif; ?>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-<?php endif; ?>
-
-<?php
-$service_regions_title = $service_get_field('service_regions_title');
-$service_regions_cards = $service_get_field('service_regions_cards');
-$service_regions_items = $service_get_field('service_regions_items');
-
-if ($service_visible_sections['service_regions'] && $service_regions_title && $service_regions_items):
-    ?>
-    <section class="service-page-regions section">
-        <div class="service-page-bg-path service-page-bg-path--5">
-            <img src="<?= get_template_directory_uri(); ?>/assets/img/home-bg-part-5.svg" alt="#">
-        </div>
-        <div class="container">
-            <div class="service-page-regions__wrap">
-                <h2 class="service-page-regions__title" data-aos="fade-up"><?= $service_regions_title; ?></h2>
-                <div class="service-page-regions__row row-lg">
-                    <?php if ($service_regions_cards): ?>
-                        <div class="service-page-regions__left col-lg" data-aos="fade-up">
-                            <div class="service-page-regions__items">
-                                <?php $counter = 1;
-                                foreach ($service_regions_cards as $service_regions_card): ?>
-                                    <div class="service-page-regions__item">
-                                        <?php if ($service_regions_card['icon']): ?>
-                                            <div class="service-page-regions__item-icon">
-                                                <img src="<?= $service_regions_card['icon']; ?>"
-                                                     alt="<?= $service_regions_title; ?> - Icon <?= $counter; ?>">
-                                            </div>
-                                        <?php endif; ?>
-                                        <div class="service-page-regions__item-sub"><?= $service_regions_card['sub']; ?></div>
-                                    </div>
-                                    <?php $counter++; endforeach; ?>
-                            </div>
-                        </div>
-                    <?php endif; ?>
-                    <div class="service-page-regions__map">
-                        <img src="<?= get_template_directory_uri(); ?>/assets/img/map.svg" alt="Map">
-                        <span>Все регионы</span>
-                    </div>
-                    <div class="service-page-regions__right col-lg" data-aos="fade-up" data-aos-delay="200">
-                        <div class="service-page-regions__sub h7">Представительства</div>
-                        <div class="service-page-regions__list">
-                            <?php foreach ($service_regions_items as $service_regions_item): ?>
-                                <div class="service-page-regions__card">
-                                    <div class="service-page-regions__card-bg">
-                                        <img src="<?= kama_thumb_src('wh=444:258', $service_regions_item['img']); ?>"
-                                             alt="<?= $service_regions_item['city']; ?>">
-                                    </div>
-                                    <div class="service-page-regions__card-wrap">
-                                        <div class="service-page-regions__card-toggle h7 js-h-regions-toggle">
-                                            <span><?= $service_regions_item['city']; ?></span>
-                                            <img src="<?= get_template_directory_uri(); ?>/assets/img/home-regions-arrow.svg"
-                                                 alt="Arrow">
-                                        </div>
-                                        <div class="service-page-regions__card-dropdown js-h-regions-dropdown">
-                                            <div class="service-page-regions__card-content">
-                                                <div class="service-page-regions__card-desc"><?= $service_regions_item['address']; ?></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-<?php endif; ?>
-
-<?php
-$service_portfolio_sub = $service_get_field('service_portfolio_sub');
-$service_portfolio_title = $service_get_field('service_portfolio_title');
-$service_portfolio_items = $service_get_field('service_portfolio_items');
-$service_portfolio_desc = $service_get_field('service_portfolio_desc');
-$service_portfolio_gallery = $service_get_field('service_portfolio_gallery');
-$service_portfolio_gallery_cols = [];
-
-if (is_array($service_portfolio_gallery) && $service_portfolio_gallery) {
-    $service_portfolio_gallery_size = ceil(count($service_portfolio_gallery) / 2);
-    $service_portfolio_gallery_cols = [
-        array_slice($service_portfolio_gallery, 0, $service_portfolio_gallery_size),
-        array_slice($service_portfolio_gallery, $service_portfolio_gallery_size)
+if ($service_visible_sections['service_banner_min_after_news']):
+    $service_banner_min_after_news_fields = [
+        'banner-min-title' => $service_get_banner_min_after_news_field('service_banner_min_after_news_title'),
+        'banner-min-text' => $service_get_banner_min_after_news_field('service_banner_min_after_news_text'),
+        'banner-min-background' => $service_get_banner_min_after_news_field('service_banner_min_after_news_background'),
+        'banner-min-link' => $service_get_banner_min_after_news_field('service_banner_min_after_news_link'),
+        'banner-min-anim-enabled' => $service_get_banner_min_after_news_field('service_banner_min_after_news_anim_enabled'),
+        'banner-min-anim-delay' => $service_get_banner_min_after_news_field('service_banner_min_after_news_anim_delay'),
     ];
-}
 
-if ($service_visible_sections['service_portfolio'] && $service_portfolio_title && $service_portfolio_gallery):
-    ?>
-    <section class="service-page-portfolio section">
-        <div class="container">
-            <div class="service-page-portfolio__wrap">
-                <div class="service-page-portfolio__left service-page-portfolio__col">
-                    <?php if ($service_portfolio_sub): ?>
-                        <div class="service-page-portfolio__sub" data-aos="fade-up"><?= $service_portfolio_sub; ?></div>
-                    <?php endif; ?>
-                    <h2 class="service-page-portfolio__title" data-aos="fade-up"><?= $service_portfolio_title; ?></h2>
-                    <?php if ($service_portfolio_items): ?>
-                        <div class="service-page-portfolio__row" data-aos="fade-up">
-                            <?php foreach ($service_portfolio_items as $service_portfolio_item): ?>
-                                <div class="service-page-portfolio__item">
-                                    <?php if ($service_portfolio_item['icon']): ?>
-                                        <img src="<?= $service_portfolio_item['icon']; ?>"
-                                             alt="<?= $service_portfolio_item['label']; ?>">
-                                    <?php endif; ?>
-                                    <span><?= $service_portfolio_item['label']; ?></span>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                    <?php endif; ?>
-                    <?php if ($service_portfolio_desc): ?>
-                        <div class="service-page-portfolio__desc" data-aos="fade-up"><?= $service_portfolio_desc; ?></div>
-                    <?php endif; ?>
-                </div>
-                <?php if ($service_portfolio_gallery_cols): ?>
-                    <div class="service-page-portfolio__right service-page-portfolio__col" data-aos="fade-up">
-                        <div class="service-page-portfolio__lists">
-                            <?php $counter = 1;
-                            foreach ($service_portfolio_gallery_cols as $service_portfolio_gallery_col): ?>
-                                <div class="service-page-portfolio__list js-infinity-line"
-                                     data-duration="15"<?= $counter == 1 ? ' data-revers="1"' : ''; ?>>
-                                    <?php $logo_counter = 1;
-                                    foreach ($service_portfolio_gallery_col as $service_portfolio_gallery_item): ?>
-                                        <div class="service-page-portfolio__logo">
-                                            <img src="<?= kama_thumb_src('wh=548:278', $service_portfolio_gallery_item); ?>"
-                                                 alt="<?= $service_portfolio_sub; ?> - Logo <?= $logo_counter; ?>">
-                                        </div>
-                                        <?php $logo_counter++; endforeach; ?>
-                                </div>
-                                <?php $counter++; endforeach; ?>
-                        </div>
-                    </div>
-                <?php endif; ?>
-            </div>
-            <div class="service-page-portfolio__slider swiper-container" data-aos="fade-up">
-                <div class="swiper-wrapper">
-                    <?php $logo_counter = 1;
-                    foreach ($service_portfolio_gallery as $service_portfolio_gallery_item): ?>
-                        <div class="service-page-portfolio__slide swiper-slide">
-                            <div class="service-page-portfolio__logo">
-                                <img src="<?= kama_thumb_src('wh=548:278', $service_portfolio_gallery_item); ?>"
-                                     alt="<?= $service_portfolio_sub; ?> - Logo <?= $logo_counter; ?>">
-                            </div>
-                        </div>
-                        <?php $logo_counter++; endforeach; ?>
-                </div>
-            </div>
-        </div>
-    </section>
-<?php endif; ?>
-
-<?php
-$service_video_items = $service_get_field('service_video_items');
-
-if ($service_visible_sections['service_video'] && $service_video_items):
-    ?>
-    <section class="service-page-product-video section">
-        <div class="container">
-            <div class="service-page-product-video__tabs" data-aos="fade-up">
-                <?php $counter = 1;
-                foreach ($service_video_items as $service_video_item): ?>
-                    <button class="service-page-product-video__tab js-h-product-video-tab<?= $counter == 1 ? ' active' : ''; ?>"
-                            type="button"><?= $service_video_item['label']; ?></button>
-                    <?php $counter++; endforeach; ?>
-            </div>
-            <div class="service-page-product-video__wrap" data-aos="fade-up">
-                <?php $counter = 1;
-                foreach ($service_video_items as $service_video_item): ?>
-                    <div class="service-page-product-video__block js-h-product-video-block"<?= $counter == 1 ? ' style="display: block;"' : ''; ?>>
-                        <div class="service-page-product-video__item js-h-product-video-item">
-                            <video playsinline controls>
-                                <source src="<?= $service_video_item['video']; ?>" type="video/mp4">
-                            </video>
-                            <div class="service-page-product-video__item-bg">
-                                <img src="<?= kama_thumb_src('wh=1200:648', $service_video_item['bg']); ?>"
-                                     alt="<?= $service_video_item['label']; ?>">
-                                <button class="service-page-product-video__item-btn" type="button">
-                                    <img src="<?= get_template_directory_uri(); ?>/assets/img/play-icon.svg" alt="Play">
-                                </button>
-                            </div>
-                            <div class="service-page-product-video__item-header">
-                                <div class="service-page-product-video__item-tag h7"><?= $service_video_item['label']; ?></div>
-                                <div class="service-page-product-video__item-desc h7"><?= $service_video_item['desc']; ?></div>
-                            </div>
-                            <div class="service-page-product-video__item-footer">
-                                <h2 class="service-page-product-video__item-title h1"><?= $service_video_item['title']; ?></h2>
-                                <div class="service-page-product-video__item-logo">
-                                    <img src="<?= get_template_directory_uri(); ?>/assets/img/home-product-video-logo.svg"
-                                         alt="Space">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="service-page-product-video__mob-desc"><?= $service_video_item['desc']; ?></div>
-                    </div>
-                    <?php $counter++; endforeach; ?>
-            </div>
-        </div>
-    </section>
-<?php endif; ?>
-
-
-<?php
-$service_media_title = $service_get_field('service_media_title');
-$service_media_desc = $service_get_field('service_media_desc');
-$service_media_items = $service_get_field('service_media_items');
-
-if ($service_visible_sections['service_media'] && $service_media_title && $service_media_items):
-    ?>
-    <section class="service-page-media section">
-        <div class="container">
-            <h2 class="service-page-media__title" data-aos="fade-up"><?= $service_media_title; ?></h2>
-            <?php if ($service_media_desc): ?>
-                <div class="service-page-media__desc" data-aos="fade-up"><?= $service_media_desc; ?></div>
-            <?php endif; ?>
-            <div class="service-page-media__slider swiper-container">
-                <div class="swiper-wrapper">
-                    <?php $counter = 1;
-                    foreach ($service_media_items as $service_media_item): ?>
-                        <div class="service-page-media__slide swiper-slide" data-aos="fade-up"
-                             data-aos-delay="<?= ($counter - 1) * 200; ?>">
-                            <a class="service-page-media__card" href="<?= $service_media_item['url']; ?>" target="_blank">
-                                <div class="service-page-media__card-text"><?= $service_media_item['text']; ?></div>
-                                <div class="service-page-media__card-logo"><?= get_retina_img($service_media_item['logo'], 'SMI - Logo ' . $counter); ?></div>
-                                <div class="service-page-media__card-btn">
-                                    <img src="<?= get_template_directory_uri(); ?>/assets/img/home-media-arrow.svg"
-                                         alt="Arrow">
-                                </div>
-                            </a>
-                        </div>
-                        <?php $counter++; endforeach; ?>
-                </div>
-            </div>
-        </div>
-    </section>
-<?php endif; ?>
-
+    get_template_part('functions/blocks/banner-min/template', null, [
+        'fields' => $service_banner_min_after_news_fields,
+    ]);
+endif;
+?>
 
 <?php get_footer(); ?>
