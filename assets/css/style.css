@@ -4865,6 +4865,18 @@ h6,
   --canvas-size: 100%;
   height: 0;
   padding-bottom: 100%;
+  position: relative;
+}
+
+.service-page-hero__video img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
+  border-radius: 16px;
 }
 
 .service-page-hero__video canvas {
@@ -4971,6 +4983,52 @@ h6,
 .service-page-hero__item-sub span {
   color: #946AD2;
   font-weight: 600;
+}
+
+.service-page-callout__wrap {
+  padding: 40px 0;
+  border-top: 1px solid #D9D7DA;
+  border-bottom: 1px solid #D9D7DA;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: end;
+  -ms-flex-align: end;
+  align-items: flex-end;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  gap: 48px;
+}
+
+.service-page-callout__content {
+  max-width: 760px;
+}
+
+.service-page-callout__title {
+  max-width: 760px;
+}
+
+.service-page-callout__title span {
+  color: #946AD2;
+}
+
+.service-page-callout__text {
+  margin-top: 16px;
+  max-width: 620px;
+  color: #665F6D;
+}
+
+.service-page-callout__text p:not(:last-child) {
+  margin-bottom: 12px;
+}
+
+.service-page-callout__btn {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
 }
 
 .service-page-why__title {
@@ -13377,6 +13435,10 @@ div.partners-distributors__item-link {
     margin: 0 auto;
   }
 
+  .service-page-hero__video {
+    margin-bottom: 16px;
+  }
+
   .service-page-hero__content {
     max-width: 100%;
   }
@@ -13400,6 +13462,15 @@ div.partners-distributors__item-link {
   .service-page-hero__item-icon {
     width: 45px;
     margin: 0 auto;
+  }
+
+  .service-page-callout__wrap {
+    display: block;
+    padding: 32px 0;
+  }
+
+  .service-page-callout__btn {
+    margin-top: 32px;
   }
 
   .service-page-why__title {
@@ -15219,6 +15290,10 @@ div.partners-distributors__item-link {
   }
 
   .service-page-hero__btn .btn {
+    width: 100%;
+  }
+
+  .service-page-callout__btn .btn {
     width: 100%;
   }
 
