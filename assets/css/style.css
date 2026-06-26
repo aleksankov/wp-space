@@ -3388,8 +3388,17 @@ h6,
   color: #665F6D;
 }
 
+.home-products__slider {
+  position: relative;
+  padding-bottom: 20px;
+}
+
 .home-products__slide {
   height: auto;
+}
+
+.home-products .swiper-scrollbar-drag {
+  background: rgba(178, 186, 235, 0.6);
 }
 
 .home-why__title {
