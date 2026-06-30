@@ -864,23 +864,25 @@ $(document).ready(function() {
     })
 
     //sliders
-    var homeProductsSlider = new Swiper('.home-products__slider', {
-        speed: 600,
-        slidesPerView: 3,
-        spaceBetween: 32,
-        breakpoints: {
-            0: {
-                slidesPerView: 'auto',
-                spaceBetween: 24
+    document.querySelectorAll('.home-products__slider, .service-page-products__slider').forEach(function(slider) {
+        new Swiper(slider, {
+            speed: 600,
+            slidesPerView: 3,
+            spaceBetween: 32,
+            breakpoints: {
+                0: {
+                    slidesPerView: 'auto',
+                    spaceBetween: 24
+                },
+                992: {
+                    slidesPerView: 3,
+                    spaceBetween: 32
+                }
             },
-            992: {
-                slidesPerView: 3,
-                spaceBetween: 32
-            }
-	  },
-          scrollbar: {
-            el: '.swiper-scrollbar',
-          },
+            scrollbar: {
+                el: slider.querySelector('.swiper-scrollbar'),
+            },
+        });
     });
 
     var aboutClientsSlider = new Swiper('.about-clients__slider', {
@@ -907,19 +909,21 @@ $(document).ready(function() {
         }
     });
 
-    var homeGallerySlider = new Swiper('.home-gallery__slider', {
-        speed: 600,
-        slidesPerView: 'auto',
-        lazy: true,
-        spaceBetween: 0,
-        centeredSlides: true,
-        loop: true,
-        slideToClickedSlide: true,
-        pagination: {
-            el: '.home-gallery__pagination',
-            clickable: true,
-            bulletActiveClass: 'active',
-        }
+    document.querySelectorAll('.home-gallery__slider, .service-page-gallery__slider').forEach(function(slider) {
+        new Swiper(slider, {
+            speed: 600,
+            slidesPerView: 'auto',
+            lazy: true,
+            spaceBetween: 0,
+            centeredSlides: true,
+            loop: true,
+            slideToClickedSlide: true,
+            pagination: {
+                el: slider.querySelector('.home-gallery__pagination, .service-page-gallery__pagination'),
+                clickable: true,
+                bulletActiveClass: 'active',
+            }
+        });
     });
 
     var aboutGallerySlider = new Swiper('.about-gallery__slider', {
@@ -935,26 +939,30 @@ $(document).ready(function() {
         }
     });
 
-    var homeMediaSlider = new Swiper('.home-media__slider', {
-        speed: 600,
-        slidesPerView: 4,
-        spaceBetween: 32,
-        breakpoints: {
-            0: {
-                slidesPerView: 'auto',
-                spaceBetween: 24
-            },
-            1200: {
-                slidesPerView: 4,
-                spaceBetween: 32
+    document.querySelectorAll('.home-media__slider, .service-page-media__slider').forEach(function(slider) {
+        new Swiper(slider, {
+            speed: 600,
+            slidesPerView: 4,
+            spaceBetween: 32,
+            breakpoints: {
+                0: {
+                    slidesPerView: 'auto',
+                    spaceBetween: 24
+                },
+                1200: {
+                    slidesPerView: 4,
+                    spaceBetween: 32
+                }
             }
-        }
+        });
     });
 
-    var homePortfolioSlider = new Swiper('.home-portfolio__slider', {
-        speed: 600,
-        slidesPerView: 'auto',
-        spaceBetween: 8
+    document.querySelectorAll('.home-portfolio__slider, .service-page-portfolio__slider').forEach(function(slider) {
+        new Swiper(slider, {
+            speed: 600,
+            slidesPerView: 'auto',
+            spaceBetween: 8
+        });
     });
 
     var teamSlider = new Swiper('.team__slider', {
@@ -1705,35 +1713,37 @@ $(document).ready(function() {
 
 const video = document.getElementById("hero-video-canvas");
 
-video.muted = true;
-video.playsInline = true;
+if (video) {
+    video.muted = true;
+    video.playsInline = true;
 
-function tryPlay(){
-  video.play().catch(()=>{});
+    function tryPlay(){
+      video.play().catch(()=>{});
+    }
+
+    /* когда видео реально готово */
+    video.addEventListener("canplay", tryPlay);
+
+    /* после загрузки страницы */
+    window.addEventListener("load", tryPlay);
+
+    /* при появлении видео в viewport */
+    const observer = new IntersectionObserver(entries=>{
+      if(entries[0].isIntersecting){
+        tryPlay();
+      }
+    });
+    observer.observe(video);
+
+    /* любой пользовательский жест */
+    ["touchstart","touchend","click","scroll"].forEach(evt=>{
+      document.addEventListener(evt, tryPlay, {once:true});
+    });
+
+    /* запасная попытка */
+    setInterval(()=>{
+      if(video.paused){
+        tryPlay();
+      }
+    },2000);
 }
-
-/* когда видео реально готово */
-video.addEventListener("canplay", tryPlay);
-
-/* после загрузки страницы */
-window.addEventListener("load", tryPlay);
-
-/* при появлении видео в viewport */
-const observer = new IntersectionObserver(entries=>{
-  if(entries[0].isIntersecting){
-    tryPlay();
-  }
-});
-observer.observe(video);
-
-/* любой пользовательский жест */
-["touchstart","touchend","click","scroll"].forEach(evt=>{
-  document.addEventListener(evt, tryPlay, {once:true});
-});
-
-/* запасная попытка */
-setInterval(()=>{
-  if(video.paused){
-    tryPlay();
-  }
-},2000);
