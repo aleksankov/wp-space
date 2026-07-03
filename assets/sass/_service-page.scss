@@ -215,6 +215,10 @@
     }
     &__title{
         width: 66.6666666%;
+        &--full{
+            width: 100%;
+            text-align: center;
+        }
         @include lg {
             width: 100%;
             transition-delay: 0s !important;

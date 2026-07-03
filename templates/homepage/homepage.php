@@ -83,15 +83,21 @@ get_template_part('functions/blocks/banner-min-v2/template', null);
 $home_products_title = get_field('home_products_title');
 $home_products_desc = get_field('home_products_desc');
 $home_products_items = get_field('home_products_items');
+$home_products_desc_has_text = trim(str_replace("\xc2\xa0", ' ', html_entity_decode(wp_strip_all_tags((string) $home_products_desc), ENT_QUOTES, get_bloginfo('charset')))) !== '';
+$home_products_title_class = 'home-products__title col-lg';
+
+if (!$home_products_desc_has_text) {
+    $home_products_title_class .= ' home-products__title--full';
+}
 
 if ($home_products_title && $home_products_items):
     ?>
     <section class="home-products section">
         <div class="container">
             <div class="home-products__header row-lg">
-                <h2 class="home-products__title col-lg" data-aos="fade-up"
+                <h2 class="<?= esc_attr($home_products_title_class); ?>" data-aos="fade-up"
                     data-aos-delay="150"><?= $home_products_title; ?></h2>
-                <?php if ($home_products_desc): ?>
+                <?php if ($home_products_desc_has_text): ?>
                     <div class="home-products__desc col-lg" data-aos="fade-up">
                         <div class="home-products__desc-item"><b><?= $home_products_desc; ?></b></div>
                     </div>

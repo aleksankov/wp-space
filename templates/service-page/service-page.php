@@ -177,15 +177,21 @@ if ($service_visible_sections['service_callout'] && $service_callout_has_content
 $service_products_title = $service_get_field('service_products_title');
 $service_products_desc = $service_get_field('service_products_desc');
 $service_products_items = $service_get_field('service_products_items');
+$service_products_desc_has_text = trim(str_replace("\xc2\xa0", ' ', html_entity_decode(wp_strip_all_tags((string) $service_products_desc), ENT_QUOTES, get_bloginfo('charset')))) !== '';
+$service_products_title_class = 'service-page-products__title col-lg';
+
+if (!$service_products_desc_has_text) {
+    $service_products_title_class .= ' service-page-products__title--full';
+}
 
 if ($service_visible_sections['service_products'] && $service_products_title && $service_products_items):
     ?>
     <section class="service-page-products section">
         <div class="container">
             <div class="service-page-products__header row-lg">
-                <h2 class="service-page-products__title col-lg" data-aos="fade-up"
+                <h2 class="<?= esc_attr($service_products_title_class); ?>" data-aos="fade-up"
                     data-aos-delay="150"><?= wp_kses_post($service_products_title); ?></h2>
-                <?php if ($service_products_desc): ?>
+                <?php if ($service_products_desc_has_text): ?>
                     <div class="service-page-products__desc col-lg" data-aos="fade-up">
                         <div class="service-page-products__desc-item"><b><?= wp_kses_post($service_products_desc); ?></b></div>
                     </div>

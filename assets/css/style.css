@@ -3393,6 +3393,11 @@ h6,
   width: 66.6666666%;
 }
 
+.home-products__title--full {
+  width: 100%;
+  text-align: center;
+}
+
 .home-products__desc {
   width: 33.3333333%;
 }
@@ -5015,6 +5020,11 @@ h6,
 
 .service-page-products__title {
   width: 66.6666666%;
+}
+
+.service-page-products__title--full {
+  width: 100%;
+  text-align: center;
 }
 
 .service-page-products__desc {
