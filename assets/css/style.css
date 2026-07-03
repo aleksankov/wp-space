@@ -751,8 +751,8 @@ h6,
 .btn {
   display: block;
   padding: 16px 23px;
-  border: 1px solid #946AD2;
-  background-color: #946AD2;
+  border: 1px solid var(--btn-border-color, #946AD2);
+  background-color: var(--btn-background-color, #946AD2);
   text-align: center;
   color: #fff;
   border-radius: 100px;
@@ -5044,11 +5044,20 @@ h6,
 }
 
 .service-page-callout__content {
-  max-width: 760px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  width: 100%;
 }
 
 .service-page-callout__title {
-  max-width: 760px;
+  width: 100%;
+  text-align: center;
+  margin: 0 auto;
 }
 
 .service-page-callout__title span {
@@ -5057,7 +5066,9 @@ h6,
 
 .service-page-callout__text {
   margin-top: 16px;
-  max-width: 620px;
+  width: 100%;
+  text-align: center;
+  max-width: 100%;
   color: #665F6D;
 }
 
@@ -5069,7 +5080,7 @@ h6,
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  margin-top: 32px;
+  margin: 32px auto 0;
 }
 
 .service-page-why__title {
@@ -12765,7 +12776,7 @@ div.partners-distributors__item-link {
   }
 
   .service-page-callout__btn {
-    margin-top: 28px;
+    margin: 28px auto 0;
   }
 
   .service-page-why__title {
@@ -14628,8 +14639,8 @@ div.partners-distributors__item-link {
 
 @media (hover: hover) {
   .btn:hover {
-    background-color: #B293DF;
-    border-color: #B293DF;
+    background-color: var(--btn-hover-background-color, #B293DF);
+    border-color: var(--btn-hover-border-color, #B293DF);
   }
 
   .btn-white:hover {

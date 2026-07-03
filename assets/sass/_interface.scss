@@ -281,8 +281,8 @@ h6, .h6{
 .btn{
     display: block;
     padding: 16px 23px;
-    border: 1px solid $violet;
-    background-color: $violet;
+    border: 1px solid var(--btn-border-color, #{$violet});
+    background-color: var(--btn-background-color, #{$violet});
     text-align: center;
     color: $white;
     border-radius: 100px;
@@ -290,8 +290,8 @@ h6, .h6{
     transition: background-color .25s, border-color .25s, opacity .25s, color .25s;
     @include hover {
         &:hover{
-            background-color: #B293DF;
-            border-color: #B293DF;
+            background-color: var(--btn-hover-background-color, #B293DF);
+            border-color: var(--btn-hover-border-color, #B293DF);
         }
     }
     &[disabled]{
