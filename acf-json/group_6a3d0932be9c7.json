@@ -1,6 +1,6 @@
 {
     "key": "group_6a3d0932be9c7",
-    "title": "Услуга",
+    "title": "Сервис",
     "fields": [
         {
             "key": "field_6a3d0932c679b",
@@ -24,6 +24,7 @@
             "key": "field_6a3d0932f001",
             "label": "Показывать секцию",
             "name": "service_hero_show",
+            "aria-label": "",
             "type": "true_false",
             "instructions": "",
             "required": 0,
@@ -38,8 +39,7 @@
             "allow_in_bindings": 0,
             "ui": 1,
             "ui_on_text": "Вкл",
-            "ui_off_text": "Выкл",
-            "aria-label": ""
+            "ui_off_text": "Выкл"
         },
         {
             "key": "field_6a3d0932ca231",
@@ -246,6 +246,7 @@
             "key": "field_6a3d0933e1010",
             "label": "Показывать секцию",
             "name": "service_products_show",
+            "aria-label": "",
             "type": "true_false",
             "instructions": "",
             "required": 0,
@@ -260,8 +261,7 @@
             "allow_in_bindings": 0,
             "ui": 1,
             "ui_on_text": "Вкл",
-            "ui_off_text": "Выкл",
-            "aria-label": ""
+            "ui_off_text": "Выкл"
         },
         {
             "key": "field_6a3d0933e1020",
@@ -464,6 +464,7 @@
             "key": "field_6a3d0932f002",
             "label": "Показывать секцию",
             "name": "service_banner_min_show",
+            "aria-label": "",
             "type": "true_false",
             "instructions": "",
             "required": 0,
@@ -478,8 +479,7 @@
             "allow_in_bindings": 0,
             "ui": 1,
             "ui_on_text": "Вкл",
-            "ui_off_text": "Выкл",
-            "aria-label": ""
+            "ui_off_text": "Выкл"
         },
         {
             "key": "field_6a3d0932e0332",
@@ -644,6 +644,7 @@
             "key": "field_6a3d0933d0020",
             "label": "Показывать секцию",
             "name": "service_callout_show",
+            "aria-label": "",
             "type": "true_false",
             "instructions": "",
             "required": 0,
@@ -658,15 +659,14 @@
             "allow_in_bindings": 0,
             "ui": 1,
             "ui_on_text": "Вкл",
-            "ui_off_text": "Выкл",
-            "aria-label": ""
+            "ui_off_text": "Выкл"
         },
         {
             "key": "field_6a3d0933d0030",
             "label": "Заголовок",
             "name": "service_callout_title",
             "aria-label": "",
-            "type": "text",
+            "type": "textarea",
             "instructions": "",
             "required": 0,
             "conditional_logic": 0,
@@ -677,10 +677,10 @@
             },
             "default_value": "",
             "maxlength": "",
-            "allow_in_bindings": 0,
+            "allow_in_bindings": 1,
+            "rows": "",
             "placeholder": "",
-            "prepend": "",
-            "append": ""
+            "new_lines": "br"
         },
         {
             "key": "field_6a3d0933d0040",
@@ -744,6 +744,44 @@
             "placeholder": "",
             "prepend": "",
             "append": ""
+        },
+        {
+            "key": "field_6a4757ec768af",
+            "label": "Цвет кнопки",
+            "name": "service_callout_btn_background",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "enable_opacity": 0,
+            "return_format": "string",
+            "allow_in_bindings": 0
+        },
+        {
+            "key": "field_6a4757ec768b0",
+            "label": "Цвет кнопки при наведении",
+            "name": "service_callout_btn_background_hover",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "enable_opacity": 0,
+            "return_format": "string",
+            "allow_in_bindings": 0
         },
         {
             "key": "field_6a3d0933d0070",
@@ -819,6 +857,7 @@
             "key": "field_6a3d0932f003",
             "label": "Показывать секцию",
             "name": "service_why_show",
+            "aria-label": "",
             "type": "true_false",
             "instructions": "",
             "required": 0,
@@ -833,8 +872,7 @@
             "allow_in_bindings": 0,
             "ui": 1,
             "ui_on_text": "Вкл",
-            "ui_off_text": "Выкл",
-            "aria-label": ""
+            "ui_off_text": "Выкл"
         },
         {
             "key": "field_6a3d0932eeeb5",
@@ -974,6 +1012,7 @@
             "key": "field_6a3d0932f005",
             "label": "Показывать секцию",
             "name": "service_tech_show",
+            "aria-label": "",
             "type": "true_false",
             "instructions": "",
             "required": 0,
@@ -988,8 +1027,7 @@
             "allow_in_bindings": 0,
             "ui": 1,
             "ui_on_text": "Вкл",
-            "ui_off_text": "Выкл",
-            "aria-label": ""
+            "ui_off_text": "Выкл"
         },
         {
             "key": "field_6a3d0933181f1",
@@ -1168,6 +1206,7 @@
             "key": "field_6a3d0932f008",
             "label": "Показывать секцию",
             "name": "service_demo_show",
+            "aria-label": "",
             "type": "true_false",
             "instructions": "",
             "required": 0,
@@ -1182,8 +1221,7 @@
             "allow_in_bindings": 0,
             "ui": 1,
             "ui_on_text": "Вкл",
-            "ui_off_text": "Выкл",
-            "aria-label": ""
+            "ui_off_text": "Выкл"
         },
         {
             "key": "field_6a3d093348264",
@@ -1440,6 +1478,7 @@
             "key": "field_6a3d0932f00b",
             "label": "Показывать секцию",
             "name": "service_faq_show",
+            "aria-label": "",
             "type": "true_false",
             "instructions": "",
             "required": 0,
@@ -1454,8 +1493,7 @@
             "allow_in_bindings": 0,
             "ui": 1,
             "ui_on_text": "Вкл",
-            "ui_off_text": "Выкл",
-            "aria-label": ""
+            "ui_off_text": "Выкл"
         },
         {
             "key": "field_6a3d09337f8c3",
@@ -1594,6 +1632,7 @@
             "key": "field_6a3d0932f00d",
             "label": "Показывать секцию",
             "name": "service_news_show",
+            "aria-label": "",
             "type": "true_false",
             "instructions": "",
             "required": 0,
@@ -1608,8 +1647,7 @@
             "allow_in_bindings": 0,
             "ui": 1,
             "ui_on_text": "Вкл",
-            "ui_off_text": "Выкл",
-            "aria-label": ""
+            "ui_off_text": "Выкл"
         },
         {
             "key": "field_6a3d09339cf0d",
@@ -1696,6 +1734,7 @@
             "key": "field_6a3d0933a9002",
             "label": "Показывать секцию",
             "name": "service_banner_min_after_news_show",
+            "aria-label": "",
             "type": "true_false",
             "instructions": "",
             "required": 0,
@@ -1710,8 +1749,7 @@
             "allow_in_bindings": 0,
             "ui": 1,
             "ui_on_text": "Вкл",
-            "ui_off_text": "Выкл",
-            "aria-label": ""
+            "ui_off_text": "Выкл"
         },
         {
             "key": "field_6a3d0933a9003",
@@ -1860,7 +1898,7 @@
             {
                 "param": "page_template",
                 "operator": "==",
-                "value": "templates/service-page/service-page.php"
+                "value": "templates\/service-page\/service-page.php"
             }
         ]
     ],
@@ -1873,5 +1911,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1782477168
+    "modified": 1783061550
 }

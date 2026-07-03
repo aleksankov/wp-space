@@ -125,11 +125,26 @@ $service_callout_title = $service_get_callout_field('service_callout_title');
 $service_callout_text = $service_get_callout_field('service_callout_text');
 $service_callout_btn_label = $service_get_callout_field('service_callout_btn_label');
 $service_callout_btn_url = $service_get_callout_field('service_callout_btn_url');
+$service_callout_btn_background = sanitize_hex_color($service_get_callout_field('service_callout_btn_background'));
+$service_callout_btn_background_hover = sanitize_hex_color($service_get_callout_field('service_callout_btn_background_hover'));
 $service_callout_anim_enabled = $service_get_callout_field('service_callout_anim_enabled');
 $service_callout_anim_delay = absint($service_get_callout_field('service_callout_anim_delay'));
 $service_callout_has_button = $service_callout_btn_label && $service_callout_btn_url;
 $service_callout_has_content = $service_callout_title || $service_callout_text || $service_callout_has_button;
 $service_callout_btn_is_popup = $service_callout_btn_url && 0 === strpos($service_callout_btn_url, '#');
+$service_callout_btn_styles = [];
+
+if ($service_callout_btn_background) {
+    $service_callout_btn_styles[] = '--btn-background-color:' . $service_callout_btn_background;
+    $service_callout_btn_styles[] = '--btn-border-color:' . $service_callout_btn_background;
+}
+
+if ($service_callout_btn_background_hover) {
+    $service_callout_btn_styles[] = '--btn-hover-background-color:' . $service_callout_btn_background_hover;
+    $service_callout_btn_styles[] = '--btn-hover-border-color:' . $service_callout_btn_background_hover;
+}
+
+$service_callout_btn_style_attr = $service_callout_btn_styles ? ' style="' . esc_attr(implode('; ', $service_callout_btn_styles)) . '"' : '';
 
 if ($service_visible_sections['service_callout'] && $service_callout_has_content):
     ?>
@@ -146,7 +161,7 @@ if ($service_visible_sections['service_callout'] && $service_callout_has_content
                         <?php endif; ?>
                         <?php if ($service_callout_has_button): ?>
                             <div class="service-page-callout__btn">
-                                <a class="btn" href="<?= esc_url($service_callout_btn_url); ?>"<?= $service_callout_btn_is_popup ? ' data-fancybox="" data-touch="false"' : ''; ?>><?= esc_html($service_callout_btn_label); ?></a>
+                                <a class="btn" href="<?= esc_url($service_callout_btn_url); ?>"<?= $service_callout_btn_is_popup ? ' data-fancybox="" data-touch="false"' : ''; ?><?= $service_callout_btn_style_attr; ?>><?= esc_html($service_callout_btn_label); ?></a>
                             </div>
                         <?php endif; ?>
                     </div>
