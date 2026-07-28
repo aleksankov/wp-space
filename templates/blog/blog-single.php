@@ -67,7 +67,7 @@ $content = apply_filters( 'the_content', get_the_content( null, false, $card_id 
                 <?php endif; ?>
             </div>
             <?php if ( $content ): ?>
-                <div class="article__content main-text"><?= wp_kses_post( $content ); ?></div>
+                <div class="article__content main-text"><?php the_content(); ?></div>
             <?php endif; ?>
         </div>
     </div>
