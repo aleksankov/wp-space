@@ -30,6 +30,29 @@
     global $site_feedback_main_email;
     global $site_feedback_partner_email;
     global $site_feedback_tech_partner_email;
+
+    $demo_popup = [
+        'title' => space_get_option_with_fallback('site_demo_popup_title', 'Оставить на сайте<br>заявку на демо-версию'),
+        'product_label' => space_get_option_with_fallback('site_demo_popup_product_label', 'Выберите продукт'),
+        'partner_label' => space_get_option_with_fallback('site_demo_popup_partner_label', 'Выберите дистрибьютора'),
+        'name_label' => space_get_option_with_fallback('site_demo_popup_name_label', 'Имя и фамилия'),
+        'company_label' => space_get_option_with_fallback('site_demo_popup_company_label', 'Организация'),
+        'phone_label' => space_get_option_with_fallback('site_demo_popup_phone_label', 'Номер телефона'),
+        'email_label' => space_get_option_with_fallback('site_demo_popup_email_label', 'E-mail'),
+        'message_label' => space_get_option_with_fallback('site_demo_popup_message_label', 'Комментарий'),
+        'submit_label' => space_get_option_with_fallback('site_demo_popup_submit_label', 'Отправить'),
+        'form_name' => space_get_option_with_fallback('site_demo_popup_form_name', 'Заявка на демо-версию'),
+    ];
+    $feedback_success = [
+        'title' => space_get_option_with_fallback('site_feedback_success_title', 'Заявка успешно отправлена!'),
+        'description' => space_get_option_with_fallback('site_feedback_success_description', 'Скоро с вами свяжется наш менеджер'),
+        'button' => space_get_option_with_fallback('site_feedback_success_button', 'Закрыть'),
+    ];
+    $feedback_error = [
+        'title' => space_get_option_with_fallback('site_feedback_error_title', 'Произошла ошибка!'),
+        'description' => space_get_option_with_fallback('site_feedback_error_description', 'При отправке произошла ошибка.<br>Попробуйте обновить страницу и отправить заявку заново'),
+        'button' => space_get_option_with_fallback('site_feedback_error_button', 'Закрыть'),
+    ];
 ?>
     </main>
     <footer class="footer js-footer">
@@ -153,382 +176,7 @@
         </div>
     </footer>
 
-    <div class="main-popup" id="demo-vm">
-        <button class="main-popup__close" type="button" data-fancybox-close>
-            <img src="<?= get_template_directory_uri(); ?>/assets/img/close-icon.svg" alt="Close">
-        </button>
-        <div class="main-popup__wrap">
-            <!-- <div class="main-popup__left"> -->
-                <!-- <div class="main-popup__img"> -->
-                    <!-- <img src="<?= get_template_directory_uri(); ?>/assets/img/main-popup-img-1.png" alt="SpaceVM"> -->
-                    <!-- <div class="main-popup__sub">Заявка на&nbsp;демоверсию SpaceVM</div> -->
-                <!-- </div> -->
-            <!-- </div> -->
-            <div class="main-popup__right">
-                <form class="main-popup__form main-popup__form--aqua ajax-wrap js-form" >
-                    <div class="main-popup__form-title">Заполните информацию ниже и&nbsp;мы свяжемся с&nbsp;вами</div>
-                    <div class="main-popup__form-list ajax-wrap__item">
-                        <?php if( $form_partner_options ): ?>
-                            <div class="main-popup__form-col main-popup__form-col--lg">
-                                <div class="main-select main-select--aqua">
-                                    <select data-validate="select"  class="js-select js-feedback-input js-partner-select" name="partner"><?= $form_partner_options; ?></select>
-                                    <span class="js-select-toggle">Выберите дистрибьютора</span>
-                                </div>
-                            </div>
-                        <?php endif; ?>
-                        <div class="main-popup__form-col">
-                            <div class="main-input main-input--aqua">
-                                <label>
-                                    <input data-validate="empty"  type="text" class="js-form-input js-feedback-input"  name="name">
-                                    <span>Имя и фамилия</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="main-popup__form-col">
-                            <div class="main-input main-input--aqua">
-                                <label>
-                                    <input data-validate="empty" type="text" class="js-form-input js-feedback-input"  name="company">
-                                    <span>Организация</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="main-popup__form-col">
-                            <div class="main-input main-input--aqua">
-                                <label>
-                                    <input  data-validate="empty"  class="js-form-input js-tel-input js-feedback-input"  type="text" name="phone">
-                                    <span>Номер телефона</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="main-popup__form-col">
-                            <div class="main-input main-input--aqua">
-                                <label>
-                                    <input  data-validate="empty" type="email"  class="js-form-input js-feedback-input"  name="email">
-                                    <span>E-mail</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="main-popup__form-col main-popup__form-col--lg">
-                            <div class="main-input main-input--aqua">
-                                <label>
-                                    <textarea class="js-form-input js-feedback-input"   name="msg"></textarea>
-                                    <span>Комментарий</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <?php if( $site_forms_agree ): ?>
-                        <div class="main-popup__form-agree ajax-wrap__item"><?= $site_forms_agree; ?></div>
-                    <?php endif; ?>
-                    <div class="main-popup__form-btn ajax-wrap__item">
-                        <button class="btn btn-white" type="submit">Отправить</button>
-                    </div>
-                    <input type="hidden" name="form_name" value="Заявка на демо-версию SpaceVM">
-                    <input type="hidden" name="to" value="<?= $site_feedback_main_email; ?>">
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div class="main-popup" id="buy-vm">
-        <button class="main-popup__close" type="button" data-fancybox-close>
-            <img src="<?= get_template_directory_uri(); ?>/assets/img/close-icon.svg" alt="Close">
-        </button>
-        <div class="main-popup__wrap">
-            <!-- <div class="main-popup__left"> -->
-                <!-- <div class="main-popup__img"> -->
-                    <!-- <img src="<?= get_template_directory_uri(); ?>/assets/img/main-popup-img-1.png" alt="SpaceVM"> -->
-                    <!-- <div class="main-popup__sub">Заявка <br>на покупку <br>SpaceVM</div> -->
-                <!-- </div> -->
-            <!-- </div> -->
-            <div class="main-popup__right">
-                <form class="main-popup__form main-popup__form--aqua ajax-wrap js-form" >
-                    <div class="main-popup__form-title">Заполните информацию ниже и&nbsp;мы свяжемся с&nbsp;вами</div>
-                    <div class="main-popup__form-list ajax-wrap__item">
-                        <?php if( $form_partner_options ): ?>
-                            <div class="main-popup__form-col main-popup__form-col--lg">
-                                <div class="main-select main-select--aqua">
-                                    <select data-validate="select" class="js-select js-feedback-input js-partner-select" name="partner"><?= $form_partner_options; ?></select>
-                                    <span class="js-select-toggle">Выберите дистрибьютора</span>
-                                </div>
-                            </div>
-                        <?php endif; ?>
-                        <div class="main-popup__form-col">
-                            <div class="main-input main-input--aqua">
-                                <label>
-                                    <input data-validate="empty" class="js-form-input js-feedback-input" type="text"   name="name">
-                                    <span>Имя и фамилия</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="main-popup__form-col">
-                            <div class="main-input main-input--aqua">
-                                <label>
-                                    <input data-validate="empty" class="js-form-input js-feedback-input" type="text"   name="company">
-                                    <span>Организация</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="main-popup__form-col">
-                            <div class="main-input main-input--aqua">
-                                <label>
-                                    <input data-validate="empty" class="js-form-input js-tel-input js-feedback-input" type="text"   name="phone">
-                                    <span>Номер телефона</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="main-popup__form-col">
-                            <div class="main-input main-input--aqua">
-                                <label>
-                                    <input data-validate="empty" class="js-form-input js-feedback-input" type="text"   name="email">
-                                    <span>E-mail</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="main-popup__form-col main-popup__form-col--lg">
-                            <div class="main-input main-input--aqua">
-                                <label>
-                                    <textarea class="js-form-input js-feedback-input"   name="msg"></textarea>
-                                    <span>Комментарий</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <?php if( $site_forms_agree ): ?>
-                        <div class="main-popup__form-agree ajax-wrap__item"><?= $site_forms_agree; ?></div>
-                    <?php endif; ?>
-                    <div class="main-popup__form-btn ajax-wrap__item">
-                        <button class="btn btn-white" type="submit">Отправить</button>
-                    </div>
-                    <input type="hidden" name="form_name" value="Заявка на покупку SpaceVM">
-                    <input type="hidden" name="to" value="<?= $site_feedback_main_email; ?>">
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div class="main-popup" id="demo-vdi">
-        <button class="main-popup__close" type="button" data-fancybox-close>
-            <img src="<?= get_template_directory_uri(); ?>/assets/img/close-icon.svg" alt="Close">
-        </button>
-        <div class="main-popup__wrap">
-            <div class="main-popup__left">
-                <div class="main-popup__img">
-                    <img src="<?= get_template_directory_uri(); ?>/assets/img/main-popup-img-2.png" alt="SpaceVDI">
-                    <div class="main-popup__sub">Заявка на&nbsp;демоверсию Space VDI</div>
-                </div>
-            </div>
-            <div class="main-popup__right">
-                <form class="main-popup__form ajax-wrap js-form">
-                    <div class="main-popup__form-title">Заполните информацию ниже и&nbsp;мы свяжемся с&nbsp;вами</div>
-                    <div class="main-popup__form-list ajax-wrap__item">
-                        <?php if( $form_partner_options ): ?>
-                            <div class="main-popup__form-col main-popup__form-col--lg">
-                                <div class="main-select">
-                                    <select class="js-select js-feedback-input js-partner-select" name="partner"><?= $form_partner_options; ?></select>
-                                    <span class="js-select-toggle">Выберите дистрибьютора</span>
-                                </div>
-                            </div>
-                        <?php endif; ?>
-                        <div class="main-popup__form-col">
-                            <div class="main-input">
-                                <label>
-                                    <input class="js-form-input js-feedback-input" type="text" name="name">
-                                    <span>Имя и фамилия</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="main-popup__form-col">
-                            <div class="main-input">
-                                <label>
-                                    <input class="js-form-input js-feedback-input" type="text" name="company">
-                                    <span>Организация</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="main-popup__form-col">
-                            <div class="main-input">
-                                <label>
-                                    <input class="js-form-input js-tel-input js-feedback-input" type="text" name="phone">
-                                    <span>Номер телефона</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="main-popup__form-col">
-                            <div class="main-input">
-                                <label>
-                                    <input class="js-form-input js-feedback-input" type="text" name="email">
-                                    <span>E-mail</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="main-popup__form-col main-popup__form-col--lg">
-                            <div class="main-input">
-                                <label>
-                                    <textarea class="js-form-input js-feedback-input" name="msg"></textarea>
-                                    <span>Комментарий</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <?php if( $site_forms_agree ): ?>
-                        <div class="main-popup__form-agree ajax-wrap__item"><?= $site_forms_agree; ?></div>
-                    <?php endif; ?>
-                    <div class="main-popup__form-btn ajax-wrap__item">
-                        <button class="btn btn-white" type="submit">Отправить</button>
-                    </div>
-                    <input type="hidden" name="form_name" value="Заявка на демо-версию Space VDI">
-                    <input type="hidden" name="to" value="<?= $site_feedback_main_email; ?>">
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div class="main-popup" id="buy-vdi">
-        <button class="main-popup__close" type="button" data-fancybox-close>
-            <img src="<?= get_template_directory_uri(); ?>/assets/img/close-icon.svg" alt="Close">
-        </button>
-        <div class="main-popup__wrap">
-            <div class="main-popup__left">
-                <div class="main-popup__img">
-                    <img src="<?= get_template_directory_uri(); ?>/assets/img/main-popup-img-2.png" alt="SpaceVDI">
-                    <div class="main-popup__sub">Заявка <br>на покупку <br>Space VDI</div>
-                </div>
-            </div>
-            <div class="main-popup__right">
-                <form class="main-popup__form ajax-wrap js-form">
-                    <div class="main-popup__form-title">Заполните информацию ниже и&nbsp;мы свяжемся с&nbsp;вами</div>
-                    <div class="main-popup__form-list ajax-wrap__item">
-                        <?php if( $form_partner_options ): ?>
-                            <div class="main-popup__form-col main-popup__form-col--lg">
-                                <div class="main-select">
-                                    <select class="js-select js-feedback-input js-partner-select" name="partner"><?= $form_partner_options; ?></select>
-                                    <span class="js-select-toggle">Выберите дистрибьютора</span>
-                                </div>
-                            </div>
-                        <?php endif; ?>
-                        <div class="main-popup__form-col">
-                            <div class="main-input">
-                                <label>
-                                    <input class="js-form-input js-feedback-input" type="text" name="name">
-                                    <span>Имя и фамилия</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="main-popup__form-col">
-                            <div class="main-input">
-                                <label>
-                                    <input class="js-form-input js-feedback-input" type="text" name="company">
-                                    <span>Организация</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="main-popup__form-col">
-                            <div class="main-input">
-                                <label>
-                                    <input class="js-form-input js-tel-input js-feedback-input" type="text" name="phone">
-                                    <span>Номер телефона</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="main-popup__form-col">
-                            <div class="main-input">
-                                <label>
-                                    <input class="js-form-input js-feedback-input" type="text" name="email">
-                                    <span>E-mail</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="main-popup__form-col main-popup__form-col--lg">
-                            <div class="main-input">
-                                <label>
-                                    <textarea class="js-form-input js-feedback-input" name="msg"></textarea>
-                                    <span>Комментарий</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <?php if( $site_forms_agree ): ?>
-                        <div class="main-popup__form-agree ajax-wrap__item"><?= $site_forms_agree; ?></div>
-                    <?php endif; ?>
-                    <div class="main-popup__form-btn ajax-wrap__item">
-                        <button class="btn btn-white" type="submit">Отправить</button>
-                    </div>
-                    <input type="hidden" name="form_name" value="Заявка на покупку Space VDI">
-                    <input type="hidden" name="to" value="<?= $site_feedback_main_email; ?>">
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div class="main-popup" id="partner-popup">
-        <button class="main-popup__close" type="button" data-fancybox-close>
-            <img src="<?= get_template_directory_uri(); ?>/assets/img/close-icon.svg" alt="Close">
-        </button>
-        <div class="main-popup__wrap">
-            <div class="main-popup__left">
-                <div class="main-popup__img">
-                    <img src="<?= get_template_directory_uri(); ?>/assets/img/main-popup-img-3.png" alt="Space">
-                    <div class="main-popup__sub">Станьте <br>партнером — <br>Space</div>
-                </div>
-            </div>
-            <div class="main-popup__right">
-                <form class="main-popup__form ajax-wrap js-form">
-                    <div class="main-popup__form-title">Заполните информацию ниже и&nbsp;мы свяжемся с&nbsp;вами</div>
-                    <div class="main-popup__form-list ajax-wrap__item">
-                        <div class="main-popup__form-col">
-                            <div class="main-input">
-                                <label>
-                                    <input class="js-form-input js-feedback-input" type="text" name="name">
-                                    <span>Имя и фамилия</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="main-popup__form-col">
-                            <div class="main-input">
-                                <label>
-                                    <input class="js-form-input js-feedback-input" type="text" name="company">
-                                    <span>Организация</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="main-popup__form-col">
-                            <div class="main-input">
-                                <label>
-                                    <input class="js-form-input js-tel-input js-feedback-input" type="text" name="phone">
-                                    <span>Номер телефона</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="main-popup__form-col">
-                            <div class="main-input">
-                                <label>
-                                    <input class="js-form-input js-feedback-input" type="text" name="email">
-                                    <span>E-mail</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="main-popup__form-col main-popup__form-col--lg">
-                            <div class="main-input">
-                                <label>
-                                    <textarea class="js-form-input js-feedback-input" name="msg"></textarea>
-                                    <span>Комментарий</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <?php if( $site_forms_agree ): ?>
-                        <div class="main-popup__form-agree ajax-wrap__item"><?= $site_forms_agree; ?></div>
-                    <?php endif; ?>
-                    <div class="main-popup__form-btn ajax-wrap__item">
-                        <button class="btn btn-white" type="submit">Отправить</button>
-                    </div>
-                    <input type="hidden" name="form_name" value="Заявка на партнера">
-                    <input type="hidden" name="to" value="<?= $site_feedback_partner_email; ?>">
-                </form>
-            </div>
-        </div>
-    </div>
+    <?php space_render_page_popup_blocks(); ?>
 
     <div class="main-popup main-popup--simple" id="demo-popup">
         <button class="main-popup__close" type="button" data-fancybox-close>
@@ -537,13 +185,13 @@
         <div class="main-popup__wrap">
             <div class="main-popup__right">
                 <form class="main-popup__form ajax-wrap js-form">
-                    <div class="main-popup__form-title">Оставить на&nbsp;сайте <br>заявку&nbsp;на демо-версию</div>
+                    <div class="main-popup__form-title"><?= wp_kses_post($demo_popup['title']); ?></div>
                     <div class="main-popup__form-list ajax-wrap__item">
                         <?php if( $form_product_options ): ?>
                             <div class="main-popup__form-col">
                                 <div class="main-select">
                                     <select class="js-select js-feedback-input" name="product"><?= $form_product_options; ?></select>
-                                    <span class="js-select-toggle">Выберите продукт</span>
+                                    <span class="js-select-toggle"><?= esc_html($demo_popup['product_label']); ?></span>
                                 </div>
                             </div>
                         <?php endif; ?>
@@ -551,7 +199,7 @@
                             <div class="main-popup__form-col">
                                 <div class="main-select">
                                     <select class="js-select js-feedback-input js-partner-select" name="partner"><?= $form_partner_options; ?></select>
-                                    <span class="js-select-toggle">Выберите дистрибьютора</span>
+                                    <span class="js-select-toggle"><?= esc_html($demo_popup['partner_label']); ?></span>
                                 </div>
                             </div>
                         <?php endif; ?>
@@ -559,7 +207,7 @@
                             <div class="main-input">
                                 <label>
                                     <input class="js-form-input js-feedback-input" type="text" name="name">
-                                    <span>Имя и фамилия</span>
+                                    <span><?= esc_html($demo_popup['name_label']); ?></span>
                                 </label>
                             </div>
                         </div>
@@ -567,7 +215,7 @@
                             <div class="main-input">
                                 <label>
                                     <input class="js-form-input js-feedback-input" type="text" name="company">
-                                    <span>Организация</span>
+                                    <span><?= esc_html($demo_popup['company_label']); ?></span>
                                 </label>
                             </div>
                         </div>
@@ -575,7 +223,7 @@
                             <div class="main-input">
                                 <label>
                                     <input class="js-form-input js-tel-input js-feedback-input" type="text" name="phone">
-                                    <span>Номер телефона</span>
+                                    <span><?= esc_html($demo_popup['phone_label']); ?></span>
                                 </label>
                             </div>
                         </div>
@@ -583,7 +231,7 @@
                             <div class="main-input">
                                 <label>
                                     <input class="js-form-input js-feedback-input" type="text" name="email">
-                                    <span>E-mail</span>
+                                    <span><?= esc_html($demo_popup['email_label']); ?></span>
                                 </label>
                             </div>
                         </div>
@@ -591,7 +239,7 @@
                             <div class="main-input">
                                 <label>
                                     <textarea class="js-form-input js-feedback-input" name="msg"></textarea>
-                                    <span>Комментарий</span>
+                                    <span><?= esc_html($demo_popup['message_label']); ?></span>
                                 </label>
                             </div>
                         </div>
@@ -600,9 +248,9 @@
                         <div class="main-popup__form-agree ajax-wrap__item"><?= $site_forms_agree; ?></div>
                     <?php endif; ?>
                     <div class="main-popup__form-btn ajax-wrap__item">
-                        <button class="btn btn-white" type="submit">Отправить</button>
+                        <button class="btn btn-white" type="submit"><?= esc_html($demo_popup['submit_label']); ?></button>
                     </div>
-                    <input type="hidden" name="form_name" value="Заявка на демо-версию">
+                    <input type="hidden" name="form_name" value="<?= esc_attr($demo_popup['form_name']); ?>">
                     <input type="hidden" name="to" value="<?= $site_feedback_main_email; ?>">
                 </form>
             </div>
@@ -616,10 +264,10 @@
         <div class="main-popup__wrap">
             <div class="main-popup__right">
                 <form class="main-popup__form">
-                    <div class="main-popup__form-title">Заявка успешно отправлена!</div>
-                    <div class="main-popup__form-desc">Скоро с вами свяжется наш менеджер</div>
+                    <div class="main-popup__form-title"><?= esc_html($feedback_success['title']); ?></div>
+                    <div class="main-popup__form-desc"><?= wp_kses_post($feedback_success['description']); ?></div>
                     <div class="main-popup__form-btn">
-                        <button class="btn btn-white" type="button" data-fancybox-close>Закрыть</button>
+                        <button class="btn btn-white" type="button" data-fancybox-close><?= esc_html($feedback_success['button']); ?></button>
                     </div>
                 </form>
             </div>
@@ -632,10 +280,10 @@
         <div class="main-popup__wrap">
             <div class="main-popup__right">
                 <form class="main-popup__form">
-                    <div class="main-popup__form-title">Произошла ошибка!</div>
-                    <div class="main-popup__form-desc">При отправке произошла ошибка. <br>Попробуйте обновить страницу и&nbsp;отправить заявку заново</div>
+                    <div class="main-popup__form-title"><?= esc_html($feedback_error['title']); ?></div>
+                    <div class="main-popup__form-desc"><?= wp_kses_post($feedback_error['description']); ?></div>
                     <div class="main-popup__form-btn">
-                        <button class="btn btn-white" type="button" data-fancybox-close>Закрыть</button>
+                        <button class="btn btn-white" type="button" data-fancybox-close><?= esc_html($feedback_error['button']); ?></button>
                     </div>
                 </form>
             </div>

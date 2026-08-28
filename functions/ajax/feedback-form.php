@@ -235,60 +235,83 @@ add_action('wp_ajax_feedback_form_custom', 'ajax_feedback_form_custom');
 
 function ajax_feedback_form_custom()
 {
-    $result = ['status' => false];
+    $posted_fields = isset($_POST['custom_field']) && is_array($_POST['custom_field'])
+        ? wp_unslash($_POST['custom_field'])
+        : [];
+    $form_name = isset($_POST['form_name']) ? sanitize_text_field(wp_unslash($_POST['form_name'])) : 'Заявка';
+    $url = isset($_POST['url']) ? esc_url_raw(wp_unslash($_POST['url'])) : '';
+    $recipient_type = isset($_POST['recipient_type']) ? sanitize_key(wp_unslash($_POST['recipient_type'])) : 'main';
+    $recipient_fields = [
+        'main' => 'site_feedback_main_email',
+        'partner' => 'site_feedback_partner_email',
+        'tech_partner' => 'site_feedback_tech_partner_email',
+    ];
 
-    $message = '
+    if (!isset($recipient_fields[$recipient_type])) {
+        $recipient_type = 'main';
+    }
 
-  <style>
-        table{
-            width: 100%;
-            border-collapse: collapse;
-        }
-        table tr td{
-            border: 1px solid #000;
-            padding-top: 10px;
-            padding-bottom: 10px;
-            padding-left: 20px;
-            padding-right: 20px;
-        }
-    </style>
-        <p style="font-size: 22px; text-align: center; padding-bottom: 30px; margin: 0;"><b>Детали заявки:</b></p><table>';
-    foreach ($_POST['custom_field'] as  $key =>$item) {
-        if ($key==='to'){
+    $configured_recipients = function_exists('get_field') ? get_field($recipient_fields[$recipient_type], 'option') : '';
+    $configured_recipients = $configured_recipients ?: get_option('admin_email');
+    $recipients = array_map('trim', explode(',', (string) $configured_recipients));
+
+    $route_email = isset($_POST['route_email']) ? sanitize_email(wp_unslash($_POST['route_email'])) : '';
+    $route_signature = isset($_POST['route_signature']) ? sanitize_text_field(wp_unslash($_POST['route_signature'])) : '';
+    $expected_signature = $route_email ? hash_hmac('sha256', $route_email, wp_salt('auth')) : '';
+
+    if ($route_email && $route_signature && hash_equals($expected_signature, $route_signature)) {
+        $recipients[] = $route_email;
+    }
+
+    $recipients = array_values(array_unique(array_filter($recipients, 'is_email')));
+
+    if (!$recipients) {
+        wp_send_json(['status' => false]);
+    }
+
+    $rows = [];
+
+    foreach ($posted_fields as $field) {
+        if (!is_array($field)) {
             continue;
         }
 
-        $message .= '<tr>
-            <td><b>' . $item['title'] . '</b></td>
-            <td>' . $item['value'] . '</td>
-        </tr>';
-    }
-    if ($_POST['form_name']) {
-        $message .= '<tr>
-            <td><b>Название формы</b></td>
-            <td>' . $_POST['form_name'] . '</td>
-        </tr>';
-    }
-    if ($_POST['url']) {
-        $message .= '<tr>
-            <td><b>Страница отправки</b></td>
-            <td><a href="' . $_POST['url'] . '" target="_blank">' . $_POST['url'] . '</a></td>
-        </tr>';
+        $field_title = isset($field['title']) ? sanitize_text_field($field['title']) : '';
+        $field_value = isset($field['value']) ? sanitize_textarea_field($field['value']) : '';
+
+        if ($field_title === '' && $field_value === '') {
+            continue;
+        }
+
+        $rows[] = '<tr><td><b>' . esc_html($field_title) . '</b></td><td>' . nl2br(esc_html($field_value)) . '</td></tr>';
     }
 
-    $to = explode(',', $_POST['to']);
-    $subject = $_POST['form_name'] . ' с сайта Space';
-    $headers = array('Content-Type: text/html; charset=UTF-8', 'From: ' . 'Space' . ' <info@spacevm.ru>');
-    foreach ($to as $mail) {
-        wp_mail(trim($mail), $subject, $message, $headers);
-    }
-    $mails = explode(',', $_POST['custom_field']['to']['value']);
-    foreach ($mails as $mail) {
-        wp_mail(trim($mail), $subject, $message, $headers);
-    }
-    $result['status'] = true;
-    echo json_encode($result);
+    $rows[] = '<tr><td><b>Название формы</b></td><td>' . esc_html($form_name) . '</td></tr>';
 
-    die();
+    if ($url) {
+        $rows[] = '<tr><td><b>Страница отправки</b></td><td><a href="' . esc_url($url) . '" target="_blank">' . esc_html($url) . '</a></td></tr>';
+    }
 
+    $message = '<style>
+        table{width:100%;border-collapse:collapse}
+        table tr td{border:1px solid #000;padding:10px 20px}
+    </style>
+    <p style="font-size:22px;text-align:center;padding-bottom:30px;margin:0"><b>Детали заявки:</b></p>
+    <table>' . implode('', $rows) . '</table>';
+    $subject = $form_name . ' с сайта Space';
+    $headers = ['Content-Type: text/html; charset=UTF-8', 'From: Space <info@spacevm.ru>'];
+
+    foreach ($recipients as $recipient) {
+        wp_mail($recipient, $subject, $message, $headers);
+    }
+
+    $post_id = wp_insert_post([
+        'post_title' => $form_name,
+        'post_status' => 'publish',
+        'post_author' => 1,
+        'post_type' => 'mail',
+        'post_content' => $message,
+    ]);
+
+    wp_send_json(['status' => $post_id !== 0 && !is_wp_error($post_id)]);
 }

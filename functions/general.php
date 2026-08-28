@@ -71,8 +71,7 @@ function get_partner_options(){
         return;
     }
 }
-function get_production_options(){
-
+function get_production_values(){
     $productions = [];
 
     $args = array(
@@ -91,7 +90,11 @@ function get_production_options(){
     }
     wp_reset_postdata();
 
-    $productions = array_unique($productions);
+    return array_values(array_unique(array_filter($productions)));
+}
+
+function get_production_options(){
+    $productions = get_production_values();
 
     if( $productions ){
         $options = '<option value="0">&nbsp;</option>';
@@ -184,6 +187,53 @@ function modifyProductVersion($version)
     }
 
     return $version;
+}
+
+/**
+ * Return an ACF option value while preserving the current frontend copy until
+ * the newly introduced option has been saved in the admin area.
+ */
+function space_get_option_with_fallback($field_name, $fallback)
+{
+    if (!function_exists('get_field')) {
+        return $fallback;
+    }
+
+    $value = get_field($field_name, 'option');
+
+    return $value === null || $value === false || $value === '' ? $fallback : $value;
+}
+
+/**
+ * Render page-level popup blocks even in legacy page templates that do not
+ * print the regular Gutenberg content.
+ */
+function space_render_page_popup_blocks()
+{
+    if (!is_singular() || !function_exists('parse_blocks')) {
+        return;
+    }
+
+    $content = get_post_field('post_content', get_queried_object_id());
+
+    if (!$content) {
+        return;
+    }
+
+    $render_popup_blocks = static function ($blocks) use (&$render_popup_blocks) {
+        foreach ($blocks as $block) {
+            if (($block['blockName'] ?? '') === 'acf/form-custom-popup') {
+                echo render_block($block);
+                continue;
+            }
+
+            if (!empty($block['innerBlocks'])) {
+                $render_popup_blocks($block['innerBlocks']);
+            }
+        }
+    };
+
+    $render_popup_blocks(parse_blocks($content));
 }
 
 #region Скрыть панель админа

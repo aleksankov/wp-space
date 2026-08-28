@@ -1,0 +1,165 @@
+{
+    "key": "group_space_popup_settings",
+    "title": "Поп-апы форм",
+    "fields": [
+        {
+            "key": "field_space_demo_popup_tab",
+            "label": "Общая заявка",
+            "name": "",
+            "type": "tab",
+            "placement": "top"
+        },
+        {
+            "key": "field_space_demo_popup_title",
+            "label": "Заголовок",
+            "name": "site_demo_popup_title",
+            "type": "textarea",
+            "default_value": "Оставить на сайте\nзаявку на демо-версию",
+            "rows": 2,
+            "new_lines": "br"
+        },
+        {
+            "key": "field_space_demo_popup_product_label",
+            "label": "Подпись списка продуктов",
+            "name": "site_demo_popup_product_label",
+            "type": "text",
+            "default_value": "Выберите продукт"
+        },
+        {
+            "key": "field_space_demo_popup_partner_label",
+            "label": "Подпись списка дистрибьюторов",
+            "name": "site_demo_popup_partner_label",
+            "type": "text",
+            "default_value": "Выберите дистрибьютора"
+        },
+        {
+            "key": "field_space_demo_popup_name_label",
+            "label": "Подпись поля имени",
+            "name": "site_demo_popup_name_label",
+            "type": "text",
+            "default_value": "Имя и фамилия"
+        },
+        {
+            "key": "field_space_demo_popup_company_label",
+            "label": "Подпись поля организации",
+            "name": "site_demo_popup_company_label",
+            "type": "text",
+            "default_value": "Организация"
+        },
+        {
+            "key": "field_space_demo_popup_phone_label",
+            "label": "Подпись поля телефона",
+            "name": "site_demo_popup_phone_label",
+            "type": "text",
+            "default_value": "Номер телефона"
+        },
+        {
+            "key": "field_space_demo_popup_email_label",
+            "label": "Подпись поля E-mail",
+            "name": "site_demo_popup_email_label",
+            "type": "text",
+            "default_value": "E-mail"
+        },
+        {
+            "key": "field_space_demo_popup_message_label",
+            "label": "Подпись поля комментария",
+            "name": "site_demo_popup_message_label",
+            "type": "text",
+            "default_value": "Комментарий"
+        },
+        {
+            "key": "field_space_demo_popup_submit_label",
+            "label": "Текст кнопки",
+            "name": "site_demo_popup_submit_label",
+            "type": "text",
+            "default_value": "Отправить"
+        },
+        {
+            "key": "field_space_demo_popup_form_name",
+            "label": "Служебное название заявки",
+            "name": "site_demo_popup_form_name",
+            "type": "text",
+            "instructions": "Используется в теме письма и названии заявки.",
+            "default_value": "Заявка на демо-версию"
+        },
+        {
+            "key": "field_space_feedback_success_tab",
+            "label": "Успешная отправка",
+            "name": "",
+            "type": "tab",
+            "placement": "top"
+        },
+        {
+            "key": "field_space_feedback_success_title",
+            "label": "Заголовок",
+            "name": "site_feedback_success_title",
+            "type": "text",
+            "default_value": "Заявка успешно отправлена!"
+        },
+        {
+            "key": "field_space_feedback_success_description",
+            "label": "Описание",
+            "name": "site_feedback_success_description",
+            "type": "textarea",
+            "default_value": "Скоро с вами свяжется наш менеджер",
+            "rows": 3,
+            "new_lines": "br"
+        },
+        {
+            "key": "field_space_feedback_success_button",
+            "label": "Текст кнопки",
+            "name": "site_feedback_success_button",
+            "type": "text",
+            "default_value": "Закрыть"
+        },
+        {
+            "key": "field_space_feedback_error_tab",
+            "label": "Ошибка отправки",
+            "name": "",
+            "type": "tab",
+            "placement": "top"
+        },
+        {
+            "key": "field_space_feedback_error_title",
+            "label": "Заголовок",
+            "name": "site_feedback_error_title",
+            "type": "text",
+            "default_value": "Произошла ошибка!"
+        },
+        {
+            "key": "field_space_feedback_error_description",
+            "label": "Описание",
+            "name": "site_feedback_error_description",
+            "type": "textarea",
+            "default_value": "При отправке произошла ошибка.\nПопробуйте обновить страницу и отправить заявку заново",
+            "rows": 3,
+            "new_lines": "br"
+        },
+        {
+            "key": "field_space_feedback_error_button",
+            "label": "Текст кнопки",
+            "name": "site_feedback_error_button",
+            "type": "text",
+            "default_value": "Закрыть"
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "options_page",
+                "operator": "==",
+                "value": "acf-options-formy"
+            }
+        ]
+    ],
+    "menu_order": 10,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "Редактируемые тексты глобальных поп-апов форм.",
+    "show_in_rest": 0,
+    "modified": 1787202000
+}

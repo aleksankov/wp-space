@@ -1172,21 +1172,12 @@ $(document).ready(function() {
         }
     })
 
-    const selects = document.querySelectorAll('.js-select-custom-field .jq-selectbox__dropdown li');
-    selects.forEach((item)=>{
+    $(document).on('change', 'select.js-select-custom-field', function(){
+        const form = $(this).closest('form');
+        const option = $(this).find('option:selected');
 
-        item.addEventListener('click',function () {
-            if(item.hasAttribute('data-email')){
-                const wrapper = item.closest('.main-select');
-                if (wrapper){
-                    const inputmail = wrapper.querySelector('[name="custom_field[to][value]"]');
-                    if (inputmail){
-                        inputmail.value = item.getAttribute('data-email');
-                    }
-                }
-            }
-        })
-
+        form.find('[name="route_email"]').val(option.attr('data-route-email') || '');
+        form.find('[name="route_signature"]').val(option.attr('data-route-signature') || '');
     })
 
     // document.addEventListener('DOMContentLoaded', function () {
@@ -1429,75 +1420,73 @@ $(document).ready(function() {
 
 
 
-    const customForms =document.querySelectorAll('.js-form-custom');
-    customForms.forEach(form=>{
-        form.addEventListener('submit',async (e) => {
-            e.preventDefault()
-            const fields = form.querySelectorAll('input,textarea,select');
-            let error = false
-            fields.forEach((field) => {
-                if (field.hasAttribute('data-required')) {
-                    switch (field.type) {
-                        case "select":
-                            if (+field.value === 0) {
-                                error = true
-                                toggleErrorLabelVanilaJs(field, true);
-                            }
-                            break;
-                        default:
-                            if (field.value.trim() === '') {
-                                error = true
-                                toggleErrorLabelVanilaJs(field, true);
-                            }
-                            break
-                    }
-                }
-
-            })
-            if (!error){
-                const formData = new FormData(form);
-                formData.append('url', window.location.href);
-                formData.append('action', 'feedback_form_custom');
-                form.classList.add('loading');
-                let response = await fetch( space_obj.ajax_url,{
-                    method:'POST',
-                    body:formData,
-
-                });
-                response = await response.json()
-                form.classList.remove('loading');
-                form.reset();
-                $.fancybox.close();
-                if(response.status){
-                    $.fancybox.open({
-                        src  : '#feedback-success',
-                        type : 'inline',
-                        opts : {
-                            touch: false,
-                            keyboard: false,
-                            afterClose: function(){
-                                $('style:contains(".compensate-for-scrollbar")').remove();
-                            }
-                        }
-                    });
-                }else{
-                    $.fancybox.open({
-                        src  : '#feedback-error',
-                        type : 'inline',
-                        opts : {
-                            touch: false,
-                            keyboard: false,
-                            afterClose: function(){
-                                $('style:contains(".compensate-for-scrollbar")').remove();
-                            }
-                        }
-                    });
+    function openFeedbackPopup(id) {
+        $.fancybox.close();
+        $.fancybox.open({
+            src: id,
+            type: 'inline',
+            opts: {
+                touch: false,
+                keyboard: false,
+                afterClose: function(){
+                    $('style:contains(".compensate-for-scrollbar")').remove();
                 }
             }
+        });
+    }
 
+    $(document).on('submit', '.js-form-custom', async function(e){
+        e.preventDefault();
 
+        const form = this;
+        const fields = form.querySelectorAll('input, textarea, select');
+        let hasError = false;
 
-        })
+        fields.forEach((field) => {
+            if (!field.hasAttribute('data-required')) {
+                return;
+            }
+
+            const isEmpty = field.value.trim() === '';
+            const isEmptySelect = field.tagName === 'SELECT' && field.value === '0';
+            const isInvalidEmail = field.type === 'email' && !field.checkValidity();
+            const isInvalidPhone = field.type === 'tel' && typeof $(field).inputmask === 'function' && !$(field).inputmask('isComplete');
+
+            if (isEmpty || isEmptySelect || isInvalidEmail || isInvalidPhone) {
+                hasError = true;
+                toggleErrorLabelVanilaJs(field, true);
+            }
+        });
+
+        if (hasError) {
+            return;
+        }
+
+        const formData = new FormData(form);
+        formData.append('url', window.location.href);
+        formData.append('action', 'feedback_form_custom');
+        form.classList.add('loading');
+
+        try {
+            const request = await fetch(space_obj.ajax_url, {
+                method: 'POST',
+                body: formData,
+            });
+            const response = await request.json();
+
+            if (!request.ok || !response.status) {
+                openFeedbackPopup('#feedback-error');
+                return;
+            }
+
+            form.reset();
+            $(form).find('select.js-feedback-input').trigger('refresh');
+            openFeedbackPopup('#feedback-success');
+        } catch (error) {
+            openFeedbackPopup('#feedback-error');
+        } finally {
+            form.classList.remove('loading');
+        }
     })
 
 
