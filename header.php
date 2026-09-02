@@ -32,24 +32,7 @@
     $page_submenu = get_field('page_submenu');
 
     global $site_forms_agree;
-    global $form_product_options;
-    global $form_partner_options;
-    global $form_production_options;
-
     $site_forms_agree = get_field('site_forms_agree', 'option');
-    $form_product_options = get_product_options();
-    $form_partner_options = get_partner_options();
-    $form_production_options = get_production_options();
-    
-    global $site_feedback_main_email;
-    global $site_feedback_partner_email;
-    global $site_feedback_tech_partner_email;
-    global $site_feedback_hr_email;
-
-    $site_feedback_main_email = get_field('site_feedback_main_email', 'option');
-    $site_feedback_partner_email = get_field('site_feedback_partner_email', 'option');
-    $site_feedback_tech_partner_email = get_field('site_feedback_tech_partner_email', 'option');
-    $site_feedback_hr_email = get_field('site_feedback_hr_email', 'option');
 
     // Только для шапки
     $header_contacts_email = get_field('header_contacts_email', 'option');

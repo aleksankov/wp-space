@@ -43,34 +43,6 @@ function get_tel_href($tel = false){
 }
 
 //get options
-function get_product_options(){
-    $site_forms_products = get_field('site_forms_products', 'option');
-
-    if( $site_forms_products ){
-        $options = '<option value="0">&nbsp;</option>';
-        foreach( $site_forms_products as $site_forms_product ){
-            $options .= '<option value="' . $site_forms_product['item'] . '">' . $site_forms_product['item'] . '</option>';
-        }
-
-        return $options;
-    }else{
-        return;
-    }
-}
-function get_partner_options(){
-    $site_forms_partners = get_field('site_forms_partners', 'option');
-
-    if( $site_forms_partners ){
-        $options = '<option value="0">&nbsp;</option>';
-        foreach( $site_forms_partners as $site_forms_partner ){
-            $options .= '<option value="' . $site_forms_partner['item'] . '" data-email="' . $site_forms_partner['email'] . '">' . $site_forms_partner['item'] . '</option>';
-        }
-
-        return $options;
-    }else{
-        return;
-    }
-}
 function get_production_values(){
     $productions = [];
 
@@ -91,21 +63,6 @@ function get_production_values(){
     wp_reset_postdata();
 
     return array_values(array_unique(array_filter($productions)));
-}
-
-function get_production_options(){
-    $productions = get_production_values();
-
-    if( $productions ){
-        $options = '<option value="0">&nbsp;</option>';
-        foreach( $productions as $production ){
-            $options .= '<option value="' . $production . '">' . $production . '</option>';
-        }
-
-        return $options;
-    }else{
-        return false;
-    }
 }
 
 function num_word($value, $words, $show = true){
@@ -220,15 +177,36 @@ function space_render_page_popup_blocks()
         return;
     }
 
-    $render_popup_blocks = static function ($blocks) use (&$render_popup_blocks) {
+    $visited_references = [];
+    $render_popup_blocks = static function ($blocks, $depth = 0) use (&$render_popup_blocks, &$visited_references) {
+        if ($depth > 20) {
+            return;
+        }
+
         foreach ($blocks as $block) {
-            if (($block['blockName'] ?? '') === 'acf/form-custom-popup') {
+            $block_name = $block['blockName'] ?? '';
+
+            if ($block_name === 'acf/form-custom-popup') {
                 echo render_block($block);
                 continue;
             }
 
+            if ($block_name === 'core/block') {
+                $reference_id = absint($block['attrs']['ref'] ?? 0);
+                if ($reference_id > 0 && !isset($visited_references[$reference_id])) {
+                    $visited_references[$reference_id] = true;
+                    $reference = get_post($reference_id);
+
+                    if ($reference instanceof WP_Post && $reference->post_type === 'wp_block') {
+                        $render_popup_blocks(parse_blocks($reference->post_content), $depth + 1);
+                    }
+                }
+
+                continue;
+            }
+
             if (!empty($block['innerBlocks'])) {
-                $render_popup_blocks($block['innerBlocks']);
+                $render_popup_blocks($block['innerBlocks'], $depth + 1);
             }
         }
     };

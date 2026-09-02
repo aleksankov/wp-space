@@ -2,16 +2,17 @@ const { chromium } = require('playwright');
 
 const baseUrl = process.env.SPACE_TEST_URL || 'https://178.141.246.84:16048';
 const cases = [
-    { path: '/space-vm/', ids: ['buy-vm'] },
-    { path: '/space-vdi/', ids: ['demo-vdi', 'buy-vdi'] },
-    { path: '/space-cloud/', ids: ['demo-vm', 'buy-vm'] },
-    { path: '/spacevm-essentials-plus-kit/', ids: ['demo-vm', 'buy-vm'] },
+    { path: '/', ids: ['demo-popup'] },
+    { path: '/space-vm/', ids: ['demo-popup', 'buy-vm'] },
+    { path: '/space-vdi/', ids: ['demo-popup', 'demo-vdi', 'buy-vdi'] },
+    { path: '/space-client/', ids: ['demo-popup', 'download_custom1'] },
+    { path: '/space-cloud/', ids: ['demo-popup', 'demo-vm', 'buy-vm'] },
+    { path: '/spacevm-essentials-plus-kit/', ids: ['demo-popup', 'demo-vm', 'buy-vm'] },
     { path: '/partners/', ids: ['partner-popup'] },
     { path: '/space-connect/', ids: ['tech-partner-popup'] },
-    { path: '/space-client/', ids: ['download_custom1'] },
 ];
 const pageSpecificIds = ['demo-vm', 'buy-vm', 'demo-vdi', 'buy-vdi', 'partner-popup', 'tech-partner-popup'];
-const globalIds = ['demo-popup', 'feedback-success', 'feedback-error'];
+const resultIds = ['feedback-success', 'feedback-error'];
 
 function assert(condition, message) {
     if (!condition) {
@@ -43,24 +44,21 @@ async function testViewport(browser, viewport, label) {
     });
     const page = await context.newPage();
 
-    await page.goto(baseUrl + '/', { waitUntil: 'domcontentloaded' });
-    for (const id of globalIds) {
-        assert(await page.locator(`#${id}`).count() === 1, `${label}: глобальный ${id} отсутствует или дублируется.`);
-        await openPopup(page, id);
-    }
-    for (const id of pageSpecificIds) {
-        assert(await page.locator(`#${id}`).count() === 0, `${label}: ${id} попал на главную страницу.`);
-    }
-
     for (const testCase of cases) {
         await page.goto(baseUrl + testCase.path, { waitUntil: 'domcontentloaded' });
-        for (const id of globalIds) {
-            assert(await page.locator(`#${id}`).count() === 1, `${label} ${testCase.path}: глобальный ${id} отсутствует или дублируется.`);
+        for (const id of resultIds) {
+            assert(await page.locator(`#${id}`).count() === 1, `${label} ${testCase.path}: системный ${id} отсутствует или дублируется.`);
         }
         for (const id of testCase.ids) {
             assert(await page.locator(`#${id}`).count() === 1, `${label} ${testCase.path}: ${id} отсутствует или дублируется.`);
             await openPopup(page, id);
         }
+    }
+
+    await page.goto(baseUrl + '/glossary/', { waitUntil: 'domcontentloaded' });
+    assert(await page.locator('#demo-popup').count() === 0, `${label}: demo-popup попал на постороннюю страницу.`);
+    for (const id of pageSpecificIds) {
+        assert(await page.locator(`#${id}`).count() === 0, `${label}: ${id} попал в глоссарий.`);
     }
 
     await context.close();
@@ -72,10 +70,14 @@ async function testAjaxStates(browser) {
         ignoreHTTPSErrors: true,
     });
     const page = await context.newPage();
+    const pageErrors = [];
+    page.on('pageerror', (error) => pageErrors.push(error.message));
     await page.goto(baseUrl + '/space-vm/', { waitUntil: 'domcontentloaded' });
 
     const form = page.locator('#buy-vm form.js-form-custom');
     await openPopup(page, 'buy-vm', false);
+    const nameInput = await form.locator('[name="custom_field[name][value]"]').elementHandle();
+    assert(nameInput, 'Поле имени формы buy-vm не найдено.');
     let ajaxRequests = 0;
     page.on('request', (request) => {
         if (request.url().includes('admin-ajax.php')) {
@@ -107,7 +109,17 @@ async function testAjaxStates(browser) {
     }));
     await form.locator('button[type="submit"]').click();
     await page.locator('#feedback-error').waitFor({ state: 'visible' });
-    assert(await form.locator('[name="custom_field[name][value]"]').inputValue() === fields.name, 'При ошибке данные формы должны сохраняться.');
+    assert(await nameInput.inputValue() === fields.name, 'При ошибке данные формы должны сохраняться.');
+
+    await page.unroute('**/admin-ajax.php');
+    await page.route('**/admin-ajax.php', (route) => route.fulfill({
+        status: 200,
+        contentType: 'text/plain',
+        body: 'not-json',
+    }));
+    await openPopup(page, 'buy-vm', false);
+    await form.locator('button[type="submit"]').click();
+    await page.locator('#feedback-error').waitFor({ state: 'visible' });
 
     await page.unroute('**/admin-ajax.php');
     await page.route('**/admin-ajax.php', (route) => route.fulfill({
@@ -118,7 +130,8 @@ async function testAjaxStates(browser) {
     await openPopup(page, 'buy-vm', false);
     await form.locator('button[type="submit"]').click();
     await page.locator('#feedback-success').waitFor({ state: 'visible' });
-    assert(await form.locator('[name="custom_field[name][value]"]').inputValue() === '', 'После успеха форма должна очищаться.');
+    assert(await nameInput.inputValue() === '', 'После успеха форма должна очищаться.');
+    assert(pageErrors.length === 0, `JavaScript errors: ${pageErrors.join('; ')}`);
 
     await context.close();
 }

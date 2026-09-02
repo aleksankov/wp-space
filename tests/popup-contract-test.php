@@ -3,80 +3,76 @@
 $theme_dir = dirname(__DIR__);
 $failures = [];
 $checks = 0;
-
 $assert = static function (bool $condition, string $message) use (&$failures, &$checks): void {
     $checks++;
     if (!$condition) {
         $failures[] = $message;
     }
 };
-
 $read = static function (string $path) use ($theme_dir): string {
     $contents = file_get_contents($theme_dir . '/' . $path);
     if ($contents === false) {
         throw new RuntimeException('Не удалось прочитать ' . $path);
     }
-
     return $contents;
 };
 
 $footer = $read('footer.php');
-$template = $read('functions/blocks/form-custom-popup/template.php');
+$inline_template = $read('functions/blocks/form-custom/template.php');
+$popup_template = $read('functions/blocks/form-custom-popup/template.php');
 $ajax = $read('functions/ajax/feedback-form.php');
+$submission = $read('functions/forms/submission.php');
+$security = $read('functions/forms/security.php');
+$validation = $read('functions/forms/validation.php');
+$recipients = $read('functions/forms/recipients.php');
+$uploads = $read('functions/forms/uploads.php');
 $javascript = $read('assets/js/main.js');
-$connect = $read('templates/space/connect.php');
-$global_group = json_decode($read('acf-json/group_space_popup_settings.json'), true);
-$block_group = json_decode($read('acf-json/group_68e777907b682.json'), true);
 
-$assert(is_array($global_group), 'JSON глобальных настроек ACF должен быть валидным.');
-$assert(is_array($block_group), 'JSON блока поп-апа ACF должен быть валидным.');
-
-foreach (['demo-popup', 'feedback-success', 'feedback-error'] as $popup_id) {
-    $assert(substr_count($footer, 'id="' . $popup_id . '"') === 1, "Глобальный {$popup_id} должен быть в footer.php ровно один раз.");
+foreach (glob($theme_dir . '/acf-json/*.json') as $json_file) {
+    $assert(is_array(json_decode((string) file_get_contents($json_file), true)), basename($json_file) . ' должен быть валидным JSON.');
 }
 
-foreach (['demo-vm', 'buy-vm', 'demo-vdi', 'buy-vdi', 'partner-popup'] as $popup_id) {
-    $assert(strpos($footer, 'id="' . $popup_id . '"') === false, "Страничный {$popup_id} не должен оставаться в footer.php.");
-}
-$assert(strpos($connect, 'id="tech-partner-popup"') === false, 'tech-partner-popup не должен оставаться в шаблоне Space Connect.');
-$assert(strpos($footer, 'space_render_page_popup_blocks()') !== false, 'Footer должен рендерить popup-блоки текущей страницы.');
+$assert(substr_count($footer, 'id="feedback-success"') === 1, 'feedback-success должен оставаться в footer ровно один раз.');
+$assert(substr_count($footer, 'id="feedback-error"') === 1, 'feedback-error должен оставаться в footer ровно один раз.');
+$assert(strpos($footer, 'id="demo-popup"') === false, 'demo-popup не должен оставаться жёстко заданным в footer.');
+$assert(strpos($footer, 'space_render_page_popup_blocks()') !== false, 'Footer должен собирать popup-блоки текущей страницы.');
 
-foreach (['Заявка на демо-версию', 'Заявка успешно отправлена!', 'При отправке произошла ошибка.'] as $fallback) {
-    $assert(strpos($footer, $fallback) !== false, "Глобальный fallback «{$fallback}» должен быть сохранён.");
-}
+$assert(!is_dir($theme_dir . '/functions/blocks/form'), 'Каталог старого acf/form должен быть удалён.');
+$assert(!file_exists($theme_dir . '/acf-json/group_67bd538ef2657.json'), 'ACF-группа старого acf/form должна быть удалена.');
+$assert(strpos($javascript, "$(document).on('submit', '.js-form',") === false, 'Старая JS-ветка .js-form должна быть удалена.');
+$assert(strpos($ajax, "wp_ajax_nopriv_feedback_form'") === false, 'Старый AJAX action feedback_form должен быть удалён.');
 
-foreach (['text', 'tel', 'email', 'select', 'partners', 'products', 'production', 'textarea'] as $field_type) {
-    $assert(strpos($template, "'{$field_type}'") !== false, "Шаблон должен поддерживать поле {$field_type}.");
-}
-
-foreach (['main', 'partner', 'tech_partner'] as $recipient) {
-    $assert(strpos($template, "'{$recipient}'") !== false, "Шаблон должен поддерживать получателя {$recipient}.");
-    $assert(strpos($ajax, "'{$recipient}' => 'site_feedback_") !== false, "AJAX должен сопоставлять получателя {$recipient} с настройкой сайта.");
+foreach (['config.php', 'security.php', 'render.php', 'validation.php', 'recipients.php', 'uploads.php', 'submission.php', 'sources.php'] as $module) {
+    $assert(file_exists($theme_dir . '/functions/forms/' . $module), 'Отсутствует общий модуль forms/' . $module . '.');
 }
 
-$custom_handler_position = strpos($ajax, 'function ajax_feedback_form_custom()');
-$assert($custom_handler_position !== false, 'Custom AJAX handler должен быть зарегистрирован.');
-$custom_handler = $custom_handler_position === false ? '' : substr($ajax, $custom_handler_position);
-$assert(strpos($custom_handler, "\$_POST['to']") === false, 'Custom AJAX не должен принимать произвольный адресат из POST.');
-$assert(strpos($custom_handler, "array_unique(array_filter(\$recipients, 'is_email'))") !== false, 'Адресаты должны валидироваться и дедуплицироваться.');
-$assert(strpos($custom_handler, "wp_send_json(['status' =>") !== false, 'Custom AJAX должен возвращать совместимый status boolean.');
-$assert(strpos($custom_handler, "'post_type' => 'mail'") !== false, 'Custom AJAX должен сохранять заявку в mail CPT.');
+foreach (['file', 'products', 'partners', 'production', 'hidden'] as $type) {
+    $assert(strpos($read('functions/forms/config.php'), "'{$type}'") !== false, 'Общая схема должна поддерживать ' . $type . '.');
+}
+foreach (['main', 'partner', 'tech_partner', 'hr'] as $recipient) {
+    $assert(strpos($recipients, "'{$recipient}' => 'site_feedback_") !== false, 'Нет server-side маршрута ' . $recipient . '.');
+}
 
-$assert(strpos($template, "\$GLOBALS['space_rendered_popup_ids']") !== false, 'Шаблон должен предотвращать повторный вывод popup ID.');
-$assert(strpos($template, 'form-custom-popup-show-image') !== false, 'Шаблон должен учитывать переключатель изображения.');
-$assert(strpos($template, 'wp_get_attachment_image') !== false, 'Шаблон должен поддерживать загруженное изображение.');
-$assert(strpos($template, 'form-custom-popup-legacy-image') !== false, 'Шаблон должен сохранять fallback изображения темы.');
-$assert(strpos($template, "agreement_mode === 'global'") !== false, 'Шаблон должен поддерживать глобальный текст согласия.');
+$assert(strpos($security, "hash_hmac('sha256'") !== false, 'Схема формы должна иметь HMAC-подпись.');
+$assert(strpos($security, 'wp_verify_nonce') !== false, 'AJAX должен проверять nonce.');
+$assert(strpos($validation, 'invalid_email') !== false && strpos($validation, 'invalid_phone') !== false, 'Нужна серверная type validation.');
+$assert(strpos($uploads, 'wp_check_filetype_and_ext') !== false, 'Файл должен проверяться по расширению и MIME.');
+$assert(strpos($uploads, 'wp_handle_upload') !== false, 'Файл должен загружаться средствами WordPress.');
+$assert(strpos($submission, 'wp_insert_post') < strpos($submission, 'wp_mail'), 'Заявка должна создаваться до отправки письма.');
+$assert(strpos($submission, "'errors' =>") !== false, 'Ответ должен поддерживать field errors.');
+$assert(strpos($ajax, 'space_form_process_submission') !== false, 'Оба режима должны использовать общий submission service.');
 
-$assert(strpos($javascript, "$(document).on('submit', '.js-form-custom'") !== false, 'Отправка custom-формы должна быть делегированной.');
-$assert(strpos($javascript, "formData.append('action', 'feedback_form_custom')") !== false, 'JS должен отправлять custom AJAX action.');
-$assert(strpos($javascript, "openFeedbackPopup('#feedback-success')") !== false, 'JS должен открывать окно успешной отправки.');
-$assert(strpos($javascript, "openFeedbackPopup('#feedback-error')") !== false, 'JS должен открывать окно ошибки.');
-$assert(strpos($javascript, 'if (!field.hasAttribute(\'data-required\'))') !== false, 'JS должен пропускать необязательные поля при валидации.');
+$assert(strpos($inline_template, 'space_form_render_fields') !== false, 'Inline-блок должен использовать общий renderer.');
+$assert(strpos($popup_template, 'space_form_render_fields') !== false, 'Popup-блок должен использовать общий renderer.');
+$assert(strpos($popup_template, "\$GLOBALS['space_rendered_popup_ids']") !== false, 'Popup ID должен дедуплицироваться.');
+$assert(strpos($popup_template, 'wp_get_attachment_image') !== false, 'Popup должен поддерживать изображение из медиатеки.');
+$assert(strpos($javascript, "formData.append('action', 'feedback_form_custom')") !== false, 'Frontend должен использовать единый action.');
+$assert(strpos($javascript, 'await request.text()') !== false, 'Frontend должен безопасно обрабатывать некорректный JSON.');
+$assert(strpos($javascript, 'if (form.classList.contains(\'loading\'))') !== false, 'Frontend должен блокировать двойную отправку.');
 
 if ($failures) {
-    fwrite(STDERR, "Проверки поп-апов не пройдены:\n- " . implode("\n- ", $failures) . "\n");
+    fwrite(STDERR, "FAIL\n- " . implode("\n- ", $failures) . "\n");
     exit(1);
 }
 
-echo "Проверки поп-апов пройдены: {$checks}.\n";
+echo "PASS: {$checks} contract checks.\n";

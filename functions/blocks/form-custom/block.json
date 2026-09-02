@@ -1,10 +1,10 @@
 {
     "name": "acf/form-custom",
-    "title": "7. Форма ОС custom",
-    "description": "",
+    "title": "Гибкая форма — на странице",
+    "description": "Настраиваемая встроенная форма заявки.",
     "category": "media",
     "icon": "forms",
-    "keywords": ["7", "Форма", "ОС"],
+    "keywords": ["форма", "заявка", "встроенная"],
     "acf": {
         "mode": "edit",
         "renderTemplate": "template.php",

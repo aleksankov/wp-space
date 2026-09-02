@@ -21,6 +21,7 @@
   "scripts": {
     "test": "php tests/popup-contract-test.php",
     "test:browser": "NODE_PATH=\"$(npm root -g)\" node tests/popup-browser-test.cjs",
+    "test:forms-browser": "NODE_PATH=\"$(npm root -g)\" node tests/form-browser-test.cjs",
     "test:glossary-browser": "NODE_PATH=\"$(npm root -g)\" node tests/glossary-browser-test.cjs"
   },
   "author": "",

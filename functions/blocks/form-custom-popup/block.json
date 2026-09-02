@@ -1,10 +1,10 @@
 {
     "name": "acf/form-custom-popup",
-    "title": "Форма popup",
-    "description": "",
+    "title": "Гибкая форма — поп-ап",
+    "description": "Настраиваемая модальная форма заявки с уникальным ID.",
     "category": "media",
     "icon": "forms",
-    "keywords": ["7", "Форма", "ОС", "popup"],
+    "keywords": ["форма", "заявка", "поп-ап", "popup"],
     "acf": {
         "mode": "edit",
         "renderTemplate": "template.php",

@@ -23,26 +23,6 @@
     $site_footer_menu = get_field('site_footer_menu', 'option');
 
     global $site_forms_agree;
-    global $form_product_options;
-    global $form_partner_options;
-    global $form_production_options;
-
-    global $site_feedback_main_email;
-    global $site_feedback_partner_email;
-    global $site_feedback_tech_partner_email;
-
-    $demo_popup = [
-        'title' => space_get_option_with_fallback('site_demo_popup_title', 'Оставить на сайте<br>заявку на демо-версию'),
-        'product_label' => space_get_option_with_fallback('site_demo_popup_product_label', 'Выберите продукт'),
-        'partner_label' => space_get_option_with_fallback('site_demo_popup_partner_label', 'Выберите дистрибьютора'),
-        'name_label' => space_get_option_with_fallback('site_demo_popup_name_label', 'Имя и фамилия'),
-        'company_label' => space_get_option_with_fallback('site_demo_popup_company_label', 'Организация'),
-        'phone_label' => space_get_option_with_fallback('site_demo_popup_phone_label', 'Номер телефона'),
-        'email_label' => space_get_option_with_fallback('site_demo_popup_email_label', 'E-mail'),
-        'message_label' => space_get_option_with_fallback('site_demo_popup_message_label', 'Комментарий'),
-        'submit_label' => space_get_option_with_fallback('site_demo_popup_submit_label', 'Отправить'),
-        'form_name' => space_get_option_with_fallback('site_demo_popup_form_name', 'Заявка на демо-версию'),
-    ];
     $feedback_success = [
         'title' => space_get_option_with_fallback('site_feedback_success_title', 'Заявка успешно отправлена!'),
         'description' => space_get_option_with_fallback('site_feedback_success_description', 'Скоро с вами свяжется наш менеджер'),
@@ -177,85 +157,6 @@
     </footer>
 
     <?php space_render_page_popup_blocks(); ?>
-
-    <div class="main-popup main-popup--simple" id="demo-popup">
-        <button class="main-popup__close" type="button" data-fancybox-close>
-            <img src="<?= get_template_directory_uri(); ?>/assets/img/close-icon.svg" alt="Close">
-        </button>
-        <div class="main-popup__wrap">
-            <div class="main-popup__right">
-                <form class="main-popup__form ajax-wrap js-form">
-                    <div class="main-popup__form-title"><?= wp_kses_post($demo_popup['title']); ?></div>
-                    <div class="main-popup__form-list ajax-wrap__item">
-                        <?php if( $form_product_options ): ?>
-                            <div class="main-popup__form-col">
-                                <div class="main-select">
-                                    <select class="js-select js-feedback-input" name="product"><?= $form_product_options; ?></select>
-                                    <span class="js-select-toggle"><?= esc_html($demo_popup['product_label']); ?></span>
-                                </div>
-                            </div>
-                        <?php endif; ?>
-                        <?php if( $form_partner_options ): ?>
-                            <div class="main-popup__form-col">
-                                <div class="main-select">
-                                    <select class="js-select js-feedback-input js-partner-select" name="partner"><?= $form_partner_options; ?></select>
-                                    <span class="js-select-toggle"><?= esc_html($demo_popup['partner_label']); ?></span>
-                                </div>
-                            </div>
-                        <?php endif; ?>
-                        <div class="main-popup__form-col">
-                            <div class="main-input">
-                                <label>
-                                    <input class="js-form-input js-feedback-input" type="text" name="name">
-                                    <span><?= esc_html($demo_popup['name_label']); ?></span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="main-popup__form-col">
-                            <div class="main-input">
-                                <label>
-                                    <input class="js-form-input js-feedback-input" type="text" name="company">
-                                    <span><?= esc_html($demo_popup['company_label']); ?></span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="main-popup__form-col">
-                            <div class="main-input">
-                                <label>
-                                    <input class="js-form-input js-tel-input js-feedback-input" type="text" name="phone">
-                                    <span><?= esc_html($demo_popup['phone_label']); ?></span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="main-popup__form-col">
-                            <div class="main-input">
-                                <label>
-                                    <input class="js-form-input js-feedback-input" type="text" name="email">
-                                    <span><?= esc_html($demo_popup['email_label']); ?></span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="main-popup__form-col main-popup__form-col--lg">
-                            <div class="main-input">
-                                <label>
-                                    <textarea class="js-form-input js-feedback-input" name="msg"></textarea>
-                                    <span><?= esc_html($demo_popup['message_label']); ?></span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <?php if( $site_forms_agree ): ?>
-                        <div class="main-popup__form-agree ajax-wrap__item"><?= $site_forms_agree; ?></div>
-                    <?php endif; ?>
-                    <div class="main-popup__form-btn ajax-wrap__item">
-                        <button class="btn btn-white" type="submit"><?= esc_html($demo_popup['submit_label']); ?></button>
-                    </div>
-                    <input type="hidden" name="form_name" value="<?= esc_attr($demo_popup['form_name']); ?>">
-                    <input type="hidden" name="to" value="<?= $site_feedback_main_email; ?>">
-                </form>
-            </div>
-        </div>
-    </div>
 
     <div class="main-popup main-popup--result" id="feedback-success">
         <button class="main-popup__close" type="button" data-fancybox-close>

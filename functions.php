@@ -6,6 +6,14 @@
 <?php
 
 require __DIR__ . '/functions/general.php';
+require __DIR__ . '/functions/forms/config.php';
+require __DIR__ . '/functions/forms/security.php';
+require __DIR__ . '/functions/forms/render.php';
+require __DIR__ . '/functions/forms/validation.php';
+require __DIR__ . '/functions/forms/recipients.php';
+require __DIR__ . '/functions/forms/uploads.php';
+require __DIR__ . '/functions/forms/submission.php';
+require __DIR__ . '/functions/forms/sources.php';
 require __DIR__ . '/functions/assets.php';
 require __DIR__ . '/functions/custom-page-templates.php';
 require __DIR__ . '/functions/register-cpt-tax-helper.php';
