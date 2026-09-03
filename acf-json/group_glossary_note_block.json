@@ -1,0 +1,33 @@
+{
+    "key": "group_glossary_note_block",
+    "title": "Глоссарий — информационная заметка",
+    "fields": [
+        {
+            "key": "field_glossary_note_text",
+            "label": "Текст заметки",
+            "name": "glossary_note_text",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "Введите текст заметки обычными словами, без HTML-разметки.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {"width": "", "class": "", "id": ""},
+            "default_value": "",
+            "maxlength": "",
+            "rows": 5,
+            "placeholder": "",
+            "new_lines": "wpautop"
+        }
+    ],
+    "location": [[{"param": "block", "operator": "==", "value": "acf/glossary-note"}]],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "modified": 1787300100
+}

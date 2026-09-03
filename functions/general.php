@@ -43,36 +43,7 @@ function get_tel_href($tel = false){
 }
 
 //get options
-function get_product_options(){
-    $site_forms_products = get_field('site_forms_products', 'option');
-
-    if( $site_forms_products ){
-        $options = '<option value="0">&nbsp;</option>';
-        foreach( $site_forms_products as $site_forms_product ){
-            $options .= '<option value="' . $site_forms_product['item'] . '">' . $site_forms_product['item'] . '</option>';
-        }
-
-        return $options;
-    }else{
-        return;
-    }
-}
-function get_partner_options(){
-    $site_forms_partners = get_field('site_forms_partners', 'option');
-
-    if( $site_forms_partners ){
-        $options = '<option value="0">&nbsp;</option>';
-        foreach( $site_forms_partners as $site_forms_partner ){
-            $options .= '<option value="' . $site_forms_partner['item'] . '" data-email="' . $site_forms_partner['email'] . '">' . $site_forms_partner['item'] . '</option>';
-        }
-
-        return $options;
-    }else{
-        return;
-    }
-}
-function get_production_options(){
-
+function get_production_values(){
     $productions = [];
 
     $args = array(
@@ -91,18 +62,7 @@ function get_production_options(){
     }
     wp_reset_postdata();
 
-    $productions = array_unique($productions);
-
-    if( $productions ){
-        $options = '<option value="0">&nbsp;</option>';
-        foreach( $productions as $production ){
-            $options .= '<option value="' . $production . '">' . $production . '</option>';
-        }
-
-        return $options;
-    }else{
-        return false;
-    }
+    return array_values(array_unique(array_filter($productions)));
 }
 
 function num_word($value, $words, $show = true){
@@ -184,6 +144,74 @@ function modifyProductVersion($version)
     }
 
     return $version;
+}
+
+/**
+ * Return an ACF option value while preserving the current frontend copy until
+ * the newly introduced option has been saved in the admin area.
+ */
+function space_get_option_with_fallback($field_name, $fallback)
+{
+    if (!function_exists('get_field')) {
+        return $fallback;
+    }
+
+    $value = get_field($field_name, 'option');
+
+    return $value === null || $value === false || $value === '' ? $fallback : $value;
+}
+
+/**
+ * Render page-level popup blocks even in legacy page templates that do not
+ * print the regular Gutenberg content.
+ */
+function space_render_page_popup_blocks()
+{
+    if (!is_singular() || !function_exists('parse_blocks')) {
+        return;
+    }
+
+    $content = get_post_field('post_content', get_queried_object_id());
+
+    if (!$content) {
+        return;
+    }
+
+    $visited_references = [];
+    $render_popup_blocks = static function ($blocks, $depth = 0) use (&$render_popup_blocks, &$visited_references) {
+        if ($depth > 20) {
+            return;
+        }
+
+        foreach ($blocks as $block) {
+            $block_name = $block['blockName'] ?? '';
+
+            if ($block_name === 'acf/form-custom-popup') {
+                echo render_block($block);
+                continue;
+            }
+
+            if ($block_name === 'core/block') {
+                $reference_id = absint($block['attrs']['ref'] ?? 0);
+                if ($reference_id > 0 && !isset($visited_references[$reference_id])) {
+                    $visited_references[$reference_id] = true;
+                    $reference = get_post($reference_id);
+
+                    if ($reference instanceof WP_Post && $reference->post_type === 'wp_block') {
+                        $render_popup_blocks(parse_blocks($reference->post_content), $depth + 1);
+                    }
+                }
+
+                continue;
+            }
+
+            if (!empty($block['innerBlocks'])) {
+                $render_popup_blocks($block['innerBlocks'], $depth + 1);
+            }
+        }
+    };
+
+    $render_popup_blocks(parse_blocks($content));
 }
 
 #region Скрыть панель админа

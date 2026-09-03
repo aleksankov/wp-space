@@ -30,8 +30,31 @@ function space_scripts() {
     wp_enqueue_script( 'space-swiper', get_template_directory_uri() . '/assets/js/swiper-bundle.min.js', array(), null, true );
     wp_enqueue_script( 'space-fancybox', get_template_directory_uri() . '/assets/js/jquery.fancybox.min.js', array( 'jquery' ), null, true );
     wp_enqueue_script( 'space-scrollbar', get_template_directory_uri() . '/assets/js/perfect-scrollbar.min.js', array(), null, true );
-    wp_enqueue_script( 'space-map', 'https://api-maps.yandex.ru/2.1/?lang=ru_RU', array(), null, false );
+    if ( is_page_template( 'templates/about/about.php' ) ) {
+        wp_enqueue_script( 'space-map', 'https://api-maps.yandex.ru/2.1/?lang=ru_RU', array(), null, false );
+    }
     wp_register_script( 'space-main', get_template_directory_uri() . '/assets/js/main.js', array( 'jquery' ), $version, true );
     wp_localize_script( 'space-main', 'space_obj', array( 'ajax_url' => admin_url( 'admin-ajax.php' ), 'theme_path' => get_template_directory_uri() ) );
     wp_enqueue_script( 'space-main' );
+
+    if ( is_post_type_archive( 'glossary_term' ) || is_singular( 'glossary_term' ) ) {
+        $glossary_style_path = get_template_directory() . '/assets/css/glossary.css';
+        wp_enqueue_style(
+            'space-glossary',
+            get_template_directory_uri() . '/assets/css/glossary.css',
+            array( 'space-style' ),
+            file_exists( $glossary_style_path ) ? filemtime( $glossary_style_path ) : $version
+        );
+    }
+
+    if ( is_post_type_archive( 'glossary_term' ) ) {
+        $glossary_script_path = get_template_directory() . '/assets/js/glossary.js';
+        wp_enqueue_script(
+            'space-glossary',
+            get_template_directory_uri() . '/assets/js/glossary.js',
+            array(),
+            file_exists( $glossary_script_path ) ? filemtime( $glossary_script_path ) : $version,
+            true
+        );
+    }
 }

@@ -82,7 +82,6 @@ if( function_exists('acf_add_options_page') ) {
         register_block_type( __DIR__ . '/blocks/tech' );
         register_block_type( __DIR__ . '/blocks/video' );
         register_block_type( __DIR__ . '/blocks/overview' );
-        register_block_type( __DIR__ . '/blocks/form' );
         register_block_type( __DIR__ . '/blocks/puzzle' );
         register_block_type( __DIR__ . '/blocks/download' );
         register_block_type( __DIR__ . '/blocks/model' );
@@ -105,6 +104,9 @@ if( function_exists('acf_add_options_page') ) {
         register_block_type( __DIR__ . '/blocks/cases-results');
         register_block_type( __DIR__ . '/blocks/product-slider');
         register_block_type( __DIR__ . '/blocks/blog');
+        register_block_type( __DIR__ . '/blocks/glossary-term-data');
+        register_block_type( __DIR__ . '/blocks/glossary-code-example');
+        register_block_type( __DIR__ . '/blocks/glossary-note');
     }
     add_action( 'init', 'space_register_acf_blocks' );
 

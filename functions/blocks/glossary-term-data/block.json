@@ -1,0 +1,19 @@
+{
+    "apiVersion": 2,
+    "name": "acf/glossary-term-data",
+    "title": "Данные термина глоссария",
+    "description": "Синонимы, краткое описание и полное определение термина.",
+    "category": "text",
+    "icon": "book-alt",
+    "keywords": ["глоссарий", "термин", "определение"],
+    "acf": {
+        "mode": "edit",
+        "renderTemplate": "template.php"
+    },
+    "supports": {
+        "anchor": false,
+        "align": false,
+        "multiple": false,
+        "reusable": false
+    }
+}

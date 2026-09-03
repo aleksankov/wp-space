@@ -1,198 +1,77 @@
 <?php
-global $site_feedback_main_email;
-$site_forms_agree = get_field('site_forms_agree', 'option');
-$block = $args['block'] ?? null;
-$id = isset($block) ? (array_key_exists('anchor', $block) && $block['anchor'] ? $block['anchor'] : $block['id']) : 'form-custom';
-$class = isset($block['className']) ? $block['className'] : 'default';
-$anim_enabled = get_field_block('form-custom-anim-enabled', $block);
-$anim_delay = get_field_block('form-custom-anim-delay', $block);
-$title = get_field_block('form-custom-title', $block);
-$title_form = get_field_block('form-custom-title-form', $block);
-$fields = get_field_block('form-custom-fields', $block);
 
-$form_id = md5(json_encode([$anim_enabled,$anim_delay,$title,$title_form,$fields]))
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+$block = $args['block'] ?? null;
+$config = space_form_config_from_block($block, 'inline');
+$block_id = is_array($block) && !empty($block['anchor'])
+    ? sanitize_title($block['anchor'])
+    : sanitize_html_class((string) ($block['id'] ?? wp_unique_id('form-custom-')));
+$custom_class = is_array($block) ? sanitize_html_class((string) ($block['className'] ?? '')) : '';
+$animation_enabled = (bool) get_field_block('form-custom-anim-enabled', $block);
+$animation_delay = absint(get_field_block('form-custom-anim-delay', $block));
+$agreement_text = space_form_get_agreement_text($config);
+$mobile_popup_id = 'popup-' . $block_id;
+$form_dom_id = $block_id . '-form';
+$section_classes = array_filter([
+    'product-feedback',
+    'section',
+    'product-feedback--' . $config['variant'],
+    $custom_class,
+]);
 ?>
 
-<section class="product-feedback section <?= $class ?> " <?= ($anim_enabled) ? (' data-aos="fade-up" ') : ' ' ?>  <?= ($anim_enabled && !empty($anim_delay)) ? (' data-aos-delay="' . $anim_delay . '"') : '' ?>>
+<section
+    id="<?= esc_attr($block_id); ?>"
+    class="<?= esc_attr(implode(' ', $section_classes)); ?>"
+    <?= $animation_enabled ? 'data-aos="fade-up"' : ''; ?>
+    <?= $animation_enabled && $animation_delay ? 'data-aos-delay="' . esc_attr((string) $animation_delay) . '"' : ''; ?>>
     <div class="container">
-        <div class="product-feedback__wrap" data-aos="fade-up">
-            <div class="product-feedback__bg">
-                <img src="<?= get_template_directory_uri(); ?>/assets/img/product-feedback-bg-1.jpg" alt="#">
+        <div class="product-feedback__wrap">
+            <div class="product-feedback__bg" aria-hidden="true">
+                <img src="<?= esc_url(get_template_directory_uri() . '/assets/img/product-feedback-bg-1.jpg'); ?>" alt="">
             </div>
-
-            <?php if ($title): ?>
-                <h2 class="product-feedback__title"><?= $title; ?></h2>
+            <?php if ($config['title'] !== ''): ?>
+                <h2 class="product-feedback__title"><?= wp_kses_post($config['title']); ?></h2>
             <?php endif; ?>
-            <form class="product-feedback__form ajax-wrap js-form-custom">
+            <div class="product-feedback__form-mount" data-inline-form-home>
+            <form id="<?= esc_attr($form_dom_id); ?>" class="product-feedback__form ajax-wrap js-form-custom" enctype="multipart/form-data" novalidate>
+                <?php if ($config['title'] !== ''): ?>
+                    <div class="product-feedback__mobile-title"><?= wp_kses_post($config['title']); ?></div>
+                <?php endif; ?>
                 <div class="product-feedback__row ajax-wrap__item">
-                    <?php foreach ($fields as $field): ?>
-
-                        <?php switch ($field['form-custom-fields-type']) {
-                                      case 'text':
-                                      case 'tel':
-                                      case 'email': ?>
-                                    <div class="product-feedback__col">
-                                        <div class="main-input main-input--transparent">
-                                            <label>
-                                                <input type="hidden" name="custom_field[<?= $field['form-custom-fields-name'] ?>][title]" value="<?= $field['form-custom-fields-placeholder'] ?>">
-                                                <input
-                                                        class="js-form-input <?=$field['form-custom-fields-type']==='tel'?'js-tel-input':' '?>  js-feedback-input"
-                                                       <?= $field['form-custom-fields-required']?"data-required" : "" ?>
-                                                       type="<?= $field['form-custom-fields-type'] ?>" data-validate="empty"
-                                                       name="custom_field[<?= $field['form-custom-fields-name'] ?>][value]">
-                                                <span><?= $field['form-custom-fields-placeholder'] ?></span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                <?php break; ?>
-                                <?php case 'textarea': ?>
-                                    <div class="product-feedback__col product-feedback__col--lg">
-                                        <div class="main-input main-input--transparent">
-                                            <label>
-                                                <input type="hidden" name="custom_field[<?= $field['form-custom-fields-name'] ?>][title]" value="<?= $field['form-custom-fields-placeholder'] ?>">
-                                                <textarea
-                                                        class="js-form-input"
-                                                        <?= $field['form-custom-fields-required']?"data-required" : "" ?>
-                                                        name="custom_field[<?= $field['form-custom-fields-name'] ?>][value]"></textarea>
-                                                <span><?= $field['form-custom-fields-placeholder'] ?></span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                <?php break; ?>
-                            <?php case 'select': ?>
-                                <div class="product-feedback__col">
-                                    <div class="main-select main-select--transparent">
-                                        <input type="hidden" name="custom_field[<?= $field['form-custom-fields-name'] ?>][title]" value="<?= $field['form-custom-fields-placeholder'] ?>">
-                                        <select
-                                                data-validate="select"
-                                                class="js-select js-select-custom-field"
-                                            <?= $field['form-custom-fields-required']?"data-required" : "" ?>
-                                                name="custom_field[<?= $field['form-custom-fields-name'] ?>][value]">
-                                            <option value="0">&nbsp;</option>
-                                            <?php foreach ($field['form-custom-fields-variants'] as $variant): ?>
-                                                <option <?= !empty($variant['form-custom-fields-variants-email'])? ('data-email="'. $variant['form-custom-fields-variants-email'].'"'):''?> value="<?= $variant['form-custom-fields-variants-text'] ?>"><?= $variant['form-custom-fields-variants-text'] ?></option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                        <span class="js-select-toggle"><?= $field['form-custom-fields-placeholder'] ?> </span>
-                                        <?php if(!empty($variant['form-custom-fields-variants-email'])):?>
-                                            <input type="hidden" name="custom_field[to][value]">
-                                        <?php endif;?>
-                                    </div>
-                                </div>
-                               
-                                <?php break; ?>
-
-                            <?php } ?>
-
-                    <?php endforeach; ?>
-
+                    <?php space_form_render_fields($config, 'inline'); ?>
                 </div>
                 <div class="product-feedback__bottom ajax-wrap__item">
-                    <div class="product-feedback__agree">* Отправляя заявку, вы соглашаетесь с условиями <br><a
-                                href="/privacy-policy" target="_blank">политики обработки персональных данных</a></div>
+                    <?php space_form_render_agreement($config, 'product-feedback__agree'); ?>
                     <div class="product-feedback__btn">
-                        <button class="btn btn-white" type="submit">Отправить</button>
+                        <button class="btn btn-white" type="submit"><?= esc_html($config['submit_label']); ?></button>
                     </div>
-                    <input type="hidden" name="form_name" value="<?=$title_form?>">
-                    <input type="hidden" name="to" value="<?= $site_feedback_main_email; ?>">
                 </div>
+                <?php space_form_render_security_fields($config); ?>
+                <input type="hidden" name="form_name" value="<?= esc_attr($config['service_name']); ?>">
+                <input type="hidden" name="recipient_type" value="<?= esc_attr($config['recipient']); ?>">
             </form>
+            </div>
             <div class="product-feedback__mob-btn">
-                <a class="btn btn-white" href="#popup-<?=$form_id?>" data-fancybox="" data-touch="false">Продолжить</a>
+                <a
+                    class="btn btn-white js-inline-form-mobile-trigger"
+                    href="#<?= esc_attr($mobile_popup_id); ?>"
+                    data-form-id="<?= esc_attr($form_dom_id); ?>">Продолжить</a>
             </div>
         </div>
     </div>
 
-    <div class="main-popup main-popup--simple" id="popup-<?=$form_id?>">
+    <div class="main-popup main-popup--simple" id="<?= esc_attr($mobile_popup_id); ?>">
         <button class="main-popup__close" type="button" data-fancybox-close>
-            <img src="<?= get_template_directory_uri(); ?>/assets/img/close-icon.svg" alt="Close">
+            <img src="<?= esc_url(get_template_directory_uri() . '/assets/img/close-icon.svg'); ?>" alt="Закрыть">
         </button>
         <div class="main-popup__wrap">
             <div class="main-popup__right">
-                <form class="main-popup__form ajax-wrap js-form-custom">
-                    <div class="main-popup__form-title"><?=$title?></div>
-                    <div class="main-popup__form-list ajax-wrap__item">
-                        <?php foreach ($fields as $field): ?>
-
-                            <?php switch ($field['form-custom-fields-type']) {
-                                case 'text':
-                                case 'tel':
-                                case 'email': ?>
-
-                                    <div class="main-popup__form-col">
-                                        <div class="main-input">
-                                            <label>
-                                                <input type="hidden" name="custom_field[<?= $field['form-custom-fields-name'] ?>][title]" value="<?= $field['form-custom-fields-placeholder'] ?>">
-
-                                                <input
-                                                       <?= $field['form-custom-fields-required']?"data-required" : "" ?>
-                                                       data-validate="empty"
-                                                       class="js-form-input <?=$field['form-custom-fields-type']==='tel'?'js-tel-input':' '?>  js-feedback-input"
-                                                       type="<?= $field['form-custom-fields-type'] ?>"
-                                                       name="custom_field[<?= $field['form-custom-fields-name'] ?>][value]">
-                                                <span><?=$field['form-custom-fields-placeholder'] ?></span>
-                                            </label>
-                                        </div>
-                                    </div>
-
-                                    <?php break; ?>
-                                <?php case 'textarea': ?>
-                                    <div class="main-popup__form-col main-popup__form-col--lg">
-                                        <div class="main-input">
-                                            <label>
-                                                <input type="hidden" name="custom_field[<?= $field['form-custom-fields-name'] ?>][title]" value="<?= $field['form-custom-fields-placeholder'] ?>">
-
-                                                <textarea
-                                                        class="js-form-input js-feedback-input"
-                                                        <?= $field['form-custom-fields-required']?"data-required" : "" ?>
-                                                        name="custom_field[<?= $field['form-custom-fields-name'] ?>]['value]"></textarea>
-                                                <span><?= $field['form-custom-fields-placeholder'] ?></span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <?php break; ?>
-                                <?php case 'select': ?>
-                                    <div class="main-popup__form-col">
-                                        <div class="main-select">
-                                            <input type="hidden"  name="custom_field[<?= $field['form-custom-fields-name'] ?>][title]" value="<?= $field['form-custom-fields-placeholder'] ?>">
-                                            <select
-                                                    class="js-select js-select-custom-field"
-                                                    data-validate="select"
-                                                    <?= $field['form-custom-fields-required']?"data-required" : "" ?>
-                                                    name="custom_field[<?= $field['form-custom-fields-name'] ?>][value]">
-                                                <option value="0">&nbsp;</option>
-                                                <?php foreach ($field['form-custom-fields-variants'] as $variant): ?>
-                                                    <option <?= !empty($variant['form-custom-fields-variants-email'])? ('data-email="'. $variant['form-custom-fields-variants-email'].'"'):''?> value="<?= $variant['form-custom-fields-variants-text'] ?>"><?= $variant['form-custom-fields-variants-text'] ?></option>
-                                                <?php endforeach; ?>
-                                            </select>
-                                            <span class="js-select-toggle"><?= $field['form-custom-fields-placeholder'] ?> </span>
-                                            <?php if(!empty($variant['form-custom-fields-variants-email'])):?>
-                                                <input type="hidden" name="custom_field[to][value]">
-                                            <?php endif;?>
-                                        </div>
-                                    </div>
-
-
-                                    <?php break; ?>
-
-                                <?php } ?>
-
-                        <?php endforeach; ?>
-
-
-
-                    </div>
-                    <?php if( $site_forms_agree ): ?>
-                        <div class="main-popup__form-agree ajax-wrap__item"><?= $site_forms_agree; ?></div>
-                    <?php endif; ?>
-                    <div class="main-popup__form-btn ajax-wrap__item">
-                        <button class="btn btn-white" type="submit">Отправить</button>
-                    </div>
-                    <input type="hidden" name="form_name" value="<?=$title_form?>">
-                    <input type="hidden" name="to" value="<?= $site_feedback_main_email; ?>">
-                </form>
+                <div data-inline-form-mobile-mount></div>
             </div>
         </div>
     </div>
-
 </section>

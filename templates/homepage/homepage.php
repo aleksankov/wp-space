@@ -378,75 +378,38 @@ get_template_part('functions/blocks/banner-min-v2/template', null);
         <div class="container">
             <div class="demo__row row-lg">
                 <div class="demo__left col-lg" data-aos="fade-up">
-                    <form class="demo__form ajax-wrap js-form">
-                        <h2 class="demo__form-sub"><?= $home_regions_title; ?></h2>
+                    <?php
+                    $home_form_config = space_form_get_option_source_config('site_home_form_block', [
+                        'mode' => 'inline',
+                        'title' => $home_regions_title,
+                        'service_name' => 'Заявка на демо-версию',
+                        'recipient' => 'main',
+                        'agreement_mode' => 'global',
+                        'fields' => [
+                            ['type' => 'products', 'name' => 'product', 'label' => 'Выберите продукт', 'required' => true],
+                            ['type' => 'partners', 'name' => 'partner', 'label' => 'Выберите дистрибьютора', 'required' => true],
+                            ['type' => 'text', 'name' => 'name', 'label' => 'Имя и фамилия', 'required' => true],
+                            ['type' => 'text', 'name' => 'company', 'label' => 'Организация', 'required' => true],
+                            ['type' => 'tel', 'name' => 'phone', 'label' => 'Номер телефона', 'required' => true],
+                            ['type' => 'email', 'name' => 'email', 'label' => 'E-mail', 'required' => true],
+                            ['type' => 'textarea', 'name' => 'msg', 'label' => 'Комментарий', 'required' => false],
+                        ],
+                    ]);
+                    $home_agreement_text = space_form_get_agreement_text($home_form_config);
+                    ?>
+                    <form class="demo__form ajax-wrap js-form-custom" enctype="multipart/form-data" novalidate>
+                        <?php if ($home_form_config['title'] !== ''): ?>
+                            <h2 class="demo__form-sub"><?= wp_kses_post($home_form_config['title']); ?></h2>
+                        <?php endif; ?>
                         <div class="demo__form-row ajax-wrap__item">
-                            <?php if( $form_product_options ): ?>
-                                <div class="demo__form-col">
-                                    <div class="main-select">
-                                        <select class="js-select js-feedback-input" name="product"><?= $form_product_options; ?></select>
-                                        <span class="js-select-toggle">Выберите продукт</span>
-                                    </div>
-                                </div>
-                            <?php endif; ?>
-                            <?php if( $form_partner_options ): ?>
-                                <div class="demo__form-col">
-                                    <div class="main-select">
-                                        <select class="js-select js-feedback-input js-partner-select" name="partner"><?= $form_partner_options; ?></select>
-                                        <span class="js-select-toggle">Выберите дистрибьютора</span>
-                                    </div>
-                                </div>
-                            <?php endif; ?>
-                            <div class="demo__form-col">
-                                <div class="main-input">
-                                    <label>
-                                        <input class="js-form-input js-feedback-input" type="text" name="name">
-                                        <span>Имя и фамилия</span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="demo__form-col">
-                                <div class="main-input">
-                                    <label>
-                                        <input class="js-form-input js-feedback-input" type="text" name="company">
-                                        <span>Организация</span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="demo__form-col">
-                                <div class="main-input">
-                                    <label>
-                                        <input class="js-form-input js-tel-input js-feedback-input" type="text" name="phone">
-                                        <span>Номер телефона</span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="demo__form-col">
-                                <div class="main-input">
-                                    <label>
-                                        <input class="js-form-input js-feedback-input" type="text" name="email">
-                                        <span>E-mail</span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="demo__form-col demo__form-col--lg">
-                                <div class="main-input">
-                                    <label>
-                                        <textarea class="js-form-input js-feedback-input" name="msg"></textarea>
-                                        <span>Комментарий</span>
-                                    </label>
-                                </div>
-                            </div>
+                            <?php space_form_render_fields($home_form_config, 'home'); ?>
                         </div>
                         <div class="demo__form-bottom ajax-wrap__item">
-                            <?php if( $site_forms_agree ): ?>
-                                <div class="demo__form-agree"><?= $site_forms_agree; ?></div>
-                            <?php endif; ?>
+                            <?php space_form_render_agreement($home_form_config, 'demo__form-agree'); ?>
                             <div class="demo__form-btn">
-                                <button class="btn btn-white" type="submit">Отправить</button>
+                                <button class="btn btn-white" type="submit"><?= esc_html($home_form_config['submit_label']); ?></button>
                             </div>
-                            <input type="hidden" name="form_name" value="Заявка на демо-версию">
-                            <input type="hidden" name="to" value="<?= $site_feedback_main_email; ?>">
+                            <?php space_form_render_security_fields($home_form_config); ?>
                         </div>
                         <div class="demo__form-mob-btn">
                             <a class="btn btn-white" href="#demo-popup" data-fancybox="" data-touch="false">Продолжить</a>

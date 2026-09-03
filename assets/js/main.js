@@ -323,86 +323,83 @@ $(document).ready(function() {
     }
 
     //file input
-    const $fileInput = $('.js-form-file-input');
-    const $fileNameWrap = $('.js-form-file-name-wrap');
-    const $fileName = $('.js-form-file-name');
-    const $fileRemove = $('.js-form-file-remove');
-    const $formFileBlock = $('.js-form-file-block');
-    const allowedFormats = ['doc', 'docx', 'pdf'];
-    const maxFileSize = 3 * 1024 * 1024;
-
-    $fileInput.on('change', function (e) {
+    $(document).on('change', '.js-form-file-input', function (e) {
+        const $input = $(this);
+        const $field = $input.closest('[data-form-field]');
+        const $fileBlock = $input.closest('.js-form-file-block');
+        const $nameWrap = $fileBlock.find('.js-form-file-name-wrap');
         const file = e.target.files[0];
-        if (file) {
-            const fileExtension = file.name.split('.').pop().toLowerCase();
+        const accepted = ($input.attr('accept') || '').split(',').map((item) => item.trim().replace('.', '').toLowerCase()).filter(Boolean);
+        const maxFileSize = Number($input.data('max-size')) || 3 * 1024 * 1024;
+        $field.find('[data-form-error]').text('');
 
-            if (!allowedFormats.includes(fileExtension)) {
-                alert('Недопустимый формат файла. Разрешены только файлы форматов: doc, docx, pdf.');
-                $fileInput.val('');
-                $fileNameWrap.removeClass('show');
-                return;
+        if (!file) {
+            $nameWrap.removeClass('show').find('.js-form-file-name').text('');
+            return;
+        }
+
+        const extension = file.name.split('.').pop().toLowerCase();
+        if (!accepted.includes(extension) || file.size > maxFileSize) {
+            $input.val('');
+            $nameWrap.removeClass('show');
+            $field.find('[data-form-error]').text(!accepted.includes(extension)
+                ? 'Недопустимый формат файла.'
+                : 'Файл превышает допустимый размер.');
+            return;
+        }
+
+        $nameWrap.addClass('show').find('.js-form-file-name').text(file.name);
+    });
+
+    $(document).on('dragover dragleave drop', '.js-form-file-block', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        $(this).toggleClass('dragover', e.type === 'dragover');
+
+        if (e.type === 'drop' && e.originalEvent.dataTransfer.files.length > 0) {
+            const input = $(this).find('.js-form-file-input')[0];
+            if (input) {
+                input.files = e.originalEvent.dataTransfer.files;
+                $(input).trigger('change');
             }
-
-            if (file.size > maxFileSize) {
-                alert('Размер файла превышает допустимый лимит в 3 МБ.');
-                $fileInput.val('');
-                $fileNameWrap.removeClass('show');
-                return;
-            }
-
-            $fileName.text(file.name);
-            $fileNameWrap.addClass('show');
-        }else{
-            $fileNameWrap.removeClass('show');
         }
     });
 
-    $formFileBlock.on('dragover', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        $(this).addClass('dragover');
-    });
-
-    $formFileBlock.on('dragleave', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        $(this).removeClass('dragover');
-    });
-
-    $formFileBlock.on('drop', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        $(this).removeClass('dragover');
-
-        const files = e.originalEvent.dataTransfer.files;
-        
-        if (files.length > 0) {
-            const file = files[0];
-            const fileExtension = file.name.split('.').pop().toLowerCase();
-
-            if (!allowedFormats.includes(fileExtension)) {
-                alert('Недопустимый формат файла. Разрешены только файлы форматов: doc, docx, pdf.');
-                return;
-            }
-    
-            if (file.size > maxFileSize) {
-                alert('Размер файла превышает допустимый лимит в 3 МБ.');
-                return;
-            }
-    
-            $fileInput[0].files = files;
-            $fileInput.trigger('change');
-        }
-    });
-
-    $fileRemove.on('click', function () {
-        $fileInput.val('').trigger('change');
+    $(document).on('click', '.js-form-file-remove', function () {
+        $(this).closest('.js-form-file-block').find('.js-form-file-input').val('').trigger('change');
     });
 
     //select
     $('.js-select').styler({
         onSelectOpened: function() {
             updateScrollbars();
+        }
+    });
+    $('.js-select-custom-field').each(function() {
+        const styledText = $(this).siblings('.jq-selectbox__select').find('.jq-selectbox__select-text').text().trim();
+        const floatingLabel = $(this).closest('.main-select').children('.js-select-toggle').text().trim();
+        if (this.value === '' && styledText !== '') {
+            console.warn('[FIX:select-label] Empty form select rendered duplicate visible text.', {
+                fieldId: this.id,
+                styledText,
+                floatingLabel
+            });
+        } else {
+            console.debug('[FIX:select-label] Form select label initialized.', { fieldId: this.id });
+        }
+    });
+    $('.main-popup__img img').each(function() {
+        const reportSize = () => console.debug('[FIX:popup-image-sizing] Popup image constrained.', {
+            popupId: this.closest('.main-popup')?.id || '',
+            naturalWidth: this.naturalWidth,
+            naturalHeight: this.naturalHeight,
+            renderedWidth: this.getBoundingClientRect().width,
+            renderedHeight: this.getBoundingClientRect().height
+        });
+        if (this.complete) {
+            reportSize();
+        } else {
+            this.addEventListener('load', reportSize, { once: true });
         }
     });
     $(document).on('click', '.js-select-toggle', function(){
@@ -1156,37 +1153,11 @@ $(document).ready(function() {
     })
 
     //forms
-    const emailRegEx = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,8}$/;
-
-    $(document).on('change', 'select.js-partner-select', function(){
-        const select = $(this),
-            form = select.closest('form'),
-            to = form.find('[name="to"]')
-            email = select.find('option:checked').attr('data-email');
-        to.val(email);
-    })
     $(document).on('change input', '.js-feedback-input:not([data-required])', function(){
         if($(this).val().trim()){
             $(this).removeClass('error');
             toggleErrorLabel($(this), false);
         }
-    })
-
-    const selects = document.querySelectorAll('.js-select-custom-field .jq-selectbox__dropdown li');
-    selects.forEach((item)=>{
-
-        item.addEventListener('click',function () {
-            if(item.hasAttribute('data-email')){
-                const wrapper = item.closest('.main-select');
-                if (wrapper){
-                    const inputmail = wrapper.querySelector('[name="custom_field[to][value]"]');
-                    if (inputmail){
-                        inputmail.value = item.getAttribute('data-email');
-                    }
-                }
-            }
-        })
-
     })
 
     // document.addEventListener('DOMContentLoaded', function () {
@@ -1233,118 +1204,6 @@ $(document).ready(function() {
             $('.header-submenu-mobile .header-submenu__dropdown').removeClass('active');
         }
     });
-
-    $(document).on('submit', '.js-form', function(e){
-        e.preventDefault();
-
-        const form = $(this),
-            product = form.find('select[name="product"]'),
-            partner = form.find('select[name="partner"]'),
-            name = form.find('[name="name"]'),
-            phone = form.find('[name="phone"]'),
-            email = form.find('[name="email"]'),
-            specialization = form.find('[name="specialization"]'),
-            fileInput = form.find('[name="file"]'),
-            agree = form.find('[name="agree"]');
-
-        if(product.length && product.val() == '0'){
-            product.addClass('error');
-            toggleErrorLabel(product, true);
-        }
-        
-        if(partner.length && partner.val() == '0'){
-            partner.addClass('error');
-            toggleErrorLabel(partner, true);
-        }
-
-        if(name.length && !name.val().trim()){
-            name.addClass('error');
-            toggleErrorLabel(name, true);
-        }
-
-        if(phone.length && !phone.inputmask('isComplete')){
-            phone.addClass('error');
-            toggleErrorLabel(phone, true);
-        }
-        
-        if(email.length && !emailRegEx.test(email.val())){
-            email.addClass('error');
-            toggleErrorLabel(email, true);
-        }
-
-        if(specialization.length && !specialization.val().trim()){
-            specialization.addClass('error');
-            toggleErrorLabel(specialization, true);
-        }
-
-        if(agree.length && !agree.is(':checked')){
-            agree.addClass('error');
-        }
-
-        if(!form.find('.js-feedback-input.error').length){
-            let formData = new FormData(form[0]);
-
-            formData.append('url', window.location.href);
-            formData.append('action', 'feedback_form');
-
-            if(fileInput.length && fileInput[0].files.length > 0){
-                formData.append('file', fileInput[0].files[0]);
-            }
-
-            $.ajax({
-                url: space_obj.ajax_url,
-                data: formData,
-                type: 'POST',
-                dataType: 'json',
-                processData: false,
-                contentType: false,
-                beforeSend: function(){
-                    form.addClass('loading');
-                },
-                success: function(response){
-                    form.removeClass('loading');
-                    // form.addClass('disabled');
-                    form.trigger('reset');
-                    form.find('.js-feedback-input').removeClass('not-empty');
-                    form.find('select.js-feedback-input').trigger('change');
-
-                    if( fileInput.length ){
-                        fileInput.trigger('change');
-                    }
-
-                    $.fancybox.close();
-
-                    if(response.status){
-                        $.fancybox.open({
-                            src  : '#feedback-success',
-                            type : 'inline',
-                            opts : {
-                                touch: false,
-                                keyboard: false,
-                                afterClose: function(){
-                                    $('style:contains(".compensate-for-scrollbar")').remove();
-                                }
-                            }
-                        });
-                    }else{
-                        $.fancybox.open({
-                            src  : '#feedback-error',
-                            type : 'inline',
-                            opts : {
-                                touch: false,
-                                keyboard: false,
-                                afterClose: function(){
-                                    $('style:contains(".compensate-for-scrollbar")').remove();
-                                }
-                            }
-                        });
-                    }
-                }
-            });
-        }
-    })
-
-
 
     const inputsRequired =document.querySelectorAll('[data-required]');
     inputsRequired.forEach((field)=>{
@@ -1429,75 +1288,138 @@ $(document).ready(function() {
 
 
 
-    const customForms =document.querySelectorAll('.js-form-custom');
-    customForms.forEach(form=>{
-        form.addEventListener('submit',async (e) => {
-            e.preventDefault()
-            const fields = form.querySelectorAll('input,textarea,select');
-            let error = false
-            fields.forEach((field) => {
-                if (field.hasAttribute('data-required')) {
-                    switch (field.type) {
-                        case "select":
-                            if (+field.value === 0) {
-                                error = true
-                                toggleErrorLabelVanilaJs(field, true);
-                            }
-                            break;
-                        default:
-                            if (field.value.trim() === '') {
-                                error = true
-                                toggleErrorLabelVanilaJs(field, true);
-                            }
-                            break
-                    }
-                }
-
-            })
-            if (!error){
-                const formData = new FormData(form);
-                formData.append('url', window.location.href);
-                formData.append('action', 'feedback_form_custom');
-                form.classList.add('loading');
-                let response = await fetch( space_obj.ajax_url,{
-                    method:'POST',
-                    body:formData,
-
-                });
-                response = await response.json()
-                form.classList.remove('loading');
-                form.reset();
-                $.fancybox.close();
-                if(response.status){
-                    $.fancybox.open({
-                        src  : '#feedback-success',
-                        type : 'inline',
-                        opts : {
-                            touch: false,
-                            keyboard: false,
-                            afterClose: function(){
-                                $('style:contains(".compensate-for-scrollbar")').remove();
-                            }
-                        }
-                    });
-                }else{
-                    $.fancybox.open({
-                        src  : '#feedback-error',
-                        type : 'inline',
-                        opts : {
-                            touch: false,
-                            keyboard: false,
-                            afterClose: function(){
-                                $('style:contains(".compensate-for-scrollbar")').remove();
-                            }
-                        }
-                    });
+    function openFeedbackPopup(id) {
+        $.fancybox.close();
+        $.fancybox.open({
+            src: id,
+            type: 'inline',
+            opts: {
+                touch: false,
+                keyboard: false,
+                afterClose: function(){
+                    $('style:contains(".compensate-for-scrollbar")').remove();
                 }
             }
+        });
+    }
 
+    $(document).on('click', '.js-inline-form-mobile-trigger', function(e) {
+        e.preventDefault();
 
+        const section = this.closest('.product-feedback');
+        const popup = section ? section.querySelector(this.getAttribute('href')) : null;
+        const form = section ? section.querySelector(`#${CSS.escape(this.dataset.formId || '')}`) : null;
+        const mobileMount = popup ? popup.querySelector('[data-inline-form-mobile-mount]') : null;
+        const homeMount = form ? form.closest('[data-inline-form-home]') : null;
 
-        })
+        if (!popup || !form || !mobileMount || !homeMount) {
+            console.warn('[FIX:inline-form] Mobile form mount is incomplete.', {
+                popup: Boolean(popup),
+                form: Boolean(form),
+                mobileMount: Boolean(mobileMount),
+                homeMount: Boolean(homeMount)
+            });
+            return;
+        }
+
+        mobileMount.append(form);
+        form.classList.add('product-feedback__form--mobile-active');
+        $.fancybox.open({
+            src: '#' + popup.id,
+            type: 'inline',
+            opts: {
+                touch: false,
+                backFocus: false,
+                afterClose: function() {
+                    form.classList.remove('product-feedback__form--mobile-active');
+                    homeMount.append(form);
+                    console.debug('[FIX:inline-form] Form returned to its desktop mount.', { formId: form.id });
+                }
+            }
+        });
+    });
+
+    $(document).on('submit', '.js-form-custom', async function(e){
+        e.preventDefault();
+
+        const form = this;
+        if (form.classList.contains('loading')) {
+            return;
+        }
+
+        const fields = form.querySelectorAll('[data-required]');
+        let hasError = false;
+
+        form.querySelectorAll('[data-form-error]').forEach((element) => {
+            element.textContent = '';
+        });
+
+        fields.forEach((field) => {
+            const value = typeof field.value === 'string' ? field.value.trim() : '';
+            const isEmpty = field.type === 'checkbox' ? !field.checked : value === '' || value === '0';
+            const isInvalidEmail = field.type === 'email' && !field.checkValidity();
+            const isInvalidPhone = field.type === 'tel' && typeof $(field).inputmask === 'function' && !$(field).inputmask('isComplete');
+
+            if (isEmpty || isInvalidEmail || isInvalidPhone) {
+                hasError = true;
+                toggleErrorLabelVanilaJs(field, true);
+            }
+        });
+
+        if (hasError) {
+            return;
+        }
+
+        const formData = new FormData(form);
+        formData.append('action', 'feedback_form_custom');
+        form.classList.add('loading');
+        form.querySelectorAll('button[type="submit"]').forEach((button) => {
+            button.disabled = true;
+        });
+
+        try {
+            const request = await fetch(space_obj.ajax_url, {
+                method: 'POST',
+                body: formData,
+            });
+            const responseText = await request.text();
+            let response;
+
+            try {
+                response = JSON.parse(responseText);
+            } catch (parseError) {
+                response = {status: false, error: 'invalid_response'};
+            }
+
+            if (!request.ok || !response.status) {
+                if (response.errors) {
+                    Object.entries(response.errors).forEach(([name, code]) => {
+                        const fieldWrap = form.querySelector(`[data-form-field="${CSS.escape(name)}"]`);
+                        const errorElement = fieldWrap ? fieldWrap.querySelector('[data-form-error]') : null;
+                        if (errorElement) {
+                            errorElement.textContent = code === 'required'
+                                ? 'Заполните это поле.'
+                                : 'Проверьте введённое значение.';
+                        }
+                    });
+                }
+                openFeedbackPopup('#feedback-error');
+                return;
+            }
+
+            form.reset();
+            $(form).find('select.js-feedback-input').trigger('refresh');
+            $(form).find('.js-form-file-name-wrap').removeClass('show');
+            $(form).find('.js-form-file-name').text('');
+            openFeedbackPopup('#feedback-success');
+        } catch (error) {
+            openFeedbackPopup('#feedback-error');
+        } finally {
+            form.classList.remove('loading');
+            form.querySelectorAll('button[type="submit"]').forEach((button) => {
+                button.disabled = false;
+            });
+        }
     })
 
 
@@ -1701,35 +1623,37 @@ $(document).ready(function() {
 
 const video = document.getElementById("hero-video-canvas");
 
-video.muted = true;
-video.playsInline = true;
+if (video) {
+  video.muted = true;
+  video.playsInline = true;
 
-function tryPlay(){
-  video.play().catch(()=>{});
+  function tryPlay(){
+    video.play().catch(()=>{});
+  }
+
+  /* когда видео реально готово */
+  video.addEventListener("canplay", tryPlay);
+
+  /* после загрузки страницы */
+  window.addEventListener("load", tryPlay);
+
+  /* при появлении видео в viewport */
+  const observer = new IntersectionObserver(entries=>{
+    if(entries[0].isIntersecting){
+      tryPlay();
+    }
+  });
+  observer.observe(video);
+
+  /* любой пользовательский жест */
+  ["touchstart","touchend","click","scroll"].forEach(evt=>{
+    document.addEventListener(evt, tryPlay, {once:true});
+  });
+
+  /* запасная попытка */
+  setInterval(()=>{
+    if(video.paused){
+      tryPlay();
+    }
+  },2000);
 }
-
-/* когда видео реально готово */
-video.addEventListener("canplay", tryPlay);
-
-/* после загрузки страницы */
-window.addEventListener("load", tryPlay);
-
-/* при появлении видео в viewport */
-const observer = new IntersectionObserver(entries=>{
-  if(entries[0].isIntersecting){
-    tryPlay();
-  }
-});
-observer.observe(video);
-
-/* любой пользовательский жест */
-["touchstart","touchend","click","scroll"].forEach(evt=>{
-  document.addEventListener(evt, tryPlay, {once:true});
-});
-
-/* запасная попытка */
-setInterval(()=>{
-  if(video.paused){
-    tryPlay();
-  }
-},2000);
