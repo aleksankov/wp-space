@@ -21,15 +21,39 @@ function assert(condition, message) {
 }
 
 async function openPopup(page, id, closeAfterCheck = true) {
+    await page.evaluate(() => window.jQuery.fancybox.close(true));
+    await page.waitForFunction(() => !document.querySelector('.fancybox-container'));
     await page.evaluate((popupId) => {
         window.jQuery.fancybox.open({ src: `#${popupId}`, type: 'inline' });
     }, id);
     await page.locator(`#${id}`).waitFor({ state: 'visible' });
+    await page.waitForTimeout(150);
 
     const box = await page.locator(`#${id}`).boundingBox();
     const viewport = page.viewportSize();
     assert(box && viewport, `${id}: не удалось получить размеры окна.`);
     assert(box.width <= viewport.width + 1, `${id}: поп-ап шире viewport.`);
+
+    const image = page.locator(`#${id} .main-popup__img img`);
+    if (await image.count() > 0 && viewport.width >= 1200) {
+        const media = await image.evaluate((element) => {
+            const box = element.getBoundingClientRect();
+            return {
+                width: box.width,
+                height: box.height,
+                naturalWidth: element.naturalWidth,
+                naturalHeight: element.naturalHeight,
+                radius: parseFloat(getComputedStyle(element.parentElement).borderRadius),
+            };
+        });
+        assert(media.height <= 558.5, `${id}: изображение растянуто выше дефолтных 558px.`);
+        assert(media.radius > 0, `${id}: у изображения отсутствует скруглённая рамка.`);
+        if (media.naturalWidth > 0 && media.naturalHeight > 0) {
+            const renderedRatio = media.width / media.height;
+            const naturalRatio = media.naturalWidth / media.naturalHeight;
+            assert(Math.abs(renderedRatio - naturalRatio) < 0.02, `${id}: пропорции изображения искажены.`);
+        }
+    }
 
     if (closeAfterCheck) {
         await page.keyboard.press('Escape');
@@ -120,6 +144,24 @@ async function testAjaxStates(browser) {
     await openPopup(page, 'buy-vm', false);
     await form.locator('button[type="submit"]').click();
     await page.locator('#feedback-error').waitFor({ state: 'visible' });
+
+    await page.unroute('**/admin-ajax.php');
+    await page.route('**/admin-ajax.php', (route) => route.fulfill({
+        status: 503,
+        contentType: 'application/json',
+        body: JSON.stringify({ status: false }),
+    }));
+    await openPopup(page, 'buy-vm', false);
+    await form.locator('button[type="submit"]').click();
+    await page.locator('#feedback-error').waitFor({ state: 'visible' });
+    assert(await nameInput.inputValue() === fields.name, 'HTTP error не должен очищать форму.');
+
+    await page.unroute('**/admin-ajax.php');
+    await page.route('**/admin-ajax.php', (route) => route.abort('connectionfailed'));
+    await openPopup(page, 'buy-vm', false);
+    await form.locator('button[type="submit"]').click();
+    await page.locator('#feedback-error').waitFor({ state: 'visible' });
+    assert(await nameInput.inputValue() === fields.name, 'Network error не должен очищать форму.');
 
     await page.unroute('**/admin-ajax.php');
     await page.route('**/admin-ajax.php', (route) => route.fulfill({

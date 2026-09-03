@@ -20,6 +20,9 @@
   ],
   "scripts": {
     "test": "php tests/popup-contract-test.php",
+    "test:forms-server": "cd ../../../.. && ${WP_CLI:-wp} eval-file wp-content/themes/wp-space/tests/form-server-test.php",
+    "test:forms-migration": "cd ../../../.. && ${WP_CLI:-wp} eval-file wp-content/themes/wp-space/tests/form-migration-test.php",
+    "test:forms": "npm run test && npm run test:forms-server && npm run test:forms-migration && npm run test:forms-browser",
     "test:browser": "NODE_PATH=\"$(npm root -g)\" node tests/popup-browser-test.cjs",
     "test:forms-browser": "NODE_PATH=\"$(npm root -g)\" node tests/form-browser-test.cjs",
     "test:glossary-browser": "NODE_PATH=\"$(npm root -g)\" node tests/glossary-browser-test.cjs"

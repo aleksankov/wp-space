@@ -49,9 +49,10 @@ if ($type === 'hidden') {
             <select
                 id="<?= esc_attr($field_id); ?>"
                 class="js-select js-select-custom-field js-feedback-input"
+                data-placeholder="false"
                 name="custom_field[<?= esc_attr($name); ?>][value]"
                 <?= $required ? 'required data-required' : ''; ?>>
-                <option value=""><?= esc_html($label); ?></option>
+                <option value=""></option>
                 <?php foreach ((array) ($field['options'] ?? []) as $option): ?>
                     <option value="<?= esc_attr($option['value'] ?? ''); ?>"><?= esc_html($option['label'] ?? ''); ?></option>
                 <?php endforeach; ?>

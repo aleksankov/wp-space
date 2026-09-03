@@ -14,6 +14,7 @@ $animation_enabled = (bool) get_field_block('form-custom-anim-enabled', $block);
 $animation_delay = absint(get_field_block('form-custom-anim-delay', $block));
 $agreement_text = space_form_get_agreement_text($config);
 $mobile_popup_id = 'popup-' . $block_id;
+$form_dom_id = $block_id . '-form';
 $section_classes = array_filter([
     'product-feedback',
     'section',
@@ -35,7 +36,11 @@ $section_classes = array_filter([
             <?php if ($config['title'] !== ''): ?>
                 <h2 class="product-feedback__title"><?= wp_kses_post($config['title']); ?></h2>
             <?php endif; ?>
-            <form class="product-feedback__form ajax-wrap js-form-custom" enctype="multipart/form-data" novalidate>
+            <div class="product-feedback__form-mount" data-inline-form-home>
+            <form id="<?= esc_attr($form_dom_id); ?>" class="product-feedback__form ajax-wrap js-form-custom" enctype="multipart/form-data" novalidate>
+                <?php if ($config['title'] !== ''): ?>
+                    <div class="product-feedback__mobile-title"><?= wp_kses_post($config['title']); ?></div>
+                <?php endif; ?>
                 <div class="product-feedback__row ajax-wrap__item">
                     <?php space_form_render_fields($config, 'inline'); ?>
                 </div>
@@ -49,8 +54,12 @@ $section_classes = array_filter([
                 <input type="hidden" name="form_name" value="<?= esc_attr($config['service_name']); ?>">
                 <input type="hidden" name="recipient_type" value="<?= esc_attr($config['recipient']); ?>">
             </form>
+            </div>
             <div class="product-feedback__mob-btn">
-                <a class="btn btn-white" href="#<?= esc_attr($mobile_popup_id); ?>" data-fancybox data-touch="false">Продолжить</a>
+                <a
+                    class="btn btn-white js-inline-form-mobile-trigger"
+                    href="#<?= esc_attr($mobile_popup_id); ?>"
+                    data-form-id="<?= esc_attr($form_dom_id); ?>">Продолжить</a>
             </div>
         </div>
     </div>
@@ -61,21 +70,7 @@ $section_classes = array_filter([
         </button>
         <div class="main-popup__wrap">
             <div class="main-popup__right">
-                <form class="main-popup__form ajax-wrap js-form-custom" enctype="multipart/form-data" novalidate>
-                    <?php if ($config['title'] !== ''): ?>
-                        <div class="main-popup__form-title"><?= wp_kses_post($config['title']); ?></div>
-                    <?php endif; ?>
-                    <div class="main-popup__form-list ajax-wrap__item">
-                        <?php space_form_render_fields($config, 'popup'); ?>
-                    </div>
-                    <?php space_form_render_agreement($config, 'main-popup__form-agree'); ?>
-                    <div class="main-popup__form-btn ajax-wrap__item">
-                        <button class="btn btn-white" type="submit"><?= esc_html($config['submit_label']); ?></button>
-                    </div>
-                    <?php space_form_render_security_fields($config); ?>
-                    <input type="hidden" name="form_name" value="<?= esc_attr($config['service_name']); ?>">
-                    <input type="hidden" name="recipient_type" value="<?= esc_attr($config['recipient']); ?>">
-                </form>
+                <div data-inline-form-mobile-mount></div>
             </div>
         </div>
     </div>

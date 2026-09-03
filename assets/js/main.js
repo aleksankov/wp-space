@@ -375,6 +375,33 @@ $(document).ready(function() {
             updateScrollbars();
         }
     });
+    $('.js-select-custom-field').each(function() {
+        const styledText = $(this).siblings('.jq-selectbox__select').find('.jq-selectbox__select-text').text().trim();
+        const floatingLabel = $(this).closest('.main-select').children('.js-select-toggle').text().trim();
+        if (this.value === '' && styledText !== '') {
+            console.warn('[FIX:select-label] Empty form select rendered duplicate visible text.', {
+                fieldId: this.id,
+                styledText,
+                floatingLabel
+            });
+        } else {
+            console.debug('[FIX:select-label] Form select label initialized.', { fieldId: this.id });
+        }
+    });
+    $('.main-popup__img img').each(function() {
+        const reportSize = () => console.debug('[FIX:popup-image-sizing] Popup image constrained.', {
+            popupId: this.closest('.main-popup')?.id || '',
+            naturalWidth: this.naturalWidth,
+            naturalHeight: this.naturalHeight,
+            renderedWidth: this.getBoundingClientRect().width,
+            renderedHeight: this.getBoundingClientRect().height
+        });
+        if (this.complete) {
+            reportSize();
+        } else {
+            this.addEventListener('load', reportSize, { once: true });
+        }
+    });
     $(document).on('click', '.js-select-toggle', function(){
         $(this).siblings('.js-select').find('.jq-selectbox__select').trigger('click');
         return false;
@@ -1275,6 +1302,42 @@ $(document).ready(function() {
             }
         });
     }
+
+    $(document).on('click', '.js-inline-form-mobile-trigger', function(e) {
+        e.preventDefault();
+
+        const section = this.closest('.product-feedback');
+        const popup = section ? section.querySelector(this.getAttribute('href')) : null;
+        const form = section ? section.querySelector(`#${CSS.escape(this.dataset.formId || '')}`) : null;
+        const mobileMount = popup ? popup.querySelector('[data-inline-form-mobile-mount]') : null;
+        const homeMount = form ? form.closest('[data-inline-form-home]') : null;
+
+        if (!popup || !form || !mobileMount || !homeMount) {
+            console.warn('[FIX:inline-form] Mobile form mount is incomplete.', {
+                popup: Boolean(popup),
+                form: Boolean(form),
+                mobileMount: Boolean(mobileMount),
+                homeMount: Boolean(homeMount)
+            });
+            return;
+        }
+
+        mobileMount.append(form);
+        form.classList.add('product-feedback__form--mobile-active');
+        $.fancybox.open({
+            src: '#' + popup.id,
+            type: 'inline',
+            opts: {
+                touch: false,
+                backFocus: false,
+                afterClose: function() {
+                    form.classList.remove('product-feedback__form--mobile-active');
+                    homeMount.append(form);
+                    console.debug('[FIX:inline-form] Form returned to its desktop mount.', { formId: form.id });
+                }
+            }
+        });
+    });
 
     $(document).on('submit', '.js-form-custom', async function(e){
         e.preventDefault();
