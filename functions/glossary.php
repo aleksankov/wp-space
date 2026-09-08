@@ -461,7 +461,99 @@ function space_glossary_format_result_count( $count ) {
 }
 
 /**
- * Build a glossary archive URL while preserving selected filters.
+ * Return the published page assigned to the glossary template.
+ */
+function space_glossary_get_page() {
+    static $glossary_page = null;
+    static $resolved = false;
+
+    if ( $resolved ) {
+        return $glossary_page;
+    }
+
+    $resolved = true;
+    $pages = get_posts( [
+        'post_type'              => 'page',
+        'post_status'            => 'publish',
+        'posts_per_page'         => 1,
+        'orderby'                => 'menu_order title',
+        'order'                  => 'ASC',
+        'meta_key'               => '_wp_page_template',
+        'meta_value'             => 'templates/glossary/glossary-page.php',
+        'no_found_rows'          => true,
+        'update_post_meta_cache' => false,
+        'update_post_term_cache' => false,
+    ] );
+    $glossary_page = $pages ? $pages[0] : null;
+
+    return $glossary_page;
+}
+
+/**
+ * Return the URL of the configured glossary page.
+ */
+function space_glossary_get_index_url() {
+    $glossary_page = space_glossary_get_page();
+
+    if ( $glossary_page instanceof WP_Post ) {
+        return get_permalink( $glossary_page );
+    }
+
+    return home_url( '/glossary/' );
+}
+
+/**
+ * Check whether the current request renders the glossary page template.
+ */
+function space_glossary_is_index_request() {
+    return is_page_template( 'templates/glossary/glossary-page.php' );
+}
+
+/**
+ * Load glossary assets for the page-template implementation.
+ */
+function space_glossary_enqueue_page_assets() {
+    if ( ! space_glossary_is_index_request() ) {
+        return;
+    }
+
+    $version = wp_get_theme()->get( 'Version' );
+    $style_path = get_template_directory() . '/assets/css/glossary.css';
+    $script_path = get_template_directory() . '/assets/js/glossary.js';
+
+    wp_enqueue_style(
+        'space-glossary',
+        get_template_directory_uri() . '/assets/css/glossary.css',
+        [],
+        file_exists( $style_path ) ? filemtime( $style_path ) : $version
+    );
+    wp_enqueue_script(
+        'space-glossary',
+        get_template_directory_uri() . '/assets/js/glossary.js',
+        [],
+        file_exists( $script_path ) ? filemtime( $script_path ) : $version,
+        true
+    );
+}
+add_action( 'wp_enqueue_scripts', 'space_glossary_enqueue_page_assets', 20 );
+
+/**
+ * Remove the legacy glossary archive rule after switching to a page template.
+ */
+function space_glossary_maybe_flush_page_rewrite_rules() {
+    $rewrite_version = 1;
+
+    if ( (int) get_option( 'space_glossary_page_rewrite_version', 0 ) >= $rewrite_version ) {
+        return;
+    }
+
+    flush_rewrite_rules( false );
+    update_option( 'space_glossary_page_rewrite_version', $rewrite_version, false );
+}
+add_action( 'init', 'space_glossary_maybe_flush_page_rewrite_rules', 99 );
+
+/**
+ * Build a glossary page URL while preserving selected filters.
  */
 function space_glossary_get_filter_url( array $filters ) {
     $query_args = [];
@@ -478,16 +570,16 @@ function space_glossary_get_filter_url( array $filters ) {
         $query_args['letter'] = $filters['letter'];
     }
 
-    $archive_url = get_post_type_archive_link( 'glossary_term' );
+    $archive_url = space_glossary_get_index_url();
 
     return $query_args ? add_query_arg( $query_args, $archive_url ) : $archive_url;
 }
 
 /**
- * Check whether the glossary archive request contains active filters.
+ * Check whether the glossary page request contains active filters.
  */
-function space_glossary_is_filtered_archive() {
-    if ( ! is_post_type_archive( 'glossary_term' ) ) {
+function space_glossary_is_filtered_index() {
+    if ( ! space_glossary_is_index_request() ) {
         return false;
     }
 
@@ -501,10 +593,10 @@ function space_glossary_is_filtered_archive() {
 }
 
 /**
- * Keep filtered archive variants out of the search index.
+ * Keep filtered glossary variants out of the search index.
  */
 function space_glossary_filter_wp_robots( array $robots ) {
-    if ( ! space_glossary_is_filtered_archive() ) {
+    if ( ! space_glossary_is_filtered_index() ) {
         return $robots;
     }
 
@@ -517,14 +609,14 @@ function space_glossary_filter_wp_robots( array $robots ) {
 add_filter( 'wp_robots', 'space_glossary_filter_wp_robots' );
 
 /**
- * Return the clean glossary archive as canonical for filtered variants.
+ * Return the clean glossary page as canonical for filtered variants.
  */
 function space_glossary_filter_canonical( $canonical ) {
-    if ( ! space_glossary_is_filtered_archive() ) {
+    if ( ! space_glossary_is_filtered_index() ) {
         return $canonical;
     }
 
-    return get_post_type_archive_link( 'glossary_term' );
+    return space_glossary_get_index_url();
 }
 add_filter( 'wpseo_canonical', 'space_glossary_filter_canonical' );
 add_filter( 'wpseo_opengraph_url', 'space_glossary_filter_canonical' );
@@ -533,7 +625,7 @@ add_filter( 'wpseo_opengraph_url', 'space_glossary_filter_canonical' );
  * Support Yoast versions that expose robots as a string filter.
  */
 function space_glossary_filter_yoast_robots( $robots ) {
-    return space_glossary_is_filtered_archive() ? 'noindex, follow' : $robots;
+    return space_glossary_is_filtered_index() ? 'noindex, follow' : $robots;
 }
 add_filter( 'wpseo_robots', 'space_glossary_filter_yoast_robots' );
 

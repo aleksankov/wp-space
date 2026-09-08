@@ -25,18 +25,19 @@ foreach ( $available_letters as $available_letter ) {
 
 $has_alphabet = $latin_letters || $cyrillic_letters || $other_letters;
 $result_count = count( $glossary_posts );
+$glossary_title = is_page() ? get_the_title() : 'Глоссарий';
 ?>
 
 <section class="glossary" data-glossary-root>
     <div class="container">
         <header class="glossary__header">
-            <h1 class="glossary__title">Глоссарий</h1>
+            <h1 class="glossary__title"><?= esc_html( $glossary_title ); ?></h1>
         </header>
 
         <form
             class="glossary__filters"
             method="get"
-            action="<?= esc_url( get_post_type_archive_link( 'glossary_term' ) ); ?>"
+            action="<?= esc_url( space_glossary_get_index_url() ); ?>"
             data-glossary-form>
             <div class="glossary__search">
                 <label class="glossary__visually-hidden" for="glossary-search">Поиск по терминам</label>

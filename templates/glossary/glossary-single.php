@@ -40,7 +40,7 @@ if ( $term_content !== '' ) {
 }
 $term_categories = get_the_terms( $term_post, 'glossary_category' );
 $term_categories = is_array( $term_categories ) ? $term_categories : [];
-$archive_url = get_post_type_archive_link( 'glossary_term' );
+$archive_url = space_glossary_get_index_url();
 $term_allowed_html = wp_kses_allowed_html( 'post' );
 $term_allowed_html['figure']['tabindex'] = true;
 $term_allowed_html['figure']['role'] = true;

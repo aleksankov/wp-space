@@ -362,7 +362,7 @@ function register_post_types(){
             ],
         ],
         'taxonomies'           => [ 'glossary_category' ],
-        'has_archive'          => 'glossary',
+        'has_archive'          => false,
         'rewrite'              => [
             'slug'       => 'glossary',
             'with_front' => false,
@@ -371,6 +371,5 @@ function register_post_types(){
         ],
         'query_var'            => true,
         'template_item'        => '/templates/glossary/glossary-single.php',
-        'template_archive'     => '/templates/glossary/glossary-archive.php',
     ] );
 }
