@@ -1,0 +1,24 @@
+{
+    "name": "acf/form",
+    "title": "7. Форма ОС",
+    "description": "",
+    "category": "media",
+    "icon": "email-alt",
+    "keywords": ["7", "Форма", "ОС"],
+    "acf": {
+        "mode": "preview",
+        "renderTemplate": "template.php",
+        "renderCallback": "block_render"
+    },
+    "example": {
+        "attributes": {
+            "mode": "preview",
+            "data": {
+                "space_field": "value"
+            }
+        }
+    },
+    "supports": {
+        "anchor": false
+    }
+}

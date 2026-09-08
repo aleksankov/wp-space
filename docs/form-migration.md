@@ -6,14 +6,14 @@
 
 ## Скрипты
 
-Команды выполняются из корня проекта, где находятся `public_html` и `.ai-factory`:
+Команды выполняются из корня проекта, где находится `public_html`:
 
 ```bash
-wp --path=public_html eval-file .ai-factory/scripts/audit-form-inventory.php
-wp --path=public_html eval-file .ai-factory/scripts/migrate-unified-forms.php dry-run
-wp --path=public_html eval-file .ai-factory/scripts/migrate-unified-forms.php apply
-wp --path=public_html eval-file .ai-factory/scripts/migrate-unified-forms.php verify
-wp --path=public_html eval-file .ai-factory/scripts/migrate-form-sources.php verify
+wp --path=public_html eval-file public_html/wp-content/themes/wp-space/functions/migrations/audit-form-inventory.php
+wp --path=public_html eval-file public_html/wp-content/themes/wp-space/functions/migrations/migrate-unified-forms.php dry-run
+wp --path=public_html eval-file public_html/wp-content/themes/wp-space/functions/migrations/migrate-unified-forms.php apply
+wp --path=public_html eval-file public_html/wp-content/themes/wp-space/functions/migrations/migrate-unified-forms.php verify
+wp --path=public_html eval-file public_html/wp-content/themes/wp-space/functions/migrations/migrate-form-sources.php verify
 ```
 
 `migrate-unified-forms.php` заменяет `acf/form` на `acf/form-custom`, ищет блоки рекурсивно и сохраняет backup исходного `post_content`. Повторный `apply` идемпотентен: после успешного переноса кандидатов нет.
@@ -74,7 +74,7 @@ wp --path=public_html eval-file public_html/wp-content/themes/wp-space/tests/for
 Если проблема связана с контентной миграцией, используйте только backup, созданный этим мигратором:
 
 ```bash
-wp --path=public_html eval-file .ai-factory/scripts/migrate-unified-forms.php rollback /var/www/html/space.loc/.ai-factory/backups/forms/unified-forms-YYYYMMDD-HHMMSS.json
+wp --path=public_html eval-file public_html/wp-content/themes/wp-space/functions/migrations/migrate-unified-forms.php rollback /var/www/html/space.loc/.ai-factory/backups/forms/unified-forms-YYYYMMDD-HHMMSS.json
 ```
 
 Затем верните предыдущую версию кода, синхронизируйте соответствующий набор ACF JSON и очистите кэш. Если были изменены синхронизированные источники, восстановите базу из production backup: `migrate-form-sources.php` намеренно не удаляет и не откатывает пользовательский контент.

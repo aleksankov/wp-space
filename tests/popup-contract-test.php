@@ -27,6 +27,9 @@ $validation = $read('functions/forms/validation.php');
 $recipients = $read('functions/forms/recipients.php');
 $uploads = $read('functions/forms/uploads.php');
 $javascript = $read('assets/js/main.js');
+$source_migrator_path = $theme_dir . '/functions/migrations/migrate-form-sources.php';
+$source_migrator = file_get_contents($source_migrator_path);
+$assert($source_migrator !== false, 'Не удалось прочитать мигратор источников форм.');
 
 foreach (glob($theme_dir . '/acf-json/*.json') as $json_file) {
     $assert(is_array(json_decode((string) file_get_contents($json_file), true)), basename($json_file) . ' должен быть валидным JSON.');
@@ -69,6 +72,20 @@ $assert(strpos($popup_template, 'wp_get_attachment_image') !== false, 'Popup д�
 $assert(strpos($javascript, "formData.append('action', 'feedback_form_custom')") !== false, 'Frontend должен использовать единый action.');
 $assert(strpos($javascript, 'await request.text()') !== false, 'Frontend должен безопасно обрабатывать некорректный JSON.');
 $assert(strpos($javascript, 'if (form.classList.contains(\'loading\'))') !== false, 'Frontend должен блокировать двойную отправку.');
+
+if (is_string($source_migrator)) {
+    foreach (['demo-popup', 'demo-vm', 'buy-vm', 'demo-vdi', 'buy-vdi', 'partner-popup', 'tech-partner-popup', 'download_custom1'] as $popup_id) {
+        $assert(strpos($source_migrator, "'id' => '{$popup_id}'") !== false, 'Мигратор должен создавать popup ID ' . $popup_id . '.');
+    }
+    foreach (['space-vm', 'space-vdi', 'partners', 'space-connect'] as $page_slug) {
+        $assert(strpos($source_migrator, "'{$page_slug}' =>") !== false, 'В миграторе нет привязки для страницы ' . $page_slug . '.');
+    }
+    foreach (['templates/space/vm.php', 'templates/space/vdi.php', 'templates/partners/partners.php', 'templates/space/connect.php'] as $page_template) {
+        $assert(strpos($source_migrator, "'{$page_template}' =>") !== false, 'В миграторе нет привязки по шаблону ' . $page_template . '.');
+    }
+    $assert(strpos($source_migrator, "strpos(\$page->post_content, '#' . \$popup_id)") !== false, 'Мигратор должен находить Popup ID в редакторском контенте.');
+    $assert(strpos($source_migrator, "\$config['id'] !== \$source['config']['id']") !== false, 'Мигратор должен проверять ID каждого источника.');
+}
 
 if ($failures) {
     fwrite(STDERR, "FAIL\n- " . implode("\n- ", $failures) . "\n");

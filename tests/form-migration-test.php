@@ -38,7 +38,7 @@ try {
 
     $args = ['apply'];
     ob_start();
-    include dirname(ABSPATH) . '/.ai-factory/scripts/migrate-unified-forms.php';
+    include get_template_directory() . '/functions/migrations/migrate-unified-forms.php';
     ob_end_clean();
 
     remove_all_filters('space_form_migration_update_result');
