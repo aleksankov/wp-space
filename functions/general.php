@@ -173,10 +173,6 @@ function space_render_page_popup_blocks()
 
     $content = get_post_field('post_content', get_queried_object_id());
 
-    if (!$content) {
-        return;
-    }
-
     $visited_references = [];
     $render_popup_blocks = static function ($blocks, $depth = 0) use (&$render_popup_blocks, &$visited_references) {
         if ($depth > 20) {
@@ -211,7 +207,53 @@ function space_render_page_popup_blocks()
         }
     };
 
-    $render_popup_blocks(parse_blocks($content));
+    $render_popup_blocks(parse_blocks($content ?: ''));
+
+    if (empty($GLOBALS['space_rendered_popup_ids']['demo-popup'])) {
+        $form_id = 'demo-popup';
+        $form_classes = ['main-popup__form', 'ajax-wrap', 'js-form-custom'];
+        $config = space_form_normalize_config([
+            'mode' => 'popup',
+            'id' => $form_id,
+            'title' => 'Оставить на сайте<br>заявку на демо-версию',
+            'service_name' => 'Заявка на демо-версию',
+            'submit_label' => 'Отправить',
+            'recipient' => 'main',
+            'agreement_mode' => 'global',
+            'variant' => 'simple',
+            'fields' => [
+                ['type' => 'products', 'name' => 'product', 'label' => 'Выберите продукт'],
+                ['type' => 'text', 'name' => 'name', 'label' => 'Имя и фамилия', 'required' => true],
+                ['type' => 'text', 'name' => 'company', 'label' => 'Организация'],
+                ['type' => 'tel', 'name' => 'phone', 'label' => 'Номер телефона', 'required' => true],
+                ['type' => 'email', 'name' => 'email', 'label' => 'E-mail', 'required' => true],
+            ],
+        ]);
+        ?>
+        <div class="main-popup main-popup--simple" id="<?= esc_attr($form_id); ?>">
+            <button class="main-popup__close" type="button" data-fancybox-close>
+                <img src="<?= esc_url(get_template_directory_uri() . '/assets/img/close-icon.svg'); ?>" alt="Закрыть">
+            </button>
+            <div class="main-popup__wrap">
+                <div class="main-popup__right">
+                    <form class="<?= esc_attr(implode(' ', $form_classes)); ?>" enctype="multipart/form-data" novalidate>
+                        <div class="main-popup__form-title"><?= wp_kses_post($config['title']); ?></div>
+                        <div class="main-popup__form-list ajax-wrap__item">
+                            <?php space_form_render_fields($config, 'popup'); ?>
+                        </div>
+                        <?php space_form_render_agreement($config, 'main-popup__form-agree'); ?>
+                        <div class="main-popup__form-btn ajax-wrap__item">
+                            <button class="btn btn-white" type="submit"><?= esc_html($config['submit_label']); ?></button>
+                        </div>
+                        <?php space_form_render_security_fields($config); ?>
+                        <input type="hidden" name="form_name" value="<?= esc_attr($config['service_name']); ?>">
+                        <input type="hidden" name="recipient_type" value="<?= esc_attr($config['recipient']); ?>">
+                    </form>
+                </div>
+            </div>
+        </div>
+        <?php
+    }
 }
 
 #region Скрыть панель админа
