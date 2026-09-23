@@ -19,7 +19,8 @@
     "> 1%"
   ],
   "scripts": {
-    "test": "php tests/popup-contract-test.php",
+    "test": "php tests/popup-contract-test.php && npm run test:mail",
+    "test:mail": "php -n tests/form-recipients-test.php && php -n tests/form-submission-test.php",
     "test:forms-server": "cd ../../../.. && ${WP_CLI:-wp} eval-file wp-content/themes/wp-space/tests/form-server-test.php",
     "test:forms-migration": "cd ../../../.. && ${WP_CLI:-wp} eval-file wp-content/themes/wp-space/tests/form-migration-test.php",
     "test:forms": "npm run test && npm run test:forms-server && npm run test:forms-migration && npm run test:forms-browser",

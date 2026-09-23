@@ -174,6 +174,22 @@
             </div>
         </div>
     </div>
+    <div class="main-popup main-popup--result" id="feedback-saved">
+        <button class="main-popup__close" type="button" data-fancybox-close>
+            <img src="<?= get_template_directory_uri(); ?>/assets/img/close-icon.svg" alt="Close">
+        </button>
+        <div class="main-popup__wrap">
+            <div class="main-popup__right">
+                <form class="main-popup__form">
+                    <div class="main-popup__form-title">Заявка сохранена</div>
+                    <div class="main-popup__form-desc">Отправлять повторно не нужно. Мы проверим доставку уведомления.</div>
+                    <div class="main-popup__form-btn">
+                        <button class="btn btn-white" type="button" data-fancybox-close>Закрыть</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <div class="main-popup main-popup--result" id="feedback-error">
         <button class="main-popup__close" type="button" data-fancybox-close>
             <img src="<?= get_template_directory_uri(); ?>/assets/img/close-icon.svg" alt="Close">

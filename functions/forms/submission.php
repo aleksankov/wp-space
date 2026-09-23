@@ -102,16 +102,36 @@ function space_form_process_submission(array $request, array $files): array
 
     $subject = $config['service_name'] . ' с сайта Space';
     $headers = ['Content-Type: text/html; charset=UTF-8', 'From: Space <info@spacevm.ru>'];
-    $mail_sent = true;
+    $sent_count = 0;
+    $failed_count = 0;
 
     foreach ($recipients as $recipient) {
-        if (!wp_mail($recipient, $subject, $message, $headers)) {
-            $mail_sent = false;
+        if (wp_mail($recipient, $subject, $message, $headers)) {
+            $sent_count++;
+        } else {
+            $failed_count++;
         }
     }
 
-    if (!$mail_sent) {
-        return ['status' => false, 'error' => 'mail_failed'];
+    $delivery_status = $failed_count === 0 ? 'sent' : ($sent_count > 0 ? 'partial_failed' : 'all_failed');
+    update_post_meta($post_id, '_space_form_delivery_status', $delivery_status);
+    update_post_meta($post_id, '_space_form_delivery_sent_count', $sent_count);
+    update_post_meta($post_id, '_space_form_delivery_failed_count', $failed_count);
+
+    if ($failed_count > 0) {
+        error_log(sprintf(
+            '[forms:delivery] post_id=%d status=%s sent=%d failed=%d',
+            $post_id,
+            $delivery_status,
+            $sent_count,
+            $failed_count
+        ));
+        return ['status' => false, 'error' => 'mail_failed', 'request_saved' => true];
+    }
+
+    if (defined('WP_DEBUG') && WP_DEBUG
+        && function_exists('wp_get_environment_type') && wp_get_environment_type() !== 'production') {
+        error_log(sprintf('[forms:delivery] post_id=%d status=sent sent=%d failed=0', $post_id, $sent_count));
     }
 
     return ['status' => true];

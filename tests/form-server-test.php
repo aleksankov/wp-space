@@ -159,8 +159,11 @@ $insert_filter = static function (): bool {
     return true;
 };
 add_filter('wp_insert_post_empty_content', $insert_filter);
-$result = space_form_process_submission($valid_request, []);
-remove_filter('wp_insert_post_empty_content', $insert_filter);
+try {
+    $result = space_form_process_submission($valid_request, []);
+} finally {
+    remove_filter('wp_insert_post_empty_content', $insert_filter);
+}
 $assert(($result['error'] ?? '') === 'request_creation_failed', 'Ошибка создания CPT mail должна корректно возвращаться клиенту.');
 
 $before_failed_mail = get_posts([
@@ -171,15 +174,27 @@ $failed_mail_filter = static function () {
     return false;
 };
 add_filter('pre_wp_mail', $failed_mail_filter);
-$result = space_form_process_submission($valid_request, []);
-remove_filter('pre_wp_mail', $failed_mail_filter);
-$assert(($result['error'] ?? '') === 'mail_failed', 'Ошибка wp_mail должна возвращать mail_failed.');
-$after_failed_mail = get_posts([
-    'post_type' => 'mail', 'post_status' => 'any', 'title' => $base_config['service_name'],
-    'fields' => 'ids', 'numberposts' => -1,
-]);
-foreach (array_diff($after_failed_mail, $before_failed_mail) as $post_id) {
-    wp_delete_post($post_id, true);
+try {
+    $result = space_form_process_submission($valid_request, []);
+    $assert(($result['error'] ?? '') === 'mail_failed' && ($result['request_saved'] ?? false) === true,
+        'Ошибка wp_mail после создания заявки должна возвращать mail_failed и request_saved.');
+    $after_failed_mail = get_posts([
+        'post_type' => 'mail', 'post_status' => 'any', 'title' => $base_config['service_name'],
+        'fields' => 'ids', 'numberposts' => -1,
+    ]);
+    foreach (array_diff($after_failed_mail, $before_failed_mail) as $post_id) {
+        $assert(get_post_meta($post_id, '_space_form_delivery_status', true) === 'all_failed',
+            'Полный сбой почты должен сохраняться в метаданных заявки.');
+    }
+} finally {
+    remove_filter('pre_wp_mail', $failed_mail_filter);
+    $after_failed_mail = get_posts([
+        'post_type' => 'mail', 'post_status' => 'any', 'title' => $base_config['service_name'],
+        'fields' => 'ids', 'numberposts' => -1,
+    ]);
+    foreach (array_diff($after_failed_mail, $before_failed_mail) as $post_id) {
+        wp_delete_post($post_id, true);
+    }
 }
 
 $mail_calls = [];
@@ -187,16 +202,16 @@ $mail_filter = static function ($return, array $atts) use (&$mail_calls) {
     $mail_calls[] = $atts;
     return true;
 };
+$before = get_posts([
+    'post_type' => 'mail',
+    'post_status' => 'any',
+    'title' => $base_config['service_name'],
+    'fields' => 'ids',
+    'numberposts' => -1,
+]);
 add_filter('pre_wp_mail', $mail_filter, 10, 2);
 
 try {
-    $before = get_posts([
-        'post_type' => 'mail',
-        'post_status' => 'any',
-        'title' => $base_config['service_name'],
-        'fields' => 'ids',
-        'numberposts' => -1,
-    ]);
     $result = space_form_process_submission($valid_request, []);
     $assert(($result['status'] ?? false) === true, 'Валидная заявка должна завершаться успехом.');
     $assert(count($mail_calls) >= 1, 'Почтовое уведомление должно вызываться через wp_mail.');
@@ -216,10 +231,17 @@ try {
     ]);
     $created_posts = array_values(array_diff($after, $before));
     $assert(count($created_posts) === 1, 'Успешная отправка должна создать одну заявку mail.');
+    $assert(get_post_meta($created_posts[0], '_space_form_delivery_status', true) === 'sent',
+        'Успешная отправка должна сохранять sent в метаданных заявки.');
     $content = (string) get_post_field('post_content', $created_posts[0]);
     $assert(strpos($content, 'Серверный тест') !== false, 'Заявка должна содержать очищенные значения формы.');
 } finally {
     remove_filter('pre_wp_mail', $mail_filter, 10);
+    $after = get_posts([
+        'post_type' => 'mail', 'post_status' => 'any', 'title' => $base_config['service_name'],
+        'fields' => 'ids', 'numberposts' => -1,
+    ]);
+    $created_posts = array_values(array_diff($after, $before));
     foreach ($created_posts as $post_id) {
         wp_delete_post($post_id, true);
     }

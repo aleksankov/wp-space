@@ -36,6 +36,7 @@ foreach (glob($theme_dir . '/acf-json/*.json') as $json_file) {
 }
 
 $assert(substr_count($footer, 'id="feedback-success"') === 1, 'feedback-success должен оставаться в footer ровно один раз.');
+$assert(substr_count($footer, 'id="feedback-saved"') === 1, 'feedback-saved должен оставаться в footer ровно один раз.');
 $assert(substr_count($footer, 'id="feedback-error"') === 1, 'feedback-error должен оставаться в footer ровно один раз.');
 $assert(strpos($footer, 'id="demo-popup"') === false, 'demo-popup не должен оставаться жёстко заданным в footer.');
 $assert(strpos($footer, 'space_render_page_popup_blocks()') !== false, 'Footer должен собирать popup-блоки текущей страницы.');
@@ -62,6 +63,8 @@ $assert(strpos($validation, 'invalid_email') !== false && strpos($validation, 'i
 $assert(strpos($uploads, 'wp_check_filetype_and_ext') !== false, 'Файл должен проверяться по расширению и MIME.');
 $assert(strpos($uploads, 'wp_handle_upload') !== false, 'Файл должен загружаться средствами WordPress.');
 $assert(strpos($submission, 'wp_insert_post') < strpos($submission, 'wp_mail'), 'Заявка должна создаваться до отправки письма.');
+$assert(strpos($submission, "'request_saved' => true") !== false, 'Сбой почты после сохранения должен иметь отдельный публичный признак.');
+$assert(strpos($javascript, "openFeedbackPopup('#feedback-saved')") !== false, 'Frontend должен показывать сохранённую заявку отдельно.');
 $assert(strpos($submission, "'errors' =>") !== false, 'Ответ должен поддерживать field errors.');
 $assert(strpos($ajax, 'space_form_process_submission') !== false, 'Оба режима должны использовать общий submission service.');
 

@@ -143,6 +143,47 @@ async function checkVacancySubmission(browser) {
     await context.close();
 }
 
+async function checkSubmissionResult(browser, scenario) {
+    const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, ignoreHTTPSErrors: true });
+    const page = await context.newPage();
+    let requests = 0;
+    await page.route('**/admin-ajax.php', (route) => {
+        requests++;
+        if (scenario.networkError) return route.abort('failed');
+        return route.fulfill({ status: 200, contentType: 'application/json', body: scenario.body });
+    });
+
+    try {
+        await page.goto(baseUrl + '/vacancies/', { waitUntil: 'domcontentloaded' });
+        const form = page.locator('form.vacancy-feedback__form');
+        const name = form.locator('[name="custom_field[name][value]"]');
+        for (const [field, value] of Object.entries({
+            name: 'QA', specialization: 'QA', phone: '+7 (912) 345-67-89', email: 'qa@example.test',
+        })) {
+            await form.locator(`[name="custom_field[${field}][value]"]`).fill(value);
+        }
+        await form.locator('[name="form_agreement"]').evaluate((input) => {
+            input.checked = true;
+            input.dispatchEvent(new Event('change', { bubbles: true }));
+        });
+        await form.locator('input[type="file"]').setInputFiles({
+            name: 'resume.pdf', mimeType: 'application/pdf', buffer: Buffer.from('%PDF-1.4\n%%EOF'),
+        });
+        await form.locator('button[type="submit"]').click();
+        await page.locator(scenario.popup).waitFor({ state: 'visible' });
+        assert(requests === 1, `${scenario.name}: ожидается ровно один AJAX-запрос.`);
+        assert((await name.inputValue()) === (scenario.cleared ? '' : 'QA'), `${scenario.name}: некорректная очистка формы.`);
+        if (scenario.popup === '#feedback-saved') {
+            assert((await page.locator('#feedback-saved').textContent()).includes('Отправлять повторно не нужно'),
+                `${scenario.name}: нет предупреждения о повторной отправке.`);
+        }
+        await page.waitForTimeout(200);
+        assert(requests === 1, `${scenario.name}: произошла повторная отправка.`);
+    } finally {
+        await context.close();
+    }
+}
+
 (async () => {
     const browser = await chromium.launch({ headless: true });
     try {
@@ -150,6 +191,22 @@ async function checkVacancySubmission(browser) {
         await checkPages(browser, { width: 390, height: 844 }, 'mobile');
         await checkSingleMobileForm(browser);
         await checkVacancySubmission(browser);
+        await checkSubmissionResult(browser, {
+            name: 'saved with mail failure',
+            body: '{"status":false,"error":"mail_failed","request_saved":true}',
+            popup: '#feedback-saved', cleared: true,
+        });
+        await checkSubmissionResult(browser, {
+            name: 'failure before save',
+            body: '{"status":false,"error":"recipient_unavailable"}',
+            popup: '#feedback-error', cleared: false,
+        });
+        await checkSubmissionResult(browser, {
+            name: 'invalid JSON', body: 'not-json', popup: '#feedback-error', cleared: false,
+        });
+        await checkSubmissionResult(browser, {
+            name: 'network error', networkError: true, popup: '#feedback-error', cleared: false,
+        });
         console.log('PASS: browser form checks.');
     } finally {
         await browser.close();

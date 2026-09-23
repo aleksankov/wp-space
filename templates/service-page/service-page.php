@@ -24,17 +24,17 @@ $service_section_is_visible = static function ($field_name) {
 $service_visible_sections = [];
 
 foreach ([
-    'service_hero',
-    'service_products',
-    'service_banner_min',
-    'service_callout',
-    'service_why',
-    'service_tech',
-    'service_demo',
-    'service_faq',
-    'service_news',
-    'service_banner_min_after_news',
-] as $service_section_prefix) {
+                 'service_hero',
+                 'service_products',
+                 'service_banner_min',
+                 'service_callout',
+                 'service_why',
+                 'service_tech',
+                 'service_demo',
+                 'service_faq',
+                 'service_news',
+                 'service_banner_min_after_news',
+         ] as $service_section_prefix) {
     $service_visible_sections[$service_section_prefix] = $service_section_is_visible($service_section_prefix . '_show');
 }
 
@@ -106,16 +106,16 @@ if ($service_visible_sections['service_hero'] && $service_hero_title):
 <?php
 if ($service_visible_sections['service_banner_min']):
     $service_banner_min_fields = [
-        'banner-min-title' => $service_get_banner_min_field('banner-min-title'),
-        'banner-min-text' => $service_get_banner_min_field('banner-min-text'),
-        'banner-min-background' => $service_get_banner_min_field('banner-min-background'),
-        'banner-min-link' => $service_get_banner_min_field('banner-min-link'),
-        'banner-min-anim-enabled' => $service_get_banner_min_field('banner-min-anim-enabled'),
-        'banner-min-anim-delay' => $service_get_banner_min_field('banner-min-anim-delay'),
+            'banner-min-title' => $service_get_banner_min_field('banner-min-title'),
+            'banner-min-text' => $service_get_banner_min_field('banner-min-text'),
+            'banner-min-background' => $service_get_banner_min_field('banner-min-background'),
+            'banner-min-link' => $service_get_banner_min_field('banner-min-link'),
+            'banner-min-anim-enabled' => $service_get_banner_min_field('banner-min-anim-enabled'),
+            'banner-min-anim-delay' => $service_get_banner_min_field('banner-min-anim-delay'),
     ];
 
     get_template_part('functions/blocks/banner-min/template', null, [
-        'fields' => $service_banner_min_fields,
+            'fields' => $service_banner_min_fields,
     ]);
 endif;
 ?>
@@ -322,6 +322,14 @@ $service_demo_desc_yt = $service_get_field('service_demo_desc_yt');
 $service_demo_desc_rutube = $service_get_field('service_demo_desc_rutube');
 $service_demo_desc_tg = $service_get_field('service_demo_desc_tg');
 $service_demo_desc_habr = $service_get_field('service_demo_desc_habr');
+$service_demo_product_options = space_form_get_field_options([
+        'dynamic_source' => 'products',
+        'options' => [],
+]);
+$service_demo_partner_options = space_form_get_field_options([
+        'dynamic_source' => 'partners',
+        'options' => [],
+]);
 
 $service_demo_fallback_socials = array_filter([
         [
@@ -393,20 +401,28 @@ if ($service_visible_sections['service_demo']):
                             <h2 class="service-page-demo__form-sub"><?= $service_demo_title; ?></h2>
                         <?php endif; ?>
                         <div class="service-page-demo__form-row ajax-wrap__item">
-                            <?php if ($form_product_options): ?>
+                            <?php if ($service_demo_product_options): ?>
                                 <div class="service-page-demo__form-col">
                                     <div class="main-select">
-                                        <select class="js-select js-feedback-input"
-                                                name="product"><?= $form_product_options; ?></select>
+                                        <select class="js-select js-feedback-input" name="product">
+                                            <option value="0">&nbsp;</option>
+                                            <?php foreach ($service_demo_product_options as $service_demo_product_option): ?>
+                                                <option value="<?= esc_attr($service_demo_product_option['value']); ?>"><?= esc_html($service_demo_product_option['label']); ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
                                         <span class="js-select-toggle">Выберите продукт</span>
                                     </div>
                                 </div>
                             <?php endif; ?>
-                            <?php if ($form_partner_options): ?>
+                            <?php if ($service_demo_partner_options): ?>
                                 <div class="service-page-demo__form-col">
                                     <div class="main-select">
-                                        <select class="js-select js-feedback-input js-partner-select"
-                                                name="partner"><?= $form_partner_options; ?></select>
+                                        <select class="js-select js-feedback-input js-partner-select" name="partner">
+                                            <option value="0">&nbsp;</option>
+                                            <?php foreach ($service_demo_partner_options as $service_demo_partner_option): ?>
+                                                <option value="<?= esc_attr($service_demo_partner_option['value']); ?>"><?= esc_html($service_demo_partner_option['label']); ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
                                         <span class="js-select-toggle">Выберите дистрибьютора</span>
                                     </div>
                                 </div>
@@ -758,16 +774,16 @@ if ($service_visible_sections['service_news'] && $news_arr && count($news_arr) =
 <?php
 if ($service_visible_sections['service_banner_min_after_news']):
     $service_banner_min_after_news_fields = [
-        'banner-min-title' => $service_get_banner_min_after_news_field('service_banner_min_after_news_title'),
-        'banner-min-text' => $service_get_banner_min_after_news_field('service_banner_min_after_news_text'),
-        'banner-min-background' => $service_get_banner_min_after_news_field('service_banner_min_after_news_background'),
-        'banner-min-link' => $service_get_banner_min_after_news_field('service_banner_min_after_news_link'),
-        'banner-min-anim-enabled' => $service_get_banner_min_after_news_field('service_banner_min_after_news_anim_enabled'),
-        'banner-min-anim-delay' => $service_get_banner_min_after_news_field('service_banner_min_after_news_anim_delay'),
+            'banner-min-title' => $service_get_banner_min_after_news_field('service_banner_min_after_news_title'),
+            'banner-min-text' => $service_get_banner_min_after_news_field('service_banner_min_after_news_text'),
+            'banner-min-background' => $service_get_banner_min_after_news_field('service_banner_min_after_news_background'),
+            'banner-min-link' => $service_get_banner_min_after_news_field('service_banner_min_after_news_link'),
+            'banner-min-anim-enabled' => $service_get_banner_min_after_news_field('service_banner_min_after_news_anim_enabled'),
+            'banner-min-anim-delay' => $service_get_banner_min_after_news_field('service_banner_min_after_news_anim_delay'),
     ];
 
     get_template_part('functions/blocks/banner-min/template', null, [
-        'fields' => $service_banner_min_after_news_fields,
+            'fields' => $service_banner_min_after_news_fields,
     ]);
 endif;
 ?>
