@@ -123,74 +123,42 @@
                                     <div class="vacancy__form-desc"><?= $site_vacancy_form_desc; ?></div>
                                 <?php endif; ?>
                             </div>
-                            <form class="vacancy-feedback__form ajax-wrap js-form">
+                            <?php
+                            $vacancy_form_config = space_form_get_option_source_config('site_vacancy_form_block', [
+                                'mode' => 'inline',
+                                'service_name' => 'Отклик на вакансию',
+                                'recipient' => 'hr',
+                                'agreement_mode' => 'custom',
+                                'agreement_text' => $site_forms_vacancies_agree,
+                                'agreement_required' => true,
+                                'fields' => [
+                                    ['type' => 'text', 'name' => 'name', 'label' => 'Имя и фамилия', 'required' => true],
+                                    ['type' => 'tel', 'name' => 'phone', 'label' => 'Номер телефона', 'required' => true],
+                                    ['type' => 'email', 'name' => 'email', 'label' => 'Электронный адрес', 'required' => true],
+                                    ['type' => 'file', 'name' => 'resume', 'label' => 'Резюме', 'required' => false],
+                                    ['type' => 'textarea', 'name' => 'msg', 'label' => 'Напишите о себе', 'required' => false, 'max_length' => 300],
+                                    ['type' => 'hidden', 'name' => 'vacancy', 'label' => 'Вакансия', 'context_key' => 'vacancy_title'],
+                                ],
+                            ]);
+                            $vacancy_form_config['service_name'] = 'Отклик на вакансию: ' . $title;
+                            $vacancy_form_config['context'] = ['type' => 'vacancy', 'post_id' => $card_id];
+                            foreach ($vacancy_form_config['fields'] as &$vacancy_field) {
+                                if ($vacancy_field['name'] === 'specialization') {
+                                    $vacancy_field['type'] = 'hidden';
+                                    $vacancy_field['context_key'] = 'vacancy_title';
+                                }
+                            }
+                            unset($vacancy_field);
+                            ?>
+                            <form class="vacancy-feedback__form ajax-wrap js-form-custom" enctype="multipart/form-data" novalidate>
                                 <div class="vacancy-feedback__form-row ajax-wrap__item">
-                                    <div class="vacancy-feedback__form-col vacancy-feedback__form-col--full">
-                                        <div class="form-input">
-                                            <label>
-                                                <input class="js-form-input js-feedback-input" type="text" name="name">
-                                                <span>Имя и фамилия</span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="vacancy-feedback__form-col">
-                                        <div class="form-input">
-                                            <label>
-                                                <input class="js-form-input js-tel-input js-feedback-input" type="text" name="phone">
-                                                <span>Номер телефона</span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="vacancy-feedback__form-col">
-                                        <div class="form-input">
-                                            <label>
-                                                <input class="js-form-input js-feedback-input" type="text" name="email">
-                                                <span>Электронный адрес</span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="vacancy-feedback__form-col vacancy-feedback__form-col--full vacancy-feedback__form-col--lg">
-                                        <div class="form-file js-form-file">
-                                            <input class="js-form-file-input js-feedback-input" type="file" accept=".pdf, .doc, .docx" id="formFile" name="file">
-                                            <label class="form-file__block js-form-file-block" for="formFile">
-                                                <div class="form-file__icon">
-                                                    <img src="<?= get_template_directory_uri(); ?>/assets/img/form-file-icon.svg" alt="File">
-                                                </div>
-                                                <div class="form-file__sub">Перетащите файл сюда</div>
-                                                <div class="form-file__desc">Или <span>нажмите для загрузки файла</span></div>
-                                                <div class="form-file__accept">Форматы: docx, doc, pdf. До 3 Мб.</div>
-                                            </label>
-                                            <div class="form-file__name js-form-file-name-wrap">
-                                                <span class="js-form-file-name"></span>
-                                                <button class="js-form-file-remove" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                                        <path d="M18 6L6 18M6 6L18 18" stroke="#946AD2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="vacancy-feedback__form-col vacancy-feedback__form-col--full vacancy-feedback__form-col--lg">
-                                        <div class="form-input">
-                                            <label>
-                                                <textarea class="js-form-input js-textarea js-feedback-input" maxlength="300" name="msg"></textarea>
-                                                <span>Напишите о себе</span>
-                                                <div class="form-input__counter js-textarea-counter">0/300</div>
-                                            </label>
-                                        </div>
-                                    </div>
+                                    <?php space_form_render_fields($vacancy_form_config, 'vacancy'); ?>
                                 </div>
-                                <div class="vacancy-feedback__agree ajax-wrap__item">
-                                    <div class="main-checkbox">
-                                        <label>
-                                            <input type="checkbox" class="js-feedback-input" name="agree">
-                                            <span><?= $site_forms_vacancies_agree; ?></span>
-                                        </label>
-                                    </div>
-                                </div>
+                                <?php space_form_render_agreement($vacancy_form_config, 'vacancy-feedback__agree'); ?>
                                 <div class="vacancy-feedback__btn ajax-wrap__item">
-                                    <button class="btn" type="submit">Отправить</button>
+                                    <button class="btn" type="submit"><?= esc_html($vacancy_form_config['submit_label']); ?></button>
                                 </div>
-                                <input type="hidden" name="specialization" value="<?= $title; ?>">
-                                <input type="hidden" name="form_name" value="Отклик на вакансию: <?= $title; ?>">
-                                <input type="hidden" name="to" value="<?= $site_feedback_hr_email; ?>">
+                                <?php space_form_render_security_fields($vacancy_form_config); ?>
                             </form>
                         </div>
                     <?php endif; ?>

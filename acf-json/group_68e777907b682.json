@@ -101,13 +101,18 @@
                         "class": "",
                         "id": ""
                     },
-                    "choices": {
-                        "text": "Текстовое поле",
-                        "tel": "Телефон",
-                        "email": "Эл. Почта",
-                        "select": "Выпадающий список",
-                        "textarea": "Текстовая область"
-                    },
+                        "choices": {
+                            "text": "Текстовое поле",
+                            "tel": "Телефон",
+                            "email": "Эл. Почта",
+                            "select": "Выпадающий список",
+                            "partners": "Список дистрибьюторов из настроек",
+                            "products": "Список продуктов из настроек",
+                            "production": "Список выпускаемой продукции",
+                            "textarea": "Текстовая область",
+                            "file": "Файл",
+                            "hidden": "Системное поле"
+                        },
                     "default_value": "",
                     "return_format": "value",
                     "allow_null": 0,
@@ -132,7 +137,7 @@
                         "id": ""
                     },
                     "message": "",
-                    "default_value": 1,
+                    "default_value": 0,
                     "allow_in_bindings": 0,
                     "ui": 0,
                     "ui_on_text": "",
@@ -181,6 +186,76 @@
                     "placeholder": "",
                     "prepend": "",
                     "append": "",
+                    "parent_repeater": "field_68e777908bb2c"
+                },
+                {
+                    "key": "field_space_popup_max_length",
+                    "label": "Максимальная длина",
+                    "name": "form-custom-popup-fields-max-length",
+                    "aria-label": "",
+                    "type": "number",
+                    "instructions": "Необязательно. Для текста по умолчанию 500, для большого текста — 5000 символов.",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {"width": "", "class": "", "id": ""},
+                    "default_value": "",
+                    "min": 1,
+                    "max": 10000,
+                    "step": 1,
+                    "parent_repeater": "field_68e777908bb2c"
+                },
+                {
+                    "key": "field_space_popup_context_key",
+                    "label": "Системное значение",
+                    "name": "form-custom-popup-fields-context-key",
+                    "aria-label": "",
+                    "type": "select",
+                    "instructions": "Значение посетитель не вводит: оно определяется по текущей странице.",
+                    "required": 0,
+                    "conditional_logic": [[{"field": "field_68e77790a5ffd", "operator": "==", "value": "hidden"}]],
+                    "wrapper": {"width": "", "class": "", "id": ""},
+                    "choices": {"post_title": "Название страницы", "post_url": "URL страницы", "vacancy_title": "Название вакансии"},
+                    "default_value": "post_title",
+                    "return_format": "value",
+                    "multiple": 0,
+                    "allow_null": 0,
+                    "ui": 0,
+                    "ajax": 0,
+                    "parent_repeater": "field_68e777908bb2c"
+                },
+                {
+                    "key": "field_space_popup_file_extensions",
+                    "label": "Расширения файла",
+                    "name": "form-custom-popup-fields-file-extensions",
+                    "aria-label": "",
+                    "type": "checkbox",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": [[{"field": "field_68e77790a5ffd", "operator": "==", "value": "file"}]],
+                    "wrapper": {"width": "", "class": "", "id": ""},
+                    "choices": {"pdf": "PDF", "doc": "DOC", "docx": "DOCX"},
+                    "default_value": ["pdf", "doc", "docx"],
+                    "return_format": "value",
+                    "allow_custom": 0,
+                    "layout": "horizontal",
+                    "toggle": 0,
+                    "save_custom": 0,
+                    "parent_repeater": "field_68e777908bb2c"
+                },
+                {
+                    "key": "field_space_popup_file_size",
+                    "label": "Максимальный размер файла, МБ",
+                    "name": "form-custom-popup-fields-file-size",
+                    "aria-label": "",
+                    "type": "number",
+                    "instructions": "Допустимо от 1 до 10 МБ.",
+                    "required": 0,
+                    "conditional_logic": [[{"field": "field_68e77790a5ffd", "operator": "==", "value": "file"}]],
+                    "wrapper": {"width": "", "class": "", "id": ""},
+                    "default_value": 3,
+                    "min": 1,
+                    "max": 10,
+                    "step": 1,
                     "parent_repeater": "field_68e777908bb2c"
                 },
                 {
@@ -300,6 +375,166 @@
             ]
         },
         {
+            "key": "field_space_popup_submit_label",
+            "label": "Текст кнопки отправки",
+            "name": "form-custom-popup-submit-label",
+            "type": "text",
+            "default_value": "Отправить"
+        },
+        {
+            "key": "field_space_popup_variant",
+            "label": "Оформление",
+            "name": "form-custom-popup-variant",
+            "type": "select",
+            "choices": {
+                "default": "Стандартное",
+                "simple": "Без изображения (simple)",
+                "aqua": "Бирюзовое (aqua)"
+            },
+            "default_value": "simple",
+            "return_format": "value",
+            "allow_null": 0,
+            "ui": 0
+        },
+        {
+            "key": "field_space_popup_recipient",
+            "label": "Получатель заявки",
+            "name": "form-custom-popup-recipient",
+            "type": "select",
+            "instructions": "Адрес берется из настроек сайта. Email варианта выпадающего списка используется как дополнительный получатель.",
+            "choices": {
+                "main": "Основной адрес",
+                "partner": "Партнерский отдел",
+                "tech_partner": "Технологические партнеры",
+                "hr": "Отдел кадров"
+            },
+            "default_value": "main",
+            "return_format": "value",
+            "allow_null": 0,
+            "ui": 0
+        },
+        {
+            "key": "field_space_popup_agreement_mode",
+            "label": "Текст согласия",
+            "name": "form-custom-popup-agreement-mode",
+            "type": "select",
+            "choices": {
+                "global": "Использовать глобальный текст",
+                "custom": "Использовать свой текст",
+                "hidden": "Не показывать"
+            },
+            "default_value": "global",
+            "return_format": "value",
+            "allow_null": 0,
+            "ui": 0
+        },
+        {
+            "key": "field_space_popup_agreement_text",
+            "label": "Свой текст согласия",
+            "name": "form-custom-popup-agreement-text",
+            "type": "textarea",
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_space_popup_agreement_mode",
+                        "operator": "==",
+                        "value": "custom"
+                    }
+                ]
+            ],
+            "rows": 3,
+            "new_lines": "br"
+        },
+        {
+            "key": "field_space_popup_agreement_required",
+            "label": "Требовать подтверждение согласия",
+            "name": "form-custom-popup-agreement-required",
+            "aria-label": "",
+            "type": "true_false",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {"width": "", "class": "", "id": ""},
+            "message": "Пользователь должен отметить согласие перед отправкой",
+            "default_value": 0,
+            "ui": 1,
+            "ui_on_text": "Да",
+            "ui_off_text": "Нет"
+        },
+        {
+            "key": "field_space_popup_show_image",
+            "label": "Показывать изображение",
+            "name": "form-custom-popup-show-image",
+            "type": "true_false",
+            "message": "Вывести левую колонку поп-апа",
+            "default_value": 0,
+            "ui": 1,
+            "ui_on_text": "Да",
+            "ui_off_text": "Нет"
+        },
+        {
+            "key": "field_space_popup_image",
+            "label": "Изображение",
+            "name": "form-custom-popup-image",
+            "type": "image",
+            "instructions": "Загрузите новое изображение или удалите выбранное. Если указан legacy-вариант, он используется только при пустом поле.",
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_space_popup_show_image",
+                        "operator": "==",
+                        "value": "1"
+                    }
+                ]
+            ],
+            "return_format": "id",
+            "library": "all",
+            "preview_size": "medium"
+        },
+        {
+            "key": "field_space_popup_legacy_image",
+            "label": "Текущее изображение темы",
+            "name": "form-custom-popup-legacy-image",
+            "type": "select",
+            "instructions": "Нужно только при переносе существующего поп-апа. Выберите «Не использовать», чтобы удаление изображения было окончательным.",
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_space_popup_show_image",
+                        "operator": "==",
+                        "value": "1"
+                    }
+                ]
+            ],
+            "choices": {
+                "none": "Не использовать",
+                "vm": "SpaceVM",
+                "vdi": "SpaceVDI",
+                "space": "Space"
+            },
+            "default_value": "none",
+            "return_format": "value",
+            "allow_null": 0,
+            "ui": 0
+        },
+        {
+            "key": "field_space_popup_image_caption",
+            "label": "Подпись рядом с изображением",
+            "name": "form-custom-popup-image-caption",
+            "type": "textarea",
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_space_popup_show_image",
+                        "operator": "==",
+                        "value": "1"
+                    }
+                ]
+            ],
+            "rows": 3,
+            "new_lines": "br"
+        },
+        {
             "key": "field_68e777908bb68",
             "label": "Анимация",
             "name": "form-custom-popup-anim-enabled",
@@ -362,5 +597,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1760001013
+    "modified": 1787202000
 }

@@ -1028,6 +1028,50 @@
         @include lg {
             display: none;
         }
+        &--mobile-active{
+            display: block;
+            width: 100%;
+            background-color: $violet;
+            color: $white;
+            padding: 32px 24px;
+            border-radius: 24px;
+            @include lg {
+                display: block;
+            }
+        }
+    }
+    &__form-mount{
+        width: calc(50% - 16px);
+        .product-feedback__form{
+            width: 100%;
+        }
+        @include lg {
+            width: 100%;
+        }
+    }
+    &__mobile-title{
+        display: none;
+        .product-feedback__form--mobile-active &{
+            display: block;
+            font-size: 32px;
+            line-height: 34px;
+            letter-spacing: ls(32, 3);
+            font-weight: 500;
+            margin-bottom: 16px;
+        }
+    }
+    &__form--mobile-active &__col{
+        width: 100%;
+    }
+    &__form--mobile-active &__bottom{
+        display: block;
+        margin-top: 16px;
+    }
+    &__form--mobile-active &__btn{
+        margin-top: 32px;
+        .btn{
+            width: 100%;
+        }
     }
     &__row{
         display: flex;

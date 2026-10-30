@@ -202,10 +202,6 @@
     }
     &__title{
         width: 66.6666666%;
-        &--full{
-            width: 100%;
-            text-align: center;
-        }
         @include lg {
             width: 100%;
             transition-delay: 0s !important;
@@ -226,10 +222,6 @@
             max-width: 100%;
         }
     }
-    &__slider{
-        position: relative;
-        padding-bottom: 20px;
-    }
     &__slide{
         height: auto;
         @include lg {
@@ -239,9 +231,6 @@
         @include md {
             width: 86.5%;
         }
-    }
-    .swiper-scrollbar-drag{
-        background: rgb(178 186 235 / 60%);
     }
 }
 .home-why{
@@ -1036,9 +1025,6 @@
     }
     &__left{
         width: calc(100% / 12 * 8);
-        &--wide{
-            width: 100%;
-        }
         @include lg {
             width: 100%;
         }
@@ -1058,6 +1044,7 @@
         padding: 32px;
         display: flex;
         flex-direction: column;
+        justify-content: space-between;
         border-radius: 24px;
     }
     &__form-sub{
@@ -1118,6 +1105,7 @@
         height: 100%;
         display: flex;
         flex-direction: column;
+        justify-content: space-between;
         gap: 32px;
         @include lg {
             flex-direction: row;
@@ -1130,13 +1118,11 @@
         }
     }
     &__soc-col{
-        @include lg {
-            flex: 1;
-        }
+        flex: 1;
     }
     &__soc-item{
-        height: auto;
-        min-height: 131px;
+        height: 100%;
+        display: block;
         border: 1px solid #D9D7DA;
         border-radius: 24px;
         display: flex;
@@ -1155,17 +1141,10 @@
             }
         }
         @include lg {
-            min-height: 56px;
             padding: 15px;
             border-radius: 12px;
         }
-        & > svg,
-        & > img{
-            width: 100%;
-            height: auto;
-            max-width: 100%;
-            max-height: 48px;
-            object-fit: contain;
+        & > svg{
             @include lg {
                 width: auto;
                 height: 24px;
@@ -1202,11 +1181,13 @@
                 display: block;
                 font-size: 20px;
                 line-height: 22px;
+                line-height: lh(20, 3);
                 font-weight: 500;
                 width: calc(100% - 56px - 16px);
                 @include xl {
                     font-size: 14px;
                     line-height: 20px;
+                    line-height: lh(14, 3);
                 }
             }
             & > i{

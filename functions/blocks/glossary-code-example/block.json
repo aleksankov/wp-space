@@ -1,0 +1,19 @@
+{
+    "apiVersion": 2,
+    "name": "acf/glossary-code-example",
+    "title": "Глоссарий — пример кода",
+    "description": "Оформленный пример команды, конфигурации или программного кода.",
+    "category": "text",
+    "icon": "editor-code",
+    "keywords": ["глоссарий", "код", "команда", "api"],
+    "acf": {
+        "mode": "edit",
+        "renderTemplate": "template.php"
+    },
+    "supports": {
+        "anchor": false,
+        "align": false,
+        "multiple": true,
+        "reusable": false
+    }
+}

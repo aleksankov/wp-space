@@ -1,47 +1,47 @@
-# wp-space
+# Тема wp-space
 
-## Запуск в контейнере
+> WordPress-тема сайта Space с управляемыми Gutenberg/ACF-блоками, формами заявок и разделом «Глоссарий».
 
-```bash
-cd devops 
-docker compose build
-docker compose up -d 
-```
+Тема хранит представление сайта, ACF Local JSON и frontend-ассеты. Все публичные формы используют общую серверную схему: редактор меняет поля в Gutenberg, а получатели определяются только доверенными настройками сайта.
 
-## Выключение в контейнере
+## Быстрый старт
 
 ```bash
-cd devops 
-docker compose down
+cd public_html/wp-content/themes/wp-space
+npm install
+npx gulp sass-compile
 ```
 
-## Доступ через WEB
+Для локальной работы нужен установленный WordPress с активными ACF Pro и темой `wp-space`. После изменения ACF-групп синхронизируйте Local JSON в административной панели.
 
-[](http://localhost)
+## Основные возможности
 
-## Смена адреса
+- встроенные и модальные гибкие формы на общей схеме;
+- серверная валидация, безопасная маршрутизация и загрузка резюме;
+- глобальные окна результата `feedback-success` и `feedback-error`;
+- редактируемые синхронизированные формы главной, вакансий и `demo-popup`;
+- CPT глоссария с категориями, поиском и отдельными страницами терминов;
+- условное подключение API Яндекс.Карт только там, где используется карта.
+
+## Пример проверки
 
 ```bash
-docker compose exec web bash
-su -s /bin/bash www-data
-wp option update home http://10.2.137.74/
-wp option update siteurl http://10.2.137.74/
-wp search-replace https://spacevm.ru http://10.2.137.74 --all-tables
+npm test
+npm run test:browser
+npm run test:forms-browser
 ```
 
-## Импорт дампа БД
+Браузерные тесты используют глобальный Playwright. AJAX-запросы формы перехватываются и не отправляют реальные письма.
 
-```bash
-mysql -u ${MARIADB_USER} --password=${MARIADB_PASSWORD} ${MARIADB_DATABASE} 
-source /docker-entrypoint-initdb.d/space-db.sql
-```
+---
 
-## Права на wp-content
+## Документация
 
-```bash
-docker compose exec web bash
-chown -R www-data:www-data /var/www/wp-space
-chmod -R +x /var/www/wp-space
-```
+| Руководство | Описание |
+|---|---|
+| [Единая система форм](docs/popup-forms.md) | Настройка блоков, полей и получателей |
+| [Миграция и деплой](docs/form-migration.md) | Dry-run, rollout, проверки и rollback |
 
-10.2.137.74
+## Лицензия
+
+ISC — согласно `package.json`.

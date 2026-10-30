@@ -237,8 +237,6 @@
       left: 0;
       width: 100%;
       height: 100%;
-      overflow-x: hidden;
-      overflow-y: auto;
       background-color: $white;
       padding: 72px 24px 0;
       z-index: 2;
@@ -313,16 +311,8 @@
   &__menu-soc-items {
     display: flex;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 6px;
     justify-content: space-between;
     padding: 0 16px;
-  }
-
-  &__menu-soc-item{
-    img{
-      min-width: 24px
-    }
   }
 
   &__menu-contacts {
@@ -430,7 +420,6 @@
       gap: 24px;
     }
     @include lg {
-      width: 100%;
       padding-bottom: 32px;
     }
   }

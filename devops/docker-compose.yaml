@@ -8,8 +8,7 @@ services:
     depends_on:
      - db
     volumes:
-      - ../volumes/wp-content/uploads/:/var/www/wp-space/wp-content/uploads/
-      - ../volumes/wp-content/languages/:/var/www/wp-space/wp-content/languages/
+      - ../volumes/wp-content:/var/www/html/wp-content
       - ./wp-config.php:/usr/src/wordpress/wp-config.php
     env_file: 
       - path: ./compose.env
@@ -21,5 +20,5 @@ services:
       - path: ./compose.env
         required: true
     volumes:
-    #  - ../volumes/space-db.sql:/docker-entrypoint-initdb.d/space-db.sql
+      - ../volumes/space-db.sql:/docker-entrypoint-initdb.d/space-db.sql
       - ../volumes/db:/var/lib/mysql

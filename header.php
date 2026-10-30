@@ -4,14 +4,12 @@
     }
 
     global $site_soc_tg;
-    global $site_soc_max;
     global $site_soc_yt;
     global $site_soc_vk;
     global $site_soc_habr;
     global $site_soc_rutube;
 
     $site_soc_tg = get_field('site_soc_tg', 'option');
-    $site_soc_max = get_field('site_soc_max', 'option');
     $site_soc_yt = get_field('site_soc_yt', 'option');
     $site_soc_vk = get_field('site_soc_vk', 'option');
     $site_soc_habr = get_field('site_soc_habr', 'option');
@@ -34,24 +32,7 @@
     $page_submenu = get_field('page_submenu');
 
     global $site_forms_agree;
-    global $form_product_options;
-    global $form_partner_options;
-    global $form_production_options;
-
     $site_forms_agree = get_field('site_forms_agree', 'option');
-    $form_product_options = get_product_options();
-    $form_partner_options = get_partner_options();
-    $form_production_options = get_production_options();
-    
-    global $site_feedback_main_email;
-    global $site_feedback_partner_email;
-    global $site_feedback_tech_partner_email;
-    global $site_feedback_hr_email;
-
-    $site_feedback_main_email = get_field('site_feedback_main_email', 'option');
-    $site_feedback_partner_email = get_field('site_feedback_partner_email', 'option');
-    $site_feedback_tech_partner_email = get_field('site_feedback_tech_partner_email', 'option');
-    $site_feedback_hr_email = get_field('site_feedback_hr_email', 'option');
 
     // Только для шапки
     $header_contacts_email = get_field('header_contacts_email', 'option');
@@ -64,11 +45,18 @@
 <html <?php language_attributes(); ?>>
 
 <head>
+	<!-- Google Tag Manager -->
+	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+	'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+	})(window,document,'script','dataLayer','GTM-KCHTT9K7');</script>
+	<!-- End Google Tag Manager -->
     <meta charset="<?php bloginfo('charset'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="yandex-verification" content="39a96daaf7e85c21" />
-    <meta name="google-site-verification" content="dQT7181VWwG18oAIK-yobfsQA7PPjLhDvf4abqhxZvE" />
+	<meta name="google-site-verification" content="5AK4SPWcJ-6lGjnU0gOse6pFLM-aaQvQtf3vhzYIW6M" />
 
     <link rel="preload" href="<?= get_template_directory_uri(); ?>/assets/css/fonts/Manrope/manrope-v15-cyrillic_cyrillic-ext_latin_latin-ext-regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
     <link rel="preload" href="<?= get_template_directory_uri(); ?>/assets/css/fonts/Manrope/manrope-v15-cyrillic_cyrillic-ext_latin_latin-ext-500.woff2" as="font" type="font/woff2" crossorigin="anonymous">
@@ -79,20 +67,11 @@
     <title><?= wp_get_document_title()?></title>
 </head>
 <body <?php body_class(); ?>>
-        <?php wp_body_open(); ?>
-    <!-- Yandex.Metrika counter -->
-    <script type="text/javascript">
-        (function(m,e,t,r,i,k,a){
-            m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-            m[i].l=1*new Date();
-            for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-            k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
-        })(window, document,'script','https://mc.yandex.ru/metrika/tag.js', 'ym');
-
-        ym(92150845, 'init', {webvisor:true, clickmap:true, referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
-    </script>
-    <noscript><div><img src="https://mc.yandex.ru/watch/92150845" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-    <!-- /Yandex.Metrika counter -->
+    <?php wp_body_open(); ?>
+	<!-- Google Tag Manager (noscript) -->
+	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KCHTT9K7"
+	height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+	<!-- End Google Tag Manager (noscript) -->
     <header class="header<?= $page_submenu ? ' header--submenu' : ''; ?> compensate-for-scrollbar js-header">
         <div class="header__wrap">
             <div class="container">
@@ -387,11 +366,6 @@
                                 <?php if( $site_soc_tg ): ?>
                                     <a class="header__menu-soc-item" href="<?= $site_soc_tg; ?>" target="_blank">
                                         <img src="<?= get_template_directory_uri(); ?>/assets/img/h-menu-soc-item-1.svg" alt="Telegram">
-                                    </a>
-                                <?php endif; ?>
-                                <?php if( $site_soc_max ): ?>
-                                    <a class="header__menu-soc-item" href="<?= $site_soc_max; ?>" target="_blank">
-                                        <img src="<?= get_template_directory_uri(); ?>/assets/img/max-logo.svg" alt="Max">
                                     </a>
                                 <?php endif; ?>
                                 <?php if( $site_soc_yt ): ?>

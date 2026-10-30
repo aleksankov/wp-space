@@ -156,7 +156,7 @@ button::-moz-focus-inner {
     flex: 1 0 auto;
     overflow: hidden;
     width: 100%;
-    padding-top: 153px;
+    padding-top: 132px;
     padding-bottom: 120px;
     @include lg-u {
         &.submenu{
@@ -281,8 +281,8 @@ h6, .h6{
 .btn{
     display: block;
     padding: 16px 23px;
-    border: 1px solid var(--btn-border-color, #{$violet});
-    background-color: var(--btn-background-color, #{$violet});
+    border: 1px solid $violet;
+    background-color: $violet;
     text-align: center;
     color: $white;
     border-radius: 100px;
@@ -290,8 +290,8 @@ h6, .h6{
     transition: background-color .25s, border-color .25s, opacity .25s, color .25s;
     @include hover {
         &:hover{
-            background-color: var(--btn-hover-background-color, #B293DF);
-            border-color: var(--btn-hover-border-color, #B293DF);
+            background-color: #B293DF;
+            border-color: #B293DF;
         }
     }
     &[disabled]{
@@ -470,21 +470,6 @@ h6, .h6{
                 &:focus{
                     background-color: #60C0C9;
                     border-color: #60C0C9;
-                }
-            }
-            input{
-                &:-webkit-autofill,
-                &:-webkit-autofill:hover,
-                &:-webkit-autofill:focus,
-                &:-webkit-autofill:active {
-                    -webkit-box-shadow: 0 0 0 30px #4CB8C3 inset !important;
-                    -webkit-text-fill-color: #fff !important;
-                }
-
-                &:-moz-autofill {
-                    filter: none;
-                    background-color: #4CB8C3;
-                    color: #fff;
                 }
             }
         }
@@ -896,6 +881,7 @@ h6, .h6{
         .jq-selectbox__select-text{
             display: block;
             width: 100%;
+            height: 56px;
             border: 1px solid #9A73D5;
             background-color: #9A73D5;
             box-shadow: none;
@@ -1396,8 +1382,13 @@ h6, .h6{
     }
     &__img{
         position: relative;
+        overflow: hidden;
+        border-radius: 24px;
         img{
             width: 100%;
+            height: auto;
+            max-height: 558px;
+            object-fit: contain;
         }
     }
     &__sub{

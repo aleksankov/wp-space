@@ -359,28 +359,6 @@
                     "prepend": "",
                     "append": "",
                     "parent_repeater": "field_67a3b3d304ed9"
-                },
-                {
-                    "key": "field_6a181e2ee8438",
-                    "label": "Ссылка",
-                    "name": "service_url",
-                    "aria-label": "",
-                    "type": "text",
-                    "instructions": "",
-                    "required": 0,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "default_value": "",
-                    "maxlength": "",
-                    "allow_in_bindings": 0,
-                    "placeholder": "",
-                    "prepend": "",
-                    "append": "",
-                    "parent_repeater": "field_67a3b3d304ed9"
                 }
             ]
         },
@@ -775,7 +753,6 @@
                     "collapsed": "",
                     "button_label": "Добавить",
                     "rows_per_page": 20,
-                    "parent_repeater": "field_67a3ba383fb18",
                     "sub_fields": [
                         {
                             "key": "field_67a3baad3fb1b",
@@ -914,7 +891,8 @@
                             "allow_in_bindings": 0,
                             "parent_repeater": "field_67a3ba9c3fb1a"
                         }
-                    ]
+                    ],
+                    "parent_repeater": "field_67a3ba383fb18"
                 }
             ]
         }
@@ -937,5 +915,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1779965883
+    "modified": 1773156133
 }

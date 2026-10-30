@@ -1,0 +1,19 @@
+{
+    "apiVersion": 2,
+    "name": "acf/glossary-note",
+    "title": "Глоссарий — информационная заметка",
+    "description": "Выделенная информационная заметка внутри определения термина.",
+    "category": "text",
+    "icon": "info-outline",
+    "keywords": ["глоссарий", "заметка", "информация", "важно"],
+    "acf": {
+        "mode": "edit",
+        "renderTemplate": "template.php"
+    },
+    "supports": {
+        "anchor": false,
+        "align": false,
+        "multiple": true,
+        "reusable": false
+    }
+}

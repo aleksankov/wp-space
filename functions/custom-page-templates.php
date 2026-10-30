@@ -17,6 +17,7 @@ function add_page_templates_to_dropdown( $templates ) {
     $templates['templates/space/connect.php'] = 'Space Connect';
     $templates['templates/policy/privacy-policy.php'] = 'Политика конфиденциальности';
     $templates['templates/service-page/service-page.php'] = 'Сервис';
+    $templates['templates/glossary/glossary-page.php'] = 'Глоссарий';
 
 	return $templates;
 }
