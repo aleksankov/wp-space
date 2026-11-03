@@ -232,6 +232,7 @@
       }
     }
     @include lg {
+      display: none;
       position: fixed;
       top: 0;
       left: 0;
@@ -311,8 +312,16 @@
   &__menu-soc-items {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
     justify-content: space-between;
     padding: 0 16px;
+  }
+
+  &__menu-soc-item{
+    img{
+      min-width: 24px
+    }
   }
 
   &__menu-contacts {

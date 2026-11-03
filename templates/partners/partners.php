@@ -55,41 +55,43 @@
 <?php endif; ?>
 
 <?php
-    $partners_distributors_title = get_field('partners_distributors_title');
-    $partners_distributors_cards = get_field('partners_distributors_cards');
-
-    if( $partners_distributors_cards ):
+    $render_partners_distributors = static function( $title, $cards ) {
+        if( empty( $cards ) || ! is_array( $cards ) ) {
+            return;
+        }
 ?>
     <section class="partners-distributors section">
         <div class="container">
-            <?php if( $partners_distributors_title ): ?>
-                <h2 class="partners-distributors__title" data-aos="fade-up"><?= $partners_distributors_title; ?></h2>
+            <?php if( $title ): ?>
+                <h2 class="partners-distributors__title" data-aos="fade-up"><?= esc_html( $title ); ?></h2>
             <?php endif; ?>
             <div class="partners-distributors__slider swiper-container">
                 <div class="swiper-wrapper">
-                    <?php $counter = 1; foreach( $partners_distributors_cards as $partners_distributors_card ): ?>
+                    <?php $counter = 1; foreach( $cards as $partners_distributors_card ): ?>
                         <div class="partners-distributors__slide swiper-slide" data-aos="fade-up" data-aos-delay="<?= ($counter - 1) * 200; ?>">
                             <div class="partners-distributors__item">
-                                <div class="partners-distributors__item-logo">
-                                    <img src="<?= $partners_distributors_card['logo']; ?>" alt="Distributor - Logo <?= $counter; ?>">
-                                </div>
+                                <?php if( ! empty( $partners_distributors_card['logo'] ) ): ?>
+                                    <div class="partners-distributors__item-logo">
+                                        <img src="<?= esc_url( $partners_distributors_card['logo'] ); ?>" alt="<?= esc_attr( 'Distributor - Logo ' . $counter ); ?>">
+                                    </div>
+                                <?php endif; ?>
                                 <div class="partners-distributors__item-info">
-                                    <?php if( $partners_distributors_card['tel'] ): ?>
-                                        <a class="partners-distributors__item-link" href="<?= get_tel_href($partners_distributors_card['tel']); ?>">
-                                            <img src="<?= get_template_directory_uri(); ?>/assets/img/partners-distributors-icon-1.svg" alt="Phone">
-                                            <span><?= $partners_distributors_card['tel']; ?></span>
+                                    <?php if( ! empty( $partners_distributors_card['tel'] ) ): ?>
+                                        <a class="partners-distributors__item-link" href="<?= esc_url( get_tel_href( $partners_distributors_card['tel'] ) ); ?>">
+                                            <img src="<?= esc_url( get_template_directory_uri() . '/assets/img/partners-distributors-icon-1.svg' ); ?>" alt="Phone">
+                                            <span><?= esc_html( $partners_distributors_card['tel'] ); ?></span>
                                         </a>
                                     <?php endif; ?>
-                                    <?php if( $partners_distributors_card['email'] ): ?>
-                                        <a class="partners-distributors__item-link" href="mailto:<?= $partners_distributors_card['email']; ?>">
-                                            <img src="<?= get_template_directory_uri(); ?>/assets/img/partners-distributors-icon-2.svg" alt="Email">
-                                            <span><?= $partners_distributors_card['email']; ?></span>
+                                    <?php if( ! empty( $partners_distributors_card['email'] ) ): ?>
+                                        <a class="partners-distributors__item-link" href="mailto:<?= esc_attr( $partners_distributors_card['email'] ); ?>">
+                                            <img src="<?= esc_url( get_template_directory_uri() . '/assets/img/partners-distributors-icon-2.svg' ); ?>" alt="Email">
+                                            <span><?= esc_html( $partners_distributors_card['email'] ); ?></span>
                                         </a>
                                     <?php endif; ?>
-                                    <?php if( $partners_distributors_card['site_label'] && $partners_distributors_card['site_url'] ): ?>
-                                        <a class="partners-distributors__item-link" href="<?= $partners_distributors_card['site_url']; ?>" target="_blank">
-                                            <img src="<?= get_template_directory_uri(); ?>/assets/img/partners-distributors-icon-3.svg" alt="Website">
-                                            <span><?= $partners_distributors_card['site_label']; ?></span>
+                                    <?php if( ! empty( $partners_distributors_card['site_label'] ) && ! empty( $partners_distributors_card['site_url'] ) ): ?>
+                                        <a class="partners-distributors__item-link" href="<?= esc_url( $partners_distributors_card['site_url'] ); ?>" target="_blank" rel="noopener">
+                                            <img src="<?= esc_url( get_template_directory_uri() . '/assets/img/partners-distributors-icon-3.svg' ); ?>" alt="Website">
+                                            <span><?= esc_html( $partners_distributors_card['site_label'] ); ?></span>
                                         </a>
                                     <?php endif; ?>
                                 </div>
@@ -101,7 +103,19 @@
             </div>
         </div>
     </section>
-<?php endif; ?>
+<?php
+    };
+
+    $render_partners_distributors(
+        get_field('partners_distributors_title'),
+        get_field('partners_distributors_cards')
+    );
+
+    $render_partners_distributors(
+        get_field('partners_distributors_second_title'),
+        get_field('partners_distributors_second_cards')
+    );
+?>
 
 <?php
     $partners_model_title = get_field('partners_model_title');

@@ -5,11 +5,11 @@ $class = isset($block['className']) ? $block['className'] : 'default';
 $anim_enabled = get_field_block('video-gide-anim-enabled', $block);
 $anim_delay = get_field_block('video-gide-anim-delay', $block);
 $partners_query = new WP_Query([
-    'post_type' => 'partner',
-    'post_status' => 'publish',
-    'posts_per_page' => -1,
-    'orderby' => 'title',
-    'order' => 'ASC',
+        'post_type' => 'partner',
+        'post_status' => 'publish',
+        'posts_per_page' => -1,
+        'orderby' => 'title',
+        'order' => 'ASC',
 ]);
 
 $unique_statuses = ['Все'];
@@ -31,33 +31,35 @@ sort($collected_statuses);
 $unique_statuses = array_merge(['Все'], $collected_statuses);
 ?>
 
-<section
-        id="<?= esc_attr($id); ?>"
-        class="partner-block <?= esc_attr($class); ?> section aos-init aos-animate" data-aos="fade-up" data-aos-delay="200"
-    <?= $anim_enabled ? 'data-aos="fade-up"' : ''; ?>
-    <?= ($anim_enabled && !empty($anim_delay)) ? 'data-aos-delay="' . esc_attr($anim_delay) . '"' : ''; ?>
->
-    <div class="container">
-        <div class="partner-block-filter">
-            <ul class="partner-block-filter__list">
-                <?php foreach ($unique_statuses as $status): ?>
-                    <li>
-                        <?php if ($status === 'Все'): ?>
-                            <button class="partner-block-filter__btn active" data-filter="all">
-                                <?= esc_html($status); ?>
-                            </button>
-                        <?php else: ?>
-                            <button class="partner-block-filter__btn" data-filter="<?= esc_attr(sanitize_title($status)); ?>">
-                                <?= esc_html($status); ?>
-                            </button>
-                        <?php endif; ?>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
+<?php if ($partners_query->have_posts()): ?>
+    <section
+            id="<?= esc_attr($id); ?>"
+            class="partner-block <?= esc_attr($class); ?> section aos-init aos-animate" data-aos="fade-up"
+            data-aos-delay="200"
+            <?= $anim_enabled ? 'data-aos="fade-up"' : ''; ?>
+            <?= ($anim_enabled && !empty($anim_delay)) ? 'data-aos-delay="' . esc_attr($anim_delay) . '"' : ''; ?>
+    >
+        <div class="container">
+            <div class="partner-block-filter">
+                <ul class="partner-block-filter__list">
+                    <?php foreach ($unique_statuses as $status): ?>
+                        <li>
+                            <?php if ($status === 'Все'): ?>
+                                <button class="partner-block-filter__btn active" data-filter="all">
+                                    <?= esc_html($status); ?>
+                                </button>
+                            <?php else: ?>
+                                <button class="partner-block-filter__btn"
+                                        data-filter="<?= esc_attr(sanitize_title($status)); ?>">
+                                    <?= esc_html($status); ?>
+                                </button>
+                            <?php endif; ?>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
 
-        <div class="partner-block-list">
-            <?php if ($partners_query->have_posts()): ?>
+            <div class="partner-block-list">
                 <?php while ($partners_query->have_posts()):
                     $partners_query->the_post();
                     $card_id = get_the_ID();
@@ -80,11 +82,9 @@ $unique_statuses = array_merge(['Все'], $collected_statuses);
                     $status_slug = $card_status ? sanitize_title($card_status) : 'other';
                     ?>
 
-                    <?php get_template_part( 'templates/parts/partners-card' ); ?>
-        <?php endwhile;?>
-        <?php else: ?>
-            <p>Партнёры не найдены.</p>
-        <?php endif; ?>
+                    <?php get_template_part('templates/parts/partners-card'); ?>
+                <?php endwhile; ?>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
+<?php endif; ?>

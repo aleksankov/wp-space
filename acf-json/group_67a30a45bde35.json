@@ -39,6 +39,24 @@
             "placeholder": ""
         },
         {
+            "key": "field_6a3a546452e76",
+            "label": "Ссылка MAX",
+            "name": "site_soc_max",
+            "aria-label": "",
+            "type": "url",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "allow_in_bindings": 0,
+            "placeholder": ""
+        },
+        {
             "key": "field_67a30acd10e70",
             "label": "Ссылка Youtube",
             "name": "site_soc_yt",
@@ -752,5 +770,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1773500655
+    "modified": 1793709866
 }

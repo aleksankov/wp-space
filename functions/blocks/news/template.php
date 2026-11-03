@@ -1,25 +1,16 @@
 <?php
-$taxonomy = 'blog_category';
-$is_page_news = is_page('news_page');
-$is_tax = is_tax();
+$taxonomy = SPACE_BLOG_CATEGORY_TAXONOMY;
 $post_found_count = 15;
-$paged = get_query_var('paged', 1);
+$paged = get_query_var( 'paged', 1 );
+$terms = space_get_blog_category_terms( SPACE_BLOG_CATEGORY_SECTION_NEWS );
+$cur_term = space_get_news_category_from_query();
+$news_category_requested = (bool) get_query_var( 'news_category' );
+$sort = isset( $_GET['sort'] ) ? sanitize_text_field( wp_unslash( $_GET['sort'] ) ) : '';
+$news_term_ids = $cur_term ? [ (int) $cur_term->term_id ] : space_get_blog_category_term_ids( SPACE_BLOG_CATEGORY_SECTION_NEWS );
 
-$terms = get_terms( array(
-    'taxonomy' => $taxonomy,
-    'hide_empty' => true,
-    'orderby' => 'term_taxonomy_id',
-    'order' => 'ASC',
-) );
-
-if( $is_tax ){
-    $term_slug = get_query_var( 'term' );
-    $cur_term = get_term_by( 'slug', $term_slug, $taxonomy );
-}else{
-    $cur_term = false;
+if ( defined( 'WP_DEBUG' ) && WP_DEBUG && isset( $_GET['debug_news_tabs'] ) ) {
+    error_log( '[FIX:news-tabs] Rendering news category tabs: ' . wp_json_encode( wp_list_pluck( $terms, 'slug' ) ) );
 }
-
-$sort = isset($_GET['sort']) ? sanitize_text_field($_GET['sort']) : '';
 
 $args = array(
     'post_type' => 'blog',
@@ -29,14 +20,18 @@ $args = array(
     'tax_query' => array(
         array(
             'taxonomy' => $taxonomy,
-            'field'    => 'slug',
-            'terms'    => 'news',
-            'operator' => 'IN'
-        )
-    )
+            'field' => 'term_id',
+            'terms' => $news_term_ids ?: [ 0 ],
+            'operator' => 'IN',
+        ),
+    ),
 );
 
-switch ($sort) {
+if ( $news_category_requested && ! $cur_term ) {
+    $args['post__in'] = [ 0 ];
+}
+
+switch ( $sort ) {
     case 'popularity':
         $args['meta_key'] = '_post_views_count';
         $args['orderby'] = 'meta_value_num';
@@ -54,94 +49,70 @@ switch ($sort) {
         break;
 }
 
-if( $cur_term ){
-    $args['tax_query'] = array(
-        array(
-            'taxonomy' => $taxonomy,
-            'field' => 'term_id',
-            'terms' => $cur_term->term_id,
-        ),
-    );
-}
-if ($is_page_news) {
-    $args['tax_query'] = [
-        [
-            'taxonomy' => $taxonomy,
-            'field' => 'slug',
-            'terms' => 'news',
-        ]
-    ];
-}
-
-//var_dump($args);
-
 $query = new WP_Query( $args );
 
-// Статистика
+// Статистика.
 $from = 1;
 $to = $post_found_count;
 $post_found = $query->found_posts;
 
-if ($paged > 1) {
-    $from = ($paged * $post_found_count) - $post_found_count + 1;
+if ( $paged > 1 ) {
+    $from = ( $paged * $post_found_count ) - $post_found_count + 1;
     $to = $paged * $post_found_count;
 }
 
-if ($to > $post_found) {
+if ( $to > $post_found ) {
     $to = $post_found;
 }
 ?>
 
 <section class="news">
     <div class="container">
-        <?php if( $is_page_news ): ?>
-            <div class="news__header">
-                <h1 class="news__title" data-aos="fade-up">Новости</h1>
-                <div class="news__desc" data-aos="fade-up" data-aos-delay="200"><?= $cur_term->description; ?></div>
-            </div>
-        <?php endif; ?>
+        <div class="news__header">
+            <h1 class="news__title" data-aos="fade-up"><?= esc_html( $cur_term ? $cur_term->name : 'Новости' ); ?></h1>
+            <?php if ( $cur_term && $cur_term->description ): ?>
+                <div class="news__desc" data-aos="fade-up" data-aos-delay="200"><?= wp_kses_post( $cur_term->description ); ?></div>
+            <?php endif; ?>
+        </div>
         <div class="news__wrap">
-            <?php //if( $terms ): ?>
-            <!--    <div class="news__left" data-aos="fade-up" data-aos-delay="400">-->
-            <!--        <div class="news__tabs">-->
-            <!--            <a href="--><?php //= home_url('/news/'); ?><!--" class="news__tabs-item--><?php //= !$is_tax && $is_page_news ? ' active' : ''; ?><!--">-->
-            <!--                Новости-->
-            <!--            </a>-->
-            <!--            --><?php //foreach( $terms as $term ): ?>
-            <!--                --><?php //if($term->slug == 'news') continue; ?>
-            <!--                <a href="--><?php //= get_term_link( $term->term_id ); ?><!--" class="news__tabs-item--><?php //= $term->term_id == $cur_term->term_id ? ' active' : ''; ?><!--">--><?php //= $term->name; ?><!--</a>-->
-            <!--            --><?php //endforeach; ?>
-            <!--        </div>-->
-            <!--    </div>-->
-            <?php //endif; ?>
+            <div class="news__left" data-aos="fade-up" data-aos-delay="400">
+                <div class="news__tabs">
+                    <a href="<?= esc_url( space_get_news_page_url() ); ?>" class="news__tabs-item<?= ! $news_category_requested ? ' active' : ''; ?>">
+                        Все
+                    </a>
+                    <?php foreach ( $terms as $term ): ?>
+                        <a href="<?= esc_url( space_get_news_category_url( $term ) ); ?>" class="news__tabs-item<?= $cur_term && $term->term_id === $cur_term->term_id ? ' active' : ''; ?>"><?= esc_html( $term->name ); ?></a>
+                    <?php endforeach; ?>
+                </div>
+            </div>
             <div class="news__right" data-aos="fade-up" data-aos-delay="600">
-                <?php if( $post_found ): ?>
+                <?php if ( $post_found ): ?>
                     <?php
-                    if( $post_found < $post_found_count){
+                    if ( $post_found < $post_found_count ) {
                         $post_found_count = $post_found;
                     }
                     ?>
                     <div class="news__controls">
-                        <div class="news__count"><?= $from ?>-<?= $to; ?> из <?= $post_found; ?></div>
+                        <div class="news__count"><?= esc_html( $from ); ?>-<?= esc_html( $to ); ?> из <?= esc_html( $post_found ); ?></div>
                         <div class="news__sort">
                             <div class="sort-select">
                                 <select class="js-select" onchange="location.href=this.value;">
-                                    <option value="<?= add_query_arg('sort', '', remove_query_arg('sort')); ?>" <?= empty($sort) ? "selected" : ""; ?>>По дате</option>
-                                    <option value="<?= add_query_arg('sort', 'popularity', remove_query_arg('paged')); ?>" <?= ($sort === "popularity") ? "selected" : ""; ?>>По популярности</option>
-                                    <option value="<?= add_query_arg('sort', 'alphabet', remove_query_arg('paged')); ?>" <?= ($sort === "alphabet") ? "selected" : ""; ?>>По алфавиту</option>
+                                    <option value="<?= esc_url( add_query_arg( 'sort', '', remove_query_arg( 'sort' ) ) ); ?>" <?= empty( $sort ) ? 'selected' : ''; ?>>По дате</option>
+                                    <option value="<?= esc_url( add_query_arg( 'sort', 'popularity', remove_query_arg( 'paged' ) ) ); ?>" <?= ( $sort === 'popularity' ) ? 'selected' : ''; ?>>По популярности</option>
+                                    <option value="<?= esc_url( add_query_arg( 'sort', 'alphabet', remove_query_arg( 'paged' ) ) ); ?>" <?= ( $sort === 'alphabet' ) ? 'selected' : ''; ?>>По алфавиту</option>
                                 </select>
                             </div>
                         </div>
                     </div>
                     <div class="news__row row-lg">
-                        <?php while( $query->have_posts() ): $query->the_post(); ?>
+                        <?php while ( $query->have_posts() ): $query->the_post(); ?>
                             <div class="news__col col-lg">
                                 <?php get_template_part( 'templates/parts/news-card' ); ?>
                             </div>
                         <?php endwhile; wp_reset_postdata(); ?>
                     </div>
 
-                    <?php if ($query->max_num_pages > 1) : ?>
+                    <?php if ( $query->max_num_pages > 1 ) : ?>
                         <div class="news__pagination main-pagination">
                             <?php
                             echo paginate_links( array(
@@ -156,7 +127,7 @@ if ($to > $post_found) {
                                 'prev_next'    => false,
                                 'prev_text'    => sprintf( '<i></i> %1$s', __( 'Newer Posts', 'text-domain' ) ),
                                 'next_text'    => sprintf( '%1$s <i></i>', __( 'Older Posts', 'text-domain' ) ),
-                                'add_args'     => false,
+                                'add_args'     => $sort ? [ 'sort' => $sort ] : false,
                                 'add_fragment' => '',
                             ) );
                             ?>

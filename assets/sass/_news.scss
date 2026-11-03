@@ -126,6 +126,9 @@
 
     &__pagination{
         margin-top: 56px;
+        &.main-pagination{
+            display: flex;
+        }
         @include lg {
             margin-top: 32px;
         }

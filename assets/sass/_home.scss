@@ -1025,6 +1025,9 @@
     }
     &__left{
         width: calc(100% / 12 * 8);
+        &--wide{
+            width: 100%;
+        }
         @include lg {
             width: 100%;
         }
@@ -1105,7 +1108,6 @@
         height: 100%;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
         gap: 32px;
         @include lg {
             flex-direction: row;
@@ -1118,11 +1120,13 @@
         }
     }
     &__soc-col{
-        flex: 1;
+        @include lg {
+            flex: 1;
+        }
     }
     &__soc-item{
-        height: 100%;
-        display: block;
+        height: auto;
+        min-height: 131px;
         border: 1px solid #D9D7DA;
         border-radius: 24px;
         display: flex;
@@ -1141,10 +1145,17 @@
             }
         }
         @include lg {
+            min-height: 56px;
             padding: 15px;
             border-radius: 12px;
         }
-        & > svg{
+        & > svg,
+        & > img{
+            width: 100%;
+            height: auto;
+            max-width: 100%;
+            max-height: 48px;
+            object-fit: contain;
             @include lg {
                 width: auto;
                 height: 24px;
@@ -1181,13 +1192,11 @@
                 display: block;
                 font-size: 20px;
                 line-height: 22px;
-                line-height: lh(20, 3);
                 font-weight: 500;
                 width: calc(100% - 56px - 16px);
                 @include xl {
                     font-size: 14px;
                     line-height: 20px;
-                    line-height: lh(14, 3);
                 }
             }
             & > i{
